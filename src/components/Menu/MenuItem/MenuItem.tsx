@@ -18,25 +18,43 @@ export const navigationItemFragment = graphql`
 export const MenuItem = ({
   item,
   disabled,
+  'aria-current': ariaCurrent,
+  onKeyDown,
 }: {
   item: Queries.NavigationItemFragment | Queries.MainNavigationItemFragment;
   disabled?: boolean;
+  'aria-current'?: 'page' | undefined;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
 }) => {
   const { title, external, path, type } = item;
 
+  const commonProps = {
+    'aria-current': ariaCurrent,
+    onKeyDown,
+  };
+
   if (external) {
     return (
-      <a href={path || '#'} target="_blank" rel="noopener noreferrer">
+      <a
+        {...commonProps}
+        href={path || '#'}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {title}
       </a>
     );
   } else if (type == 'INTERNAL') {
-    return <a href={path || '#'}>{title}</a>;
+    return (
+      <a {...commonProps} href={path || '#'}>
+        {title}
+      </a>
+    );
   } else if (disabled) {
-    return <span>{title}</span>;
+    return <span {...commonProps}>{title}</span>;
   } else {
     return (
-      <Link activeClassName="is-current" to={path || '#'}>
+      <Link {...commonProps} activeClassName="is-current" to={path || '#'}>
         {title}
       </Link>
     );

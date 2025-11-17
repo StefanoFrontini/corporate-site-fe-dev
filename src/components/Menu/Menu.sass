@@ -285,7 +285,7 @@
           max-height: 55rem
           margin-bottom: 2rem
           opacity: 1
-    
+
 .reserved-navigation
   @media (min-width: $tablet)
       padding-left: 0
@@ -341,8 +341,8 @@
   height: 1px
   background: #000000
   transform: rotate(-90deg)
-  margin-left: 5px 
-  margin-right: 5px 
+  margin-left: 5px
+  margin-right: 5px
   margin-top: 10px
 
 .language-switch
@@ -360,3 +360,26 @@
 
   @media (min-width: $tablet - 1)
     display: none
+
+// Stili per bottoni del menu con attributi ARIA
+.menu-trigger
+  background: none
+  border: none
+  cursor: pointer
+  font: inherit
+  color: inherit
+  text-align: inherit
+  text-transform: inherit
+  padding: 0
+  margin: 0
+  width: 100%
+  display: block
+
+  &:focus
+    outline: 2px solid $c-brand
+    outline-offset: 2px
+
+// Assicurarsi che gli stili esistenti per .w-sub si applichino anche ai bottoni
+.w-sub
+  .menu-trigger
+    position: relative
