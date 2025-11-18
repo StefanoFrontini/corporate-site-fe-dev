@@ -5,7 +5,7 @@ import { useLocalizedQuery } from '../../hooks/useLocalizedQuery';
 
 import './Socials.sass';
 
-export const Socials = ({ header }: any) => {
+export const Socials = ({ header }) => {
   const query = useStaticQuery(graphql`
     fragment Socials on SocialsJson {
       locale
@@ -33,7 +33,7 @@ export const Socials = ({ header }: any) => {
 
   return socialsData?.links ? (
     <ul className={`socials${header ? ' --in-header' : ''}`}>
-      {socialsData?.links.map((social: any) => {
+      {socialsData?.links.map(social => {
         return (
           <li key={social.url}>
             <a

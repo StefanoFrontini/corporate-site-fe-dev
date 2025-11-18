@@ -32,7 +32,7 @@
       flex-wrap: wrap
 
     .menu-reserved
-      display: block !important
+      display: block
       position: relative
       background-color: #fff
       margin-left: -4rem
@@ -173,11 +173,11 @@
           background-color: $c-brand-extralight
           color: $c-brand
           font-weight: 500
-          padding-bottom: 0 !important
+          padding-bottom: 0
           margin-top: -1px
 
           a:focus
-            outline: 3px solid $c-brand !important
+            outline: 3px solid $c-brand
             outline-offset: 3px
 
         &:first-child
@@ -195,7 +195,7 @@
           padding: 1.7rem 0 1.6rem
 
           &:focus
-            outline: 3px solid #FFF !important
+            outline: 3px solid #FFF
             outline-offset: 3px
 
         &:first-child
@@ -276,12 +276,12 @@
 
         &.alternative
           a:focus
-            outline: 3px solid $c-brand !important
+            outline: 3px solid $c-brand
             outline-offset: 3px
 
         a
           &:focus
-            outline: 3px solid #FFF !important
+            outline: 3px solid #FFF
             outline-offset: 3px
 
     &.w-sub
@@ -427,14 +427,14 @@
   .w-sub &.is-sub-open,
   .menu-header &[style*="background-color: #{$c-brand}"]
     &:focus
-      outline: 3px solid #FFF !important
+      outline: 3px solid #FFF
       outline-offset: 3px
 
 // Focus per menu mobile (sfondo c-brand)
 @media (max-width: $tablet - 1)
   .menu-header .menu-trigger
     &:focus
-      outline: 3px solid #FFF !important
+      outline: 3px solid #FFF
       outline-offset: 3px
 
 // Assicurarsi che gli stili esistenti per .w-sub si applichino anche ai bottoni
