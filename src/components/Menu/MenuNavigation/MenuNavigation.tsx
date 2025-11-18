@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MenuItem } from '../MenuItem';
 import '../Menu.sass';
 import { useLocation } from '@reach/router';
+import { navigate } from 'gatsby';
 
 export const MenuNavigation = ({
   item,
@@ -18,16 +19,37 @@ export const MenuNavigation = ({
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const handleSubmenu = () => {
-    if (window.innerWidth < 1200) {
-      setSubmenuOpen(prev => !prev);
-    }
+    setSubmenuOpen(prev => !prev);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'Enter') {
+      if (item.uiRouterKey.includes('media') && item.path) {
+        console.log('handleKeyDown', item);
+        navigate(item.path);
+      } else {
+        // Altrimenti, apri/chiudi il sottomenu
+        e.preventDefault();
+        handleSubmenu();
+      }
+    } else if (e.key === ' ' || e.key === 'ArrowDown') {
+      // Spazio o Freccia Giù: apri/chiudi sottomenu
       e.preventDefault();
       handleSubmenu();
     } else if (e.key === 'Escape') {
+      setSubmenuOpen(false);
+    }
+  };
+
+  // Gestione hover per desktop
+  const handleMouseEnter = () => {
+    if (window.innerWidth >= 992 && hasChildren) {
+      setSubmenuOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (window.innerWidth >= 992 && hasChildren) {
       setSubmenuOpen(false);
     }
   };
@@ -84,13 +106,17 @@ export const MenuNavigation = ({
         break;
     }
   };
-  const isCurrent = pathname.split('/').includes(item.uiRouterKey as string);
+
+  const isCurrent = pathname
+    .split('/')
+    .includes(item.uiRouterKey.replace(/-\d+/, '') as string);
   const hasChildren = !!items?.length;
 
   return (
     <li
       ref={menuRef}
-      onClick={hasChildren ? handleSubmenu : undefined}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className={classNames(
         className,
         hasChildren && 'w-sub',
@@ -103,14 +129,32 @@ export const MenuNavigation = ({
         <button
           ref={triggerRef}
           className="menu-trigger"
-          onClick={handleSubmenu}
+          onClick={e => {
+            e.preventDefault(); // Previene sempre la navigazione del browser
+            if (window.innerWidth < 992) {
+              // Su mobile: solo apri/chiudi sottomenu
+              handleSubmenu();
+            } else {
+              // Su desktop: per "Media" naviga, per altri elementi NON fare nulla
+              if (item.uiRouterKey.includes('media') && item.path) {
+                navigate(item.path);
+              }
+              // Per altri elementi su desktop: non fare nulla (solo e.preventDefault())
+            }
+          }}
           onKeyDown={handleKeyDown}
+          onMouseDown={e => e.preventDefault()}
           aria-expanded={submenuOpen}
           aria-haspopup="true"
           aria-controls={submenuId}
-          aria-current={isCurrent ? 'page' : undefined}
         >
           <MenuItem item={item} disabled={true} />
+          {item.uiRouterKey.includes('media') && (
+            <span className="sr-only">
+              Premi Invio per visitare la pagina, premi Spazio o Freccia Giù per
+              aprire il sottomenu.
+            </span>
+          )}
         </button>
       ) : (
         <MenuItem item={item} aria-current={isCurrent ? 'page' : undefined} />
@@ -118,6 +162,9 @@ export const MenuNavigation = ({
       {hasChildren && (
         <ul id={submenuId}>
           {items?.map(item => {
+            const isCurrentSubmenu = pathname
+              .split('/')
+              .includes(item.uiRouterKey.replace(/-\d+/, '') as string);
             return (
               item && (
                 <li
@@ -126,6 +173,7 @@ export const MenuNavigation = ({
                     className,
                     item.highlight && 'alternative'
                   )}
+                  aria-current={isCurrentSubmenu ? 'page' : undefined}
                 >
                   <MenuItem item={item} onKeyDown={handleSubmenuItemKeyDown} />
                 </li>

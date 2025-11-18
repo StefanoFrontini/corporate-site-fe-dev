@@ -31,6 +31,7 @@ export const MenuItem = ({
   const commonProps = {
     'aria-current': ariaCurrent,
     onKeyDown,
+    // ...(disabled && { tabIndex: -1 }),
   };
 
   if (external) {
@@ -51,6 +52,14 @@ export const MenuItem = ({
       </a>
     );
   } else if (disabled) {
+    // Solo per "Media" renderizza il link, per altri elementi renderizza span
+    if (path && item.uiRouterKey.includes('media')) {
+      return (
+        <Link {...commonProps} activeClassName="is-current" to={path}>
+          {title}
+        </Link>
+      );
+    }
     return <span {...commonProps}>{title}</span>;
   } else {
     return (

@@ -4,7 +4,7 @@ import { graphql } from 'gatsby';
 import { MenuNavigation } from './MenuNavigation';
 import './Menu.sass';
 import { LanguageSwitch } from '../../partials/LanguageSwitch/LanguageSwitch';
-import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 export const mainNavigationItemFragment = graphql`
   fragment MainNavigationItem on StrapiNavigation {
