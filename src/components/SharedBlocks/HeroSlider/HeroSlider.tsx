@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { YouTubePlayer } from 'react-youtube';
 import SwiperCore, {
   Controller,
   EffectFade,
