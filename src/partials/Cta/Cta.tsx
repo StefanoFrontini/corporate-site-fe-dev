@@ -20,9 +20,9 @@ export const Cta = ({
 }: CtaProps) => {
   return (
     <>
-      {blank && href ? (
+      {href && href.startsWith('http') ? (
         <a
-          target="_blank"
+          target={blank ? '_blank' : ''}
           rel="noopene noreferrer"
           href={href}
           className={classNames('cta', variant && `--${variant}`, className)}
