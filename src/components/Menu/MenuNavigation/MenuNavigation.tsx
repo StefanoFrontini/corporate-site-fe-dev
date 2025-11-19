@@ -28,12 +28,10 @@ export const MenuNavigation = ({
         console.log('handleKeyDown', item);
         navigate(item.path);
       } else {
-        // Altrimenti, apri/chiudi il sottomenu
         e.preventDefault();
         handleSubmenu();
       }
     } else if (e.key === ' ' || e.key === 'ArrowDown') {
-      // Spazio o Freccia Giù: apri/chiudi sottomenu
       e.preventDefault();
       handleSubmenu();
     } else if (e.key === 'Escape') {
@@ -54,12 +52,10 @@ export const MenuNavigation = ({
     }
   };
 
-  // Gestione ESC globale
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && submenuOpen) {
         setSubmenuOpen(false);
-        // Riporta il focus al trigger
         setTimeout(() => {
           triggerRef.current?.focus();
         }, 0);
@@ -72,7 +68,6 @@ export const MenuNavigation = ({
     }
   }, [submenuOpen]);
 
-  // Gestione focus-out
   useEffect(() => {
     const handleFocusOut = (e: FocusEvent) => {
       if (
@@ -92,17 +87,16 @@ export const MenuNavigation = ({
 
   const { items, highlight } = item;
 
-  // Gestione tasti per elementi del sottomenu
   const handleSubmenuItemKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case ' ':
-        e.preventDefault(); // Previene il page scroll
+        e.preventDefault();
         break;
       case 'ArrowUp':
       case 'ArrowDown':
       case 'Home':
       case 'End':
-        e.preventDefault(); // Previene il comportamento predefinito delle frecce
+        e.preventDefault();
         break;
     }
   };
@@ -130,16 +124,13 @@ export const MenuNavigation = ({
           ref={triggerRef}
           className="menu-trigger"
           onClick={e => {
-            e.preventDefault(); // Previene sempre la navigazione del browser
+            e.preventDefault();
             if (window.innerWidth < 992) {
-              // Su mobile: solo apri/chiudi sottomenu
               handleSubmenu();
             } else {
-              // Su desktop: per "Media" naviga, per altri elementi NON fare nulla
               if (item.uiRouterKey.includes('media') && item.path) {
                 navigate(item.path);
               }
-              // Per altri elementi su desktop: non fare nulla (solo e.preventDefault())
             }
           }}
           onKeyDown={handleKeyDown}

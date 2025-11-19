@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { Link } from 'gatsby';
 import React, { useState } from 'react';
 import { Menu } from '../../components/Menu';
 import { Hamburger } from '../Hamburger';
@@ -18,9 +17,13 @@ export const Header = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const handleMobileMenu = () => setMobileMenuOpen(prev => !prev);
-  const { language } = useI18next();
+  const { language, navigate } = useI18next();
 
-  const route = language === 'it' ? '/it' : '/en/homepage';
+  const route = language === 'it' ? '/' : '/en/homepage';
+
+  const handleLogoClick = () => {
+    navigate(route);
+  };
 
   return (
     <header className={classNames('header', mobileMenuOpen && 'menu-is-open')}>
@@ -28,9 +31,12 @@ export const Header = ({
         <div className="container-fluid">
           <div className="row align-items-center justify-content-between">
             <div className="col-auto">
-              <Link to={route} title="PagoPA">
-                <Logo title="PagoPA" menuOpen={mobileMenuOpen} />
-              </Link>
+              <Logo
+                title="PagoPA"
+                menuOpen={mobileMenuOpen}
+                onClick={handleLogoClick}
+                version="default"
+              />
             </div>
             <div className="col-auto d-block d-lg-none">
               <Hamburger handler={handleMobileMenu} />

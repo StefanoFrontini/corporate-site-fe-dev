@@ -4,14 +4,17 @@ import pagopaColor from '../../images/pagopa.svg';
 import pagopaLight from '../../images/pagopa-light.svg';
 import './Logo.sass';
 
-export const Logo = ({ title, version, menuOpen }) => {
+export const Logo = ({ title, version, menuOpen, onClick }) => {
   const logoSrc =
     version === 'light' ? pagopaLight : menuOpen ? pagopaLight : pagopaColor;
+
   return (
-    <>
-      <div className="logo" tabIndex={0}>
-        <img src={logoSrc} alt={title} />
-      </div>
-    </>
+    <button
+      className="logo"
+      aria-label={`Torna alla homepage ${title}`}
+      onClick={onClick}
+    >
+      <img src={logoSrc} alt={title} />
+    </button>
   );
 };

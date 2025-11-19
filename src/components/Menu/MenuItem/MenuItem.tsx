@@ -52,7 +52,6 @@ export const MenuItem = ({
       </a>
     );
   } else if (disabled) {
-    // Solo per "Media" renderizza il link, per altri elementi renderizza span
     if (path && item.uiRouterKey.includes('media')) {
       return (
         <Link {...commonProps} activeClassName="is-current" to={path}>
