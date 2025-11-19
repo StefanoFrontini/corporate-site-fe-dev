@@ -36,6 +36,7 @@ export const Header = ({
                 menuOpen={mobileMenuOpen}
                 onClick={handleLogoClick}
                 version="default"
+                language={language}
               />
             </div>
             <div className="col-auto d-block d-lg-none">

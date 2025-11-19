@@ -21,6 +21,7 @@ export const MenuNavigation = ({
   const handleSubmenu = () => {
     setSubmenuOpen(prev => !prev);
   };
+  console.log(item);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -39,7 +40,6 @@ export const MenuNavigation = ({
     }
   };
 
-  // Gestione hover per desktop
   const handleMouseEnter = () => {
     if (window.innerWidth >= 992 && hasChildren) {
       setSubmenuOpen(true);
