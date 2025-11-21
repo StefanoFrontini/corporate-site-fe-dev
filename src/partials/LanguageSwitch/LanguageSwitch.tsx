@@ -2,6 +2,7 @@ import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 import React, { useState, useRef, useEffect } from 'react';
 import ita from '../../images/ita.svg';
 import eng from '../../images/eng.svg';
+import { navigate } from 'gatsby';
 
 export const LanguageSwitch = () => {
   const { languages, changeLanguage, language } = useI18next();
@@ -18,7 +19,7 @@ export const LanguageSwitch = () => {
 
   const handleChangeLanguage = (selectedLanguage: string) => {
     changeLanguage(selectedLanguage);
-    window.location.assign(
+    navigate(
       `/${selectedLanguage}${selectedLanguage === 'it' ? '/' : '/homepage/'}`
     );
     setIsOpen(false);
