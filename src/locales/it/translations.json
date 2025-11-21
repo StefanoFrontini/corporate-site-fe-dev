@@ -1,4 +1,8 @@
 {
   "followUs": "SEGUICI SU:",
-  "siteLanguage": "Lingua del sito:"
+  "siteLanguage": "Lingua del sito:",
+  "languageSwitchLabel": "Seleziona la lingua: {{language}}",
+  "languageMenuLabel": "Seleziona una lingua",
+  "changeLanguageTo": "Cambia lingua in {{language}}",
+  "menuNavigationInstructions": "Premi Invio per visitare la pagina, premi Spazio o Freccia Giù per aprire il sottomenu."
 }

@@ -4,6 +4,7 @@ import { MenuItem } from '../MenuItem';
 import '../Menu.sass';
 import { useLocation } from '@reach/router';
 import { navigate } from 'gatsby';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 export const MenuNavigation = ({
   item,
@@ -12,6 +13,7 @@ export const MenuNavigation = ({
   item: Queries.MainNavigationItemFragment;
   className: string;
 }) => {
+  const { t } = useTranslation();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const { pathname } = useLocation();
   const submenuId = `submenu-${item.id}`;
@@ -21,22 +23,18 @@ export const MenuNavigation = ({
   const handleSubmenu = () => {
     setSubmenuOpen(prev => !prev);
   };
-  console.log(item);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       if (item.uiRouterKey.includes('media') && item.path) {
-        console.log('handleKeyDown', item);
         navigate(item.path);
       } else {
         e.preventDefault();
         handleSubmenu();
       }
-    } else if (e.key === ' ' || e.key === 'ArrowDown') {
+    } else if (e.key === ' ' || e.key === 'ArrowDown' || e.key === 'Enter') {
       e.preventDefault();
       handleSubmenu();
-    } else if (e.key === 'Escape') {
-      setSubmenuOpen(false);
     }
   };
 
@@ -90,8 +88,6 @@ export const MenuNavigation = ({
   const handleSubmenuItemKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case ' ':
-        e.preventDefault();
-        break;
       case 'ArrowUp':
       case 'ArrowDown':
       case 'Home':
@@ -141,10 +137,7 @@ export const MenuNavigation = ({
         >
           <MenuItem item={item} disabled={true} />
           {item.uiRouterKey.includes('media') && (
-            <span className="sr-only">
-              Premi Invio per visitare la pagina, premi Spazio o Freccia Giù per
-              aprire il sottomenu.
-            </span>
+            <span className="sr-only">{t('menuNavigationInstructions')}</span>
           )}
         </button>
       ) : (
