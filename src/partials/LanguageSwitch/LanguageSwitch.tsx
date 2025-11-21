@@ -80,6 +80,8 @@ export const LanguageSwitch = () => {
     }
   }, [isOpen]);
 
+  const currentLanguageName = getLanguageName(language);
+
   return (
     <div
       ref={menuRef}
@@ -89,6 +91,19 @@ export const LanguageSwitch = () => {
       }}
       onKeyDown={handleKeyDown}
     >
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: 'absolute',
+          left: '-10000px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden',
+        }}
+      >
+        {t('languageChangedFeedback', { language: currentLanguageName })}
+      </div>
       <button
         className="current-language"
         style={{
@@ -105,7 +120,7 @@ export const LanguageSwitch = () => {
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-label={t('languageSwitchLabel', {
-          language: getLanguageName(language),
+          language: currentLanguageName,
         })}
       >
         <img
