@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Menu } from '../../components/Menu';
 import { Hamburger } from '../Hamburger';
 import { Logo } from '../Logo';
@@ -16,8 +16,28 @@ export const Header = ({
   mainMenu: Queries.MainNavigationItemFragment[];
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
   const handleMobileMenu = () => setMobileMenuOpen(prev => !prev);
   const { language, navigate } = useI18next();
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        const isAnySubmenuOpen =
+          document.querySelector('.is-sub-open') !== null;
+
+        if (!isAnySubmenuOpen) {
+          setMobileMenuOpen(false);
+          hamburgerRef.current?.focus();
+        }
+      }
+    };
+
+    if (mobileMenuOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [mobileMenuOpen]);
 
   const route = language === 'it' ? '/' : '/en/homepage';
 
@@ -40,7 +60,11 @@ export const Header = ({
               />
             </div>
             <div className="col-auto d-block d-lg-none">
-              <Hamburger handler={handleMobileMenu} />
+              <Hamburger
+                ref={hamburgerRef}
+                handler={handleMobileMenu}
+                isOpen={mobileMenuOpen}
+              />
             </div>
 
             <div className="col-auto d-none d-lg-block">

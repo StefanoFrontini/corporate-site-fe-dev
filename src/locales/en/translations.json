@@ -5,5 +5,7 @@
   "languageMenuLabel": "Select a language",
   "changeLanguageTo": "Change language to {{language}}",
   "menuNavigationInstructions": "Press Enter to visit the page, press Space or Down Arrow to open the submenu.",
-  "languageChangedFeedback": "Language changed to {{language}}"
+  "languageChangedFeedback": "Language changed to {{language}}",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu"
 }

@@ -67,9 +67,10 @@ export const LanguageSwitch = () => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
+        console.log(menuRef.current.children[1]);
         setIsOpen(false);
         setTimeout(() => {
-          (menuRef.current.children[0] as HTMLElement).focus();
+          (menuRef.current.children[1] as HTMLElement).focus();
         }, 0);
       }
     };
