@@ -14,23 +14,32 @@ export const navigationItemFragment = graphql`
     path
   }
 `;
+const handleSubmenuItemKeyDown = (e: React.KeyboardEvent) => {
+  switch (e.key) {
+    case ' ':
+    case 'ArrowUp':
+    case 'ArrowDown':
+    case 'Home':
+    case 'End':
+      e.preventDefault();
+      break;
+  }
+};
 
 export const MenuItem = ({
   item,
   disabled,
   'aria-current': ariaCurrent,
-  onKeyDown,
 }: {
   item: Queries.NavigationItemFragment | Queries.MainNavigationItemFragment;
   disabled?: boolean;
   'aria-current'?: 'page' | undefined;
-  onKeyDown?: (e: React.KeyboardEvent) => void;
 }) => {
   const { title, external, path, type } = item;
 
   const commonProps = {
     'aria-current': ariaCurrent,
-    onKeyDown,
+    onKeyDown: handleSubmenuItemKeyDown,
     ...(disabled && item.uiRouterKey.includes('media') && { tabIndex: -1 }),
   };
 

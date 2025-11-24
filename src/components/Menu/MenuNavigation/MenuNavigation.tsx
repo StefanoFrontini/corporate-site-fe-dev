@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, FocusEventHandler } from 'react';
 import { MenuItem } from '../MenuItem';
 import '../Menu.sass';
 import { useLocation } from '@reach/router';
@@ -25,16 +25,24 @@ export const MenuNavigation = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      if (item.uiRouterKey.includes('media') && item.path) {
-        navigate(item.path);
-      } else {
+    if (e.target instanceof HTMLButtonElement) {
+      if (e.key === 'Enter') {
+        if (item.uiRouterKey.includes('media') && item.path) {
+          navigate(item.path);
+        } else {
+          e.preventDefault();
+          handleSubmenu();
+        }
+      } else if (e.key === ' ' || e.key === 'ArrowDown' || e.key === 'Enter') {
         e.preventDefault();
         handleSubmenu();
+      } else if (e.key === 'Escape' && submenuOpen) {
+        setSubmenuOpen(false);
       }
-    } else if (e.key === ' ' || e.key === 'ArrowDown' || e.key === 'Enter') {
+    } else if (e.key === 'Escape') {
       e.preventDefault();
       handleSubmenu();
+      triggerRef.current.focus();
     }
   };
 
@@ -50,52 +58,13 @@ export const MenuNavigation = ({
     }
   };
 
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && submenuOpen) {
-        setSubmenuOpen(false);
-        setTimeout(() => {
-          triggerRef.current?.focus();
-        }, 0);
-      }
-    };
-
-    if (submenuOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
-    }
-  }, [submenuOpen]);
-
-  useEffect(() => {
-    const handleFocusOut = (e: FocusEvent) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(e.relatedTarget as Node)
-      ) {
-        setSubmenuOpen(false);
-      }
-    };
-
-    const menuElement = menuRef.current;
-    if (menuElement && submenuOpen) {
-      menuElement.addEventListener('focusout', handleFocusOut);
-      return () => menuElement.removeEventListener('focusout', handleFocusOut);
-    }
-  }, [submenuOpen]);
-
-  const { items, highlight } = item;
-
-  const handleSubmenuItemKeyDown = (e: React.KeyboardEvent) => {
-    switch (e.key) {
-      case ' ':
-      case 'ArrowUp':
-      case 'ArrowDown':
-      case 'Home':
-      case 'End':
-        e.preventDefault();
-        break;
+  const handleFocusOut: FocusEventHandler<HTMLLIElement> = e => {
+    if (menuRef.current && !menuRef.current.contains(e.relatedTarget)) {
+      setSubmenuOpen(false);
     }
   };
+
+  const { items, highlight } = item;
 
   const isCurrent = pathname
     .split('/')
@@ -105,8 +74,10 @@ export const MenuNavigation = ({
   return (
     <li
       ref={menuRef}
+      onBlur={handleFocusOut}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onKeyDown={handleKeyDown}
       className={classNames(
         className,
         hasChildren && 'w-sub',
@@ -129,7 +100,6 @@ export const MenuNavigation = ({
               }
             }
           }}
-          onKeyDown={handleKeyDown}
           onMouseDown={e => e.preventDefault()}
           aria-expanded={submenuOpen}
           aria-haspopup="true"
@@ -159,7 +129,7 @@ export const MenuNavigation = ({
                   )}
                   aria-current={isCurrentSubmenu ? 'page' : undefined}
                 >
-                  <MenuItem item={item} onKeyDown={handleSubmenuItemKeyDown} />
+                  <MenuItem item={item} />
                 </li>
               )
             );

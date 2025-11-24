@@ -1,5 +1,5 @@
 import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, FocusEventHandler } from 'react';
 import ita from '../../images/ita.svg';
 import eng from '../../images/eng.svg';
 import { navigate } from 'gatsby';
@@ -31,61 +31,40 @@ export const LanguageSwitch = () => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
-      case 'Enter':
       case ' ':
       case 'ArrowDown':
+      case 'Enter': {
         e.preventDefault();
         handleSubmenu();
+        if (availableLanguages.length > 0) {
+          setTimeout(() => {
+            languageButtonsRef.current[0].focus();
+          }, 0);
+        }
+        break;
+      }
+      case 'Escape':
+        e.preventDefault();
+        setIsOpen(false);
+        (menuRef.current.children[1] as HTMLElement).focus();
         break;
       default:
         return;
     }
   };
 
-  useEffect(() => {
-    if (isOpen && availableLanguages.length > 0) {
-      setTimeout(() => {
-        languageButtonsRef.current[0]?.focus();
-      }, 0);
+  const handleFocusOut: FocusEventHandler<HTMLDivElement> = e => {
+    if (menuRef.current && !menuRef.current.contains(e.relatedTarget)) {
+      setIsOpen(false);
     }
-  }, [isOpen, availableLanguages.length]);
-
-  useEffect(() => {
-    const menuElement = menuRef.current;
-    const handleFocusOut = (e: FocusEvent) => {
-      if (menuElement && !menuElement.contains(e.relatedTarget as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    if (menuElement && isOpen) {
-      menuElement.addEventListener('focusout', handleFocusOut);
-      return () => menuElement.removeEventListener('focusout', handleFocusOut);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        console.log(menuRef.current.children[1]);
-        setIsOpen(false);
-        setTimeout(() => {
-          (menuRef.current.children[1] as HTMLElement).focus();
-        }, 0);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
-    }
-  }, [isOpen]);
+  };
 
   const currentLanguageName = getLanguageName(language);
 
   return (
     <div
       ref={menuRef}
+      onBlur={handleFocusOut}
       className="language-switch"
       style={{
         position: 'relative',

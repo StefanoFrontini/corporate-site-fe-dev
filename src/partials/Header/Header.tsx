@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Menu } from '../../components/Menu';
 import { Hamburger } from '../Hamburger';
 import { Logo } from '../Logo';
@@ -20,9 +20,11 @@ export const Header = ({
   const handleMobileMenu = () => setMobileMenuOpen(prev => !prev);
   const { language, navigate } = useI18next();
 
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && mobileMenuOpen) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'Escape': {
+        e.preventDefault();
+        if (!mobileMenuOpen) return;
         const isAnySubmenuOpen =
           document.querySelector('.is-sub-open') !== null;
 
@@ -30,14 +32,12 @@ export const Header = ({
           setMobileMenuOpen(false);
           hamburgerRef.current?.focus();
         }
+        break;
       }
-    };
-
-    if (mobileMenuOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
+      default:
+        return;
     }
-  }, [mobileMenuOpen]);
+  };
 
   const route = language === 'it' ? '/' : '/en/homepage';
 
@@ -46,7 +46,10 @@ export const Header = ({
   };
 
   return (
-    <header className={classNames('header', mobileMenuOpen && 'menu-is-open')}>
+    <header
+      onKeyDown={handleKeyDown}
+      className={classNames('header', mobileMenuOpen && 'menu-is-open')}
+    >
       <div className="header__top">
         <div className="container-fluid">
           <div className="row align-items-center justify-content-between">
