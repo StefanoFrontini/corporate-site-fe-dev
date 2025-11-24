@@ -9,11 +9,27 @@ a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])
 [style*="background-color: #00a1b0"],
 .bg-c-brand
   &:focus
-    outline: 3px solid #FFF !important
+    outline: 3px solid #FFF
     outline-offset: 3px
 
 // Focus for white CTAs
 .cta.--white
   &:focus
-    outline: 3px solid #FFF !important
+    outline: 3px solid #FFF
     outline-offset: 3px
+
+.checkbox label:focus
+  outline: 3px solid #FFF !important
+  outline-offset: 3px !important
+  position: relative !important
+
+// Focus per checkbox su sfondo $c-brand
+[style*="background-color: #{$c-brand}"],
+[style*="background-color: #00a1b0"],
+.bg-c-brand
+  .checkbox label:focus-visible
+    outline: 3px solid #FFF
+    outline-offset: 3px
+
+
+

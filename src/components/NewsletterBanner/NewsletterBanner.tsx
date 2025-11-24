@@ -8,7 +8,13 @@ import './NewsletterBanner.sass';
 const endpoint =
   'https://api.io.italia.it/api/payportal/v1/newsletters/io/lists/6/recipients';
 
-const newsletterGroups = [
+type NewsletterGroup = {
+  label: string;
+  value: number;
+  checked: boolean;
+};
+
+const initialNewsletterGroups: NewsletterGroup[] = [
   {
     label: 'Cittadini',
     value: 47,
@@ -36,7 +42,25 @@ const newsletterGroups = [
   },
 ];
 
-const Checkbox = ({ label, value, checked, classes }: any) => {
+type CheckboxProps = {
+  label: string;
+  value: number;
+  checked: boolean;
+  onChange: (value: number, checked: boolean) => void;
+};
+
+const Checkbox = ({ label, value, checked, onChange }: CheckboxProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(value, e.target.checked);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLLabelElement>) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      onChange(value, !checked);
+    }
+  };
+
   return (
     <div className="checkbox">
       <input
@@ -44,29 +68,93 @@ const Checkbox = ({ label, value, checked, classes }: any) => {
         value={value}
         id={`cb-inp-${value}`}
         className="newsletter-group"
-        defaultChecked={checked}
+        checked={checked}
+        onChange={handleChange}
+        tabIndex={-1}
       />
-      <label htmlFor={`cb-inp-${value}`}>{label}</label>
+      <label htmlFor={`cb-inp-${value}`} tabIndex={0} onKeyDown={handleKeyDown}>
+        {label}
+      </label>
     </div>
   );
 };
 
 export const NewsletterBanner = () => {
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState('');
+  const [groups, setGroups] = useState<NewsletterGroup[]>(
+    initialNewsletterGroups
+  );
   const [validity, setValidity] = useState(false);
-
-  const checkValidity = (
-    input: HTMLElementTagNameMap['select'],
-    options: HTMLInputElement[]
-  ) => {
-    if (input.checkValidity() && options.find((el: any) => el.checked)) {
-      setValidity(() => true);
-    } else {
-      setValidity(() => false);
-    }
-  };
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'success' | 'error'
+  >('idle');
 
   const reaptchaRef = useRef<Reaptcha>(null);
+
+  const handleCheckboxChange = (value: number, checked: boolean) => {
+    const newGroups = groups.map(group =>
+      group.value === value ? { ...group, checked } : group
+    );
+    setGroups(newGroups);
+    checkValidity(email, newGroups);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    checkValidity(newEmail, groups);
+  };
+
+  const checkValidity = (
+    currentEmail: string,
+    currentGroups: NewsletterGroup[]
+  ) => {
+    const isEmailValid =
+      currentEmail.trim() !== '' && /\S+@\S+\.\S+/.test(currentEmail);
+    const isAtLeastOneChecked = currentGroups.some(group => group.checked);
+    setValidity(isEmailValid && isAtLeastOneChecked);
+  };
+
+  const reaptchaVerify = () => {
+    reaptchaRef.current?.execute();
+    setLoading(true);
+  };
+
+  const newsletterReset = () => {
+    reaptchaRef.current?.reset();
+    setLoading(false);
+    setSubmitStatus('idle');
+  };
+
+  const newsletterSubmit = async (recaptchaResponse: string) => {
+    const emailValue = email.trim();
+    const groupsValue: string[] = groups
+      .filter(group => group.checked)
+      .map(group => group.value.toString());
+
+    const data = {
+      recaptchaToken: recaptchaResponse,
+      email: emailValue,
+      groups: groupsValue,
+    };
+
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: endpoint,
+        data,
+      });
+      if (response.status === 200) {
+        setSubmitStatus('success');
+      }
+    } catch (e) {
+      console.log(e);
+      setSubmitStatus('error');
+    } finally {
+      newsletterReset();
+    }
+  };
 
   useEffect(() => {
     const locationHash = window.location.hash;
@@ -81,101 +169,16 @@ export const NewsletterBanner = () => {
         newsletterAnchor?.scrollIntoView({ behavior: 'smooth' });
       }, 500);
     }
-
-    const newsletterWrap: HTMLElementTagNameMap['div'] | null =
-      document.querySelector('.newsletter-banner');
-
-    if (newsletterWrap) {
-      const newsletterInput: HTMLElementTagNameMap['select'] | null =
-        newsletterWrap?.querySelector('.newsletter-email');
-
-      const newsletterOptions: HTMLInputElement[] = [
-        ...newsletterWrap?.querySelectorAll<HTMLElementTagNameMap['input']>(
-          '.newsletter-group'
-        ),
-      ];
-
-      if (newsletterInput && newsletterOptions) {
-        newsletterInput &&
-          newsletterOptions &&
-          checkValidity(newsletterInput, newsletterOptions);
-
-        newsletterInput?.addEventListener('keyup', () =>
-          checkValidity(newsletterInput, newsletterOptions)
-        );
-
-        newsletterOptions.forEach(opt =>
-          opt.addEventListener('change', () =>
-            checkValidity(newsletterInput, newsletterOptions)
-          )
-        );
-
-        return () => {
-          newsletterInput.removeEventListener('keyup', checkValidity as any);
-          newsletterOptions.forEach(opt =>
-            opt.removeEventListener('change', checkValidity as any)
-          );
-        };
-      }
-    }
   }, []);
-
-  const reaptchaVerify = () => {
-    reaptchaRef.current?.execute();
-    setLoading(true);
-  };
-
-  const newsletterReset = () => {
-    reaptchaRef.current?.reset();
-    setLoading(false);
-  };
-
-  const newsletterSubmit = async (recaptchaResponse: string) => {
-    const newsletterWrap: HTMLElementTagNameMap['div'] | null =
-      document.querySelector('.newsletter-banner');
-
-    // newsletterSubmit = newsletterWrap.querySelector('.newsletter-submit');
-    const input: HTMLInputElement | null | undefined =
-      newsletterWrap?.querySelector('.newsletter-email');
-    // optionsWrap = newsletterWrap.querySelector('.newsletter-banner__options');
-    if (newsletterWrap) {
-      const groups: HTMLInputElement[] = [
-        ...newsletterWrap?.querySelectorAll<HTMLElementTagNameMap['input']>(
-          '.newsletter-group:checked'
-        ),
-      ];
-
-      const emailValue = input?.value?.trim();
-      const groupsValue: string[] = groups.map(group => group.value);
-
-      const data = {
-        recaptchaToken: recaptchaResponse,
-        email: emailValue,
-        groups: groupsValue,
-      };
-
-      newsletterWrap?.classList.remove('is-success');
-      newsletterWrap?.classList.remove('is-error');
-
-      try {
-        const response = await axios({
-          method: 'post',
-          url: endpoint,
-          data: data,
-        });
-        response.status === 200 && newsletterWrap?.classList.add('is-success');
-      } catch (e) {
-        newsletterWrap?.classList.add('is-error');
-      } finally {
-        newsletterReset();
-      }
-    }
-  };
 
   return (
     <>
       <div className="newsletter-banner-anchor"></div>
-      <section className="block --block-newsletter-banner newsletter-banner">
+      <section
+        className={`block --block-newsletter-banner newsletter-banner ${
+          submitStatus === 'success' ? 'is-success' : ''
+        } ${submitStatus === 'error' ? 'is-error' : ''}`}
+      >
         <div className="container-fluid">
           <div className="row">
             <div className="col-12 col-lg-10 offset-lg-1">
@@ -195,9 +198,14 @@ export const NewsletterBanner = () => {
           <div className="row">
             <div className="col-12 col-md-6 col-lg-5 offset-lg-1">
               <ul className="newsletter-banner__options">
-                {newsletterGroups.map(({ label, value, checked }, index) => (
-                  <li key={index}>
-                    <Checkbox label={label} value={value} checked={checked} />
+                {groups.map(({ label, value, checked }) => (
+                  <li key={value}>
+                    <Checkbox
+                      label={label}
+                      value={value}
+                      checked={checked}
+                      onChange={handleCheckboxChange}
+                    />
                   </li>
                 ))}
               </ul>
@@ -214,6 +222,8 @@ export const NewsletterBanner = () => {
                   placeholder="Inserisci la tua email"
                   className="input newsletter-email"
                   required
+                  value={email}
+                  onChange={handleEmailChange}
                 />
                 <button
                   className={`cta --white newsletter-submit${
