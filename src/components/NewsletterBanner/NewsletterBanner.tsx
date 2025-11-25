@@ -86,6 +86,9 @@ export const NewsletterBanner = () => {
     initialNewsletterGroups
   );
   const [validity, setValidity] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isAtLeastOneChecked, setIsAtLeastOneChecked] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
@@ -110,10 +113,29 @@ export const NewsletterBanner = () => {
     currentEmail: string,
     currentGroups: NewsletterGroup[]
   ) => {
-    const isEmailValid =
+    const emailValid =
       currentEmail.trim() !== '' && /\S+@\S+\.\S+/.test(currentEmail);
-    const isAtLeastOneChecked = currentGroups.some(group => group.checked);
-    setValidity(isEmailValid && isAtLeastOneChecked);
+    const atLeastOneChecked = currentGroups.some(group => group.checked);
+    const isValid = emailValid && atLeastOneChecked;
+
+    setIsEmailValid(emailValid);
+    setIsAtLeastOneChecked(atLeastOneChecked);
+    setValidity(isValid);
+
+    // Gestione errori di validazione
+    if (!isValid) {
+      if (!emailValid && !atLeastOneChecked) {
+        setValidationError(
+          'Inserisci un indirizzo email valido e seleziona almeno un gruppo'
+        );
+      } else if (!emailValid) {
+        setValidationError('Inserisci un indirizzo email valido');
+      } else if (!atLeastOneChecked) {
+        setValidationError('Seleziona almeno un gruppo');
+      }
+    } else {
+      setValidationError(null);
+    }
   };
 
   const reaptchaVerify = () => {
@@ -177,7 +199,7 @@ export const NewsletterBanner = () => {
       <section
         className={`block --block-newsletter-banner newsletter-banner ${
           submitStatus === 'success' ? 'is-success' : ''
-        } ${submitStatus === 'error' ? 'is-error' : ''}`}
+        } ${submitStatus === 'error' || validationError ? 'is-error' : ''}`}
       >
         <div className="container-fluid">
           <div className="row">
@@ -191,32 +213,46 @@ export const NewsletterBanner = () => {
           </div>
           <div className="row">
             <div className="col-12 col-lg-10 offset-lg-1">
-              <p className="mb-3">Segui le notizie per*:</p>
+              <p className="mb-3" aria-hidden="true">
+                Segui le notizie per*:
+              </p>
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-12 col-md-6 col-lg-5 offset-lg-1">
-              <ul className="newsletter-banner__options">
-                {groups.map(({ label, value, checked }) => (
-                  <li key={value}>
-                    <Checkbox
-                      label={label}
-                      value={value}
-                      checked={checked}
-                      onChange={handleCheckboxChange}
-                    />
-                  </li>
-                ))}
-              </ul>
-              <p className="--alternative --small">
-                <em>
-                  * campo obbligatorio, con possibilità di risposta multipla
-                </em>
-              </p>
-            </div>
-            <div className="col-12 col-md-6 col-lg-5 d-flex flex-column justify-content-between">
-              <form onSubmit={e => e.preventDefault()}>
+          <form onSubmit={e => e.preventDefault()}>
+            <div className="row">
+              <div className="col-12 col-md-6 col-lg-5 offset-lg-1">
+                <fieldset className="newsletter-banner__fieldset">
+                  <legend className="newsletter-banner__legend">
+                    Segui le notizie per*:
+                  </legend>
+                  <ul
+                    className="newsletter-banner__options"
+                    aria-describedby={
+                      validationError && !isAtLeastOneChecked
+                        ? 'newsletter-validation-error'
+                        : undefined
+                    }
+                  >
+                    {groups.map(({ label, value, checked }) => (
+                      <li key={value}>
+                        <Checkbox
+                          label={label}
+                          value={value}
+                          checked={checked}
+                          onChange={handleCheckboxChange}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="--alternative --small">
+                    <em>
+                      * campo obbligatorio, con possibilità di risposta multipla
+                    </em>
+                  </p>
+                </fieldset>
+              </div>
+              <div className="col-12 col-md-6 col-lg-5">
                 <input
                   type="email"
                   placeholder="Inserisci la tua email"
@@ -224,6 +260,14 @@ export const NewsletterBanner = () => {
                   required
                   value={email}
                   onChange={handleEmailChange}
+                  aria-describedby={
+                    validationError ? 'newsletter-validation-error' : undefined
+                  }
+                  aria-invalid={
+                    validationError && validationError.includes('email')
+                      ? 'true'
+                      : 'false'
+                  }
                 />
                 <button
                   className={`cta --white newsletter-submit${
@@ -231,6 +275,11 @@ export const NewsletterBanner = () => {
                   }`}
                   onClick={reaptchaVerify}
                   disabled={!validity}
+                  aria-describedby={
+                    submitStatus === 'error'
+                      ? 'newsletter-submit-error'
+                      : undefined
+                  }
                 >
                   <span>Iscriviti</span>
                   <span className="loader">
@@ -249,59 +298,85 @@ export const NewsletterBanner = () => {
                   onLoad={() => setLoading(false)}
                 />
                 <div>
-                  <div className="message --success">
-                    <span>
-                      Richiesta inviata correttamente! A breve riceverai una
-                      email per confermare la tua iscrizione.
-                    </span>
-                  </div>
-                  <div className="message --error">
-                    <span>
-                      Si è verificato un problema, si prega di riprovare più
-                      tardi.
-                    </span>
-                  </div>
+                  {submitStatus === 'success' && (
+                    <div
+                      id="newsletter-success-message"
+                      className="message --success"
+                      role="status"
+                      aria-live="polite"
+                      aria-atomic="true"
+                    >
+                      <span>
+                        Richiesta inviata correttamente! A breve riceverai una
+                        email per confermare la tua iscrizione.
+                      </span>
+                    </div>
+                  )}
+                  {validationError && (
+                    <div
+                      id="newsletter-validation-error"
+                      className="message --error"
+                      role="alert"
+                      aria-live="polite"
+                    >
+                      <span>{validationError}</span>
+                    </div>
+                  )}
+                  {submitStatus === 'error' && (
+                    <div
+                      id="newsletter-submit-error"
+                      className="message --error"
+                      role="alert"
+                      aria-live="assertive"
+                      aria-atomic="true"
+                    >
+                      <span>
+                        Si è verificato un problema, si prega di riprovare più
+                        tardi.
+                      </span>
+                    </div>
+                  )}
                 </div>
-              </form>
 
-              <div className="mt-5 mt-md-4">
-                <p className="--alternative --small">
-                  <em>
-                    Inserendo il tuo indirizzo email stai accettando la{' '}
-                    <a
-                      href={'/it/privacy-policy/'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      nostra informativa sul trattamento dei dati personali
-                    </a>{' '}
-                    per la newsletter.
-                  </em>
-                </p>
-                <p className="--alternative --small">
-                  <em>
-                    Form protetto tramite reCAPTCHA e{' '}
-                    <a
-                      href="https://policies.google.com/privacy"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Google Privacy Policy
-                    </a>{' '}
-                    e{' '}
-                    <a
-                      href="https://policies.google.com/terms"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Termini di servizio
-                    </a>{' '}
-                    applicati.
-                  </em>
-                </p>
+                <div className="mt-5 mt-md-4">
+                  <p className="--alternative --small">
+                    <em>
+                      Inserendo il tuo indirizzo email stai accettando la{' '}
+                      <a
+                        href={'/it/privacy-policy/'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        nostra informativa sul trattamento dei dati personali
+                      </a>{' '}
+                      per la newsletter.
+                    </em>
+                  </p>
+                  <p className="--alternative --small">
+                    <em>
+                      Form protetto tramite reCAPTCHA e{' '}
+                      <a
+                        href="https://policies.google.com/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Google Privacy Policy
+                      </a>{' '}
+                      e{' '}
+                      <a
+                        href="https://policies.google.com/terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Termini di servizio
+                      </a>{' '}
+                      applicati.
+                    </em>
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </section>
     </>
