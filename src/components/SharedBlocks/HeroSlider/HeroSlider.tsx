@@ -1,5 +1,5 @@
 import { useTranslation } from 'gatsby-plugin-react-i18next';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import SwiperCore, {
   A11y,
   Controller,
@@ -26,6 +26,7 @@ export const HeroSlider = ({
   const { t } = useTranslation();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isSlideChange, setIsSlideChange] = useState<boolean>(false);
+  const swiperRef = useRef<SwiperCore | null>(null);
 
   const handleSlideChange = (currentIndex: number) => {
     setIsSlideChange(true);
@@ -79,7 +80,24 @@ export const HeroSlider = ({
                   className="hero__nav --next"
                   aria-label={t('slider.nextSlide')}
                 />
-                <div className="hero__pagination"></div>
+                <div className="hero__pagination">
+                  {heroSliderItems.length > 1 &&
+                    heroSliderItems.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`bullet ${
+                          currentSlideIndex === index ? 'is-current' : ''
+                        }`}
+                        aria-label={t('slider.paginationBulletMessage', {
+                          index: index + 1,
+                        })}
+                        aria-current={
+                          currentSlideIndex === index ? 'true' : undefined
+                        }
+                        onClick={() => swiperRef.current?.slideTo(index)}
+                      />
+                    ))}
+                </div>
                 <Swiper
                   speed={swiperCommons.speed}
                   spaceBetween={swiperCommons.spaceBetween}
@@ -90,17 +108,7 @@ export const HeroSlider = ({
                     prevEl: '.hero__nav.--prev',
                     nextEl: '.hero__nav.--next',
                   }}
-                  pagination={
-                    heroSliderItems.length > 1
-                      ? {
-                          clickable: true,
-                          el: '.hero__pagination',
-                          bulletClass: 'bullet',
-                          bulletActiveClass: 'is-current',
-                          type: 'bullets',
-                        }
-                      : false
-                  }
+                  pagination={false}
                   a11y={{
                     enabled: true,
                     prevSlideMessage: t('slider.prevSlideMessage'),
@@ -113,6 +121,9 @@ export const HeroSlider = ({
                   }}
                   onSlideChange={swiper => {
                     handleSlideChange(swiper.activeIndex);
+                  }}
+                  onSwiper={swiper => {
+                    swiperRef.current = swiper;
                   }}
                 >
                   {heroSliderItems.map((item, key) => {
