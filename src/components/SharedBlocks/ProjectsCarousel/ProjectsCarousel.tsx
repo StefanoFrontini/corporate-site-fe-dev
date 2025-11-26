@@ -6,6 +6,7 @@ import { Cta } from '../../../partials/Cta';
 import { Image } from '../../Image';
 import './ProjectsCarousel.sass';
 import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 export const ProjectsCarousel = ({
   title,
@@ -19,6 +20,7 @@ export const ProjectsCarousel = ({
   };
 
   const { language } = useI18next();
+  const { t } = useTranslation();
 
   return (
     <section className="block --block-project-carousel projects-carousel">
@@ -28,14 +30,12 @@ export const ProjectsCarousel = ({
             <header className="projects-carousel__header">
               <button
                 className="projects-carousel__nav --prev"
-                title="prev"
-                aria-labelledby="prev"
+                aria-label={t('slider.prevSlide')}
               />
               {title && <h2>{title}</h2>}
               <button
                 className="projects-carousel__nav --next"
-                title="next"
-                aria-labelledby="next"
+                aria-label={t('slider.nextSlide')}
               />
             </header>
           </div>

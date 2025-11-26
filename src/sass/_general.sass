@@ -18,6 +18,17 @@ a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])
     outline: 3px solid #FFF
     outline-offset: 3px
 
+// Focus for white CTAs on c-brand background
+[style*="background-color: #{$c-brand}"],
+[style*="background-color: #00a1b0"],
+.bg-c-brand,
+.projects-carousel__item > div + div
+  .cta.--white,
+  .cta.--white-hollow
+    &:focus
+      outline: 3px solid #FFF
+      outline-offset: 3px
+
 .checkbox label:focus
   outline: 3px solid #FFF !important
   outline-offset: 3px !important
@@ -34,4 +45,3 @@ a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])
 
 html
   scroll-behavior: smooth
-
