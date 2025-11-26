@@ -1,7 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Reaptcha from 'reaptcha';
-import smoothscroll from 'smoothscroll-polyfill';
 
 import './NewsletterBanner.sass';
 
@@ -122,7 +120,6 @@ export const NewsletterBanner = () => {
     setIsAtLeastOneChecked(atLeastOneChecked);
     setValidity(isValid);
 
-    // Gestione errori di validazione
     if (!isValid) {
       if (!emailValid && !atLeastOneChecked) {
         setValidationError(
@@ -162,10 +159,12 @@ export const NewsletterBanner = () => {
     };
 
     try {
-      const response = await axios({
+      const response = await fetch(endpoint, {
         method: 'POST',
-        url: endpoint,
-        data,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
       if (response.status === 200) {
         setSubmitStatus('success');
@@ -178,24 +177,9 @@ export const NewsletterBanner = () => {
     }
   };
 
-  useEffect(() => {
-    const locationHash = window.location.hash;
-    const newsletterAnchor = document.querySelector(
-      '.newsletter-banner-anchor'
-    );
-
-    if (locationHash === '#newsletter') {
-      smoothscroll.polyfill();
-
-      setTimeout(() => {
-        newsletterAnchor?.scrollIntoView({ behavior: 'smooth' });
-      }, 500);
-    }
-  }, []);
-
   return (
     <>
-      <div className="newsletter-banner-anchor"></div>
+      <div id="newsletter" className="newsletter-banner-anchor"></div>
       <section
         className={`block --block-newsletter-banner newsletter-banner ${
           submitStatus === 'success' ? 'is-success' : ''
@@ -264,9 +248,7 @@ export const NewsletterBanner = () => {
                     validationError ? 'newsletter-validation-error' : undefined
                   }
                   aria-invalid={
-                    validationError && validationError.includes('email')
-                      ? 'true'
-                      : 'false'
+                    validationError && !isEmailValid ? 'true' : 'false'
                   }
                 />
                 <button
