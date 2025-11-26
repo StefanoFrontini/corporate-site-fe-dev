@@ -1,5 +1,7 @@
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 import React, { useState } from 'react';
 import SwiperCore, {
+  A11y,
   Controller,
   EffectFade,
   Navigation,
@@ -14,13 +16,14 @@ import { Body } from '../../Remark/Body';
 import { Video } from '../../Video';
 import './HeroSlider.sass';
 
-SwiperCore.use([Navigation, Pagination, EffectFade, Controller]);
+SwiperCore.use([Navigation, Pagination, EffectFade, Controller, A11y]);
 
 export const HeroSlider = ({
   heroSliderItems,
   slug,
   id,
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_HERO_SLIDER_Fragment) => {
+  const { t } = useTranslation();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isSlideChange, setIsSlideChange] = useState<boolean>(false);
 
@@ -70,13 +73,11 @@ export const HeroSlider = ({
               <div className="hero__image">
                 <button
                   className="hero__nav --prev"
-                  title="prev"
-                  aria-labelledby="prev"
+                  aria-label={t('slider.prevSlide')}
                 />
                 <button
                   className="hero__nav --next"
-                  title="next"
-                  aria-labelledby="next"
+                  aria-label={t('slider.nextSlide')}
                 />
                 <div className="hero__pagination"></div>
                 <Swiper
@@ -100,6 +101,16 @@ export const HeroSlider = ({
                         }
                       : false
                   }
+                  a11y={{
+                    enabled: true,
+                    prevSlideMessage: t('slider.prevSlideMessage'),
+                    nextSlideMessage: t('slider.nextSlideMessage'),
+                    firstSlideMessage: t('slider.firstSlideMessage'),
+                    lastSlideMessage: t('slider.lastSlideMessage'),
+                    paginationBulletMessage: t(
+                      'slider.paginationBulletMessage'
+                    ),
+                  }}
                   onSlideChange={swiper => {
                     handleSlideChange(swiper.activeIndex);
                   }}

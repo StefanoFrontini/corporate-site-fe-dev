@@ -7,5 +7,14 @@
   "menuNavigationInstructions": "Premi Invio per visitare la pagina, premi Spazio o Freccia Giù per aprire il sottomenu.",
   "languageChangedFeedback": "Lingua cambiata in {{language}}",
   "openMenu": "Apri menu",
-  "closeMenu": "Chiudi menu"
+  "closeMenu": "Chiudi menu",
+  "slider": {
+    "prevSlide": "Vai alla slide precedente",
+    "nextSlide": "Vai alla slide successiva",
+    "prevSlideMessage": "Slide precedente",
+    "nextSlideMessage": "Slide successiva",
+    "firstSlideMessage": "Questa è la prima slide",
+    "lastSlideMessage": "Questa è l'ultima slide",
+    "paginationBulletMessage": "Vai alla slide {{index}}"
+  }
 }

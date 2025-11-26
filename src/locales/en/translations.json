@@ -7,5 +7,14 @@
   "menuNavigationInstructions": "Press Enter to visit the page, press Space or Down Arrow to open the submenu.",
   "languageChangedFeedback": "Language changed to {{language}}",
   "openMenu": "Open menu",
-  "closeMenu": "Close menu"
+  "closeMenu": "Close menu",
+  "slider": {
+    "prevSlide": "Go to previous slide",
+    "nextSlide": "Go to next slide",
+    "prevSlideMessage": "Previous slide",
+    "nextSlideMessage": "Next slide",
+    "firstSlideMessage": "This is the first slide",
+    "lastSlideMessage": "This is the last slide",
+    "paginationBulletMessage": "Go to slide {{index}}"
+  }
 }

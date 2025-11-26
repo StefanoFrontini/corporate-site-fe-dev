@@ -38,11 +38,40 @@ const Video = ({
   const videoCode = video ? youtubeParser(video) : false;
 
   const videoRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handlePlay = () => {
     if (videoInstance) {
       videoInstance.playVideo();
     }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+
+      if (videoPreview && !videoActive) {
+        handlePlayStart();
+      } else if (videoActive && videoInstance) {
+        if (isPlaying) {
+          videoInstance.pauseVideo();
+        } else {
+          videoInstance.playVideo();
+        }
+      }
+    }
+  };
+
+  const handlePlayStart = () => {
+    console.log('handlePlayStart');
+    handlePlay();
+    setVideoPreview(false);
+    setVideoActive(true);
+    videoInstance?.unMute();
+
+    setTimeout(() => {
+      buttonRef.current?.focus();
+    }, 0);
   };
 
   const handleStop = () => {
@@ -111,6 +140,7 @@ const Video = ({
           id={`video-${videoCode}`}
           className="video__frame"
           opts={playerOptions}
+          title={language === 'it' ? 'Video YouTube' : 'YouTube video'}
           onReady={event => setVideoInstance(event.target)}
           onStateChange={e => setIsPlaying(e.data === 1 ? true : false)}
           onEnd={() => setVideoActive(false)}
@@ -126,16 +156,35 @@ const Video = ({
           <div className="video__curtain"></div>
           <button
             className="video__play"
-            onClick={() => {
-              handlePlay();
-              setVideoPreview(false);
-              setVideoActive(true);
-              videoInstance?.unMute();
-            }}
+            aria-label={language === 'it' ? 'Riproduci video' : 'Play video'}
+            onClick={handlePlayStart}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
           >
             play
           </button>
         </>
+      )}
+
+      {!videoPreview && videoActive && (
+        <button
+          ref={buttonRef}
+          className="video__control"
+          aria-label={
+            isPlaying
+              ? language === 'it'
+                ? 'Metti in pausa video'
+                : 'Pause video'
+              : language === 'it'
+              ? 'Riprendi video'
+              : 'Resume video'
+          }
+          onClick={() => (isPlaying ? handleStop() : handlePlay())}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
+        >
+          {isPlaying ? 'pause' : 'play'}
+        </button>
       )}
     </figure>
   );
