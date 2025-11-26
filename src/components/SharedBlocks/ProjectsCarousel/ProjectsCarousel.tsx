@@ -75,10 +75,15 @@ export const ProjectsCarousel = ({
                   } = item || {};
 
                   return (
-                    <SwiperSlide key={key}>
+                    <SwiperSlide
+                      key={key}
+                      aria-label={carouselTitle}
+                      role="group"
+                      aria-describedby={`slide-content-${key}`}
+                    >
                       <article className="projects-carousel__item">
                         <div>
-                          <h1>{carouselTitle}</h1>
+                          <h3 id={`slide-title-${key}`}>{carouselTitle}</h3>
                           {(featuredImage || carouselImage) && (
                             <Image
                               data={
@@ -88,7 +93,10 @@ export const ProjectsCarousel = ({
                             />
                           )}
                         </div>
-                        <div className="project-carousel__item__cta">
+                        <div
+                          className="project-carousel__item__cta"
+                          id={`slide-content-${key}`}
+                        >
                           {carouselAbstract && (
                             <div className="wysiwyg">
                               <p>{carouselAbstract}</p>
