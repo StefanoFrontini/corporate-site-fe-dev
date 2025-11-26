@@ -8,9 +8,9 @@ import './Video.sass';
 import { useI18next } from 'gatsby-plugin-react-i18next';
 
 const youtubeParser = (url: string) => {
-  var regExp =
+  const regExp =
     /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  var match = url.match(regExp);
+  const match = url.match(regExp);
   return match && match[7].length === 11 ? match[7] : false;
 };
 
@@ -120,12 +120,13 @@ const Video = ({
   const playerOptions: Options = {
     playerVars: {
       autoplay: 0,
+      hl: language,
       rel: 0,
       cc_load_policy: 1,
       color: 'white',
       iv_load_policy: 3,
       modestbranding: 1,
-      //@ts-ignore this props are missing in the type definition but used
+      //@ts-expect-error this props are missing in the type definition but used
       showInfo: 0,
       mute: 1,
       cc_lang_pref: language,
@@ -159,7 +160,6 @@ const Video = ({
             aria-label={language === 'it' ? 'Riproduci video' : 'Play video'}
             onClick={handlePlayStart}
             onKeyDown={handleKeyDown}
-            tabIndex={0}
           >
             play
           </button>
@@ -181,7 +181,6 @@ const Video = ({
           }
           onClick={() => (isPlaying ? handleStop() : handlePlay())}
           onKeyDown={handleKeyDown}
-          tabIndex={0}
         >
           {isPlaying ? 'pause' : 'play'}
         </button>
