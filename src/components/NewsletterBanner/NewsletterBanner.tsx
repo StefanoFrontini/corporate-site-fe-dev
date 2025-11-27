@@ -239,6 +239,7 @@ export const NewsletterBanner = () => {
               <div className="col-12 col-md-6 col-lg-5">
                 <input
                   type="email"
+                  autoComplete="email"
                   placeholder="Inserisci la tua email"
                   className="input newsletter-email"
                   required
