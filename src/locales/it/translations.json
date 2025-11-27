@@ -16,5 +16,10 @@
     "firstSlideMessage": "Questa è la prima slide",
     "lastSlideMessage": "Questa è l'ultima slide",
     "paginationBulletMessage": "Vai alla slide {{index}}"
-  }
+  },
+  "navigationMain": "Navigazione principale",
+  "navigationReserved": "Navigazione riservata",
+  "navigationFooterTop": "Link utili",
+  "navigationFooterBottom": "Link legali",
+  "cookiePreferences": "Preferenze cookie"
 }

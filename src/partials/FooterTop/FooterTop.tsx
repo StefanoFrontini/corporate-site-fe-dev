@@ -2,7 +2,7 @@ import React from 'react';
 import { useCookiesDialog } from '../../hooks';
 import { Cta } from '../Cta/';
 import './FooterTop.sass';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 type FooterTopProps = {
   menu: Queries.MainNavigationItemFragment[];
@@ -10,10 +10,10 @@ type FooterTopProps = {
 
 export const FooterTop = ({ menu }: FooterTopProps) => {
   useCookiesDialog({ selector: '.ot-preferences' });
-  const { language } = useI18next();
+  const { t } = useTranslation();
 
   return (
-    <nav className="footer-top">
+    <nav className="footer-top" aria-label={t('navigationFooterTop')}>
       <ul>
         {menu?.map((item: Queries.MainNavigationItemFragment | null) => {
           return item?.title && item?.path ? (
@@ -31,9 +31,7 @@ export const FooterTop = ({ menu }: FooterTopProps) => {
         })}
         <li>
           <button id="ot-sdk-btn" className="cta --link-simple ot-preferences">
-            <span>
-              {language === 'it' ? 'Preferenze cookie' : 'Cookie preferences'}
-            </span>
+            <span>{t('cookiePreferences')}</span>
           </button>
         </li>
       </ul>

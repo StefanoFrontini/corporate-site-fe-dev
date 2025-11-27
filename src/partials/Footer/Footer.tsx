@@ -6,7 +6,7 @@ import { Socials } from '../Socials';
 import './Footer.sass';
 import { FooterBottom } from '../FooterBottom';
 import { FooterTop } from '../FooterTop';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 type FooterProps = {
   footerTop: Queries.MainNavigationItemFragment[];
@@ -35,7 +35,8 @@ export const Footer = ({ footerTop, footerBottom }: FooterProps) => {
     query,
   });
 
-  const { t, language } = useI18next();
+  const { language } = useI18next();
+  const { t } = useTranslation();
 
   return (
     <footer className="footer">

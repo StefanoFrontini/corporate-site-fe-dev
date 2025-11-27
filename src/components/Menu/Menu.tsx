@@ -45,7 +45,7 @@ export const Menu = ({
 
   return (
     <div className="menu-header">
-      <nav className="menu-main">
+      <nav className="menu-main" aria-label={t('navigationMain')}>
         <ul>
           {sortedMain?.map((item: Queries.MainNavigationItemFragment) => {
             return (
@@ -58,7 +58,7 @@ export const Menu = ({
           })}
         </ul>
       </nav>
-      <nav className="menu-reserved">
+      <nav className="menu-reserved" aria-label={t('navigationReserved')}>
         <ul>
           {sortedReserved?.map((item: Queries.MainNavigationItemFragment) => {
             return (
