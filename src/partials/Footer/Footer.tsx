@@ -35,7 +35,7 @@ export const Footer = ({ footerTop, footerBottom }: FooterProps) => {
     query,
   });
 
-  const { i18n, t, languages, changeLanguage } = useI18next();
+  const { t, language } = useI18next();
 
   return (
     <footer className="footer">
@@ -43,7 +43,7 @@ export const Footer = ({ footerTop, footerBottom }: FooterProps) => {
         <div className="footer__top">
           <div className="row">
             <div className="col-12 col-md-2">
-              <Logo version="light" />
+              <Logo language={language} title="PagoPA" version="light" />
             </div>
             <div className="col-12 col-md-10 col-lg-8">
               <FooterTop menu={footerTop} />

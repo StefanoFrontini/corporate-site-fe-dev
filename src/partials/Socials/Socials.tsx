@@ -5,7 +5,11 @@ import { useLocalizedQuery } from '../../hooks/useLocalizedQuery';
 
 import './Socials.sass';
 
-export const Socials = ({ header }) => {
+type SocialsProps = {
+  header?: boolean;
+};
+
+export const Socials = ({ header }: SocialsProps) => {
   const query = useStaticQuery(graphql`
     fragment Socials on SocialsJson {
       locale
