@@ -6,7 +6,7 @@ import { Socials } from '../Socials';
 import './Footer.sass';
 import { FooterBottom } from '../FooterBottom';
 import { FooterTop } from '../FooterTop';
-import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 type FooterProps = {
   footerTop: Queries.MainNavigationItemFragment[];
@@ -35,7 +35,6 @@ export const Footer = ({ footerTop, footerBottom }: FooterProps) => {
     query,
   });
 
-  const { language } = useI18next();
   const { t } = useTranslation();
 
   return (
@@ -44,7 +43,7 @@ export const Footer = ({ footerTop, footerBottom }: FooterProps) => {
         <div className="footer__top">
           <div className="row">
             <div className="col-12 col-md-2">
-              <Logo language={language} title="PagoPA" version="light" />
+              <Logo title="PagoPA" version="light" />
             </div>
             <div className="col-12 col-md-10 col-lg-8">
               <FooterTop menu={footerTop} />

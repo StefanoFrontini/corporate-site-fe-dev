@@ -105,11 +105,9 @@ export const ProjectsCarousel = ({
                           {carouselCtaLabel && (
                             <Cta
                               label={carouselCtaLabel}
-                              href={`/${language}/${
-                                language === 'it'
-                                  ? 'prodotti-e-servizi'
-                                  : 'products-and-services'
-                              }/${slug}`}
+                              href={`/${language}/${t(
+                                'productsAndServices'
+                              )}/${slug}`}
                               variant="white-hollow"
                             />
                           )}

@@ -21,5 +21,12 @@
   "navigationReserved": "Navigazione riservata",
   "navigationFooterTop": "Link utili",
   "navigationFooterBottom": "Link legali",
-  "cookiePreferences": "Preferenze cookie"
+  "cookiePreferences": "Preferenze cookie",
+  "discover": "Scopri",
+  "backToHomepage": "Torna alla homepage",
+  "youtubeVideo": "Video YouTube",
+  "playVideo": "Riproduci video",
+  "pauseVideo": "Metti in pausa video",
+  "resumeVideo": "Riprendi video",
+  "productsAndServices": "prodotti-e-servizi"
 }

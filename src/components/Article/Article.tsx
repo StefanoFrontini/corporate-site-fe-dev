@@ -23,6 +23,7 @@ export const Article = ({
   article: Article;
   isPreview: boolean;
 }) => {
+  const { t } = useTranslation();
   const {
     i18n: { language },
   } = useTranslation();
@@ -73,7 +74,7 @@ export const Article = ({
 
       <Cta
         href={isPreview ? `./news-ed-eventi/${slug}` : slug}
-        label={language === 'it' ? 'Scopri' : 'Discover'}
+        label={t('discover')}
       />
     </article>
   );

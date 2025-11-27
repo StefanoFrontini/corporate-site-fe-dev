@@ -5,7 +5,7 @@ import YouTube from 'react-youtube';
 import { YouTubePlayer, Options } from 'youtube-player/dist/types';
 import { Image } from '../Image';
 import './Video.sass';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 
 const youtubeParser = (url: string) => {
   const regExp =
@@ -28,6 +28,7 @@ const Video = ({
   currentSlideIndex,
 }: VideoProps) => {
   const { language } = useI18next();
+  const { t } = useTranslation();
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoActive, setVideoActive] = useState(false);
   const [videoPreview, setVideoPreview] = useState(true);
@@ -141,7 +142,7 @@ const Video = ({
           id={`video-${videoCode}`}
           className="video__frame"
           opts={playerOptions}
-          title={language === 'it' ? 'Video YouTube' : 'YouTube video'}
+          title={t('youtubeVideo')}
           onReady={event => setVideoInstance(event.target)}
           onStateChange={e => setIsPlaying(e.data === 1 ? true : false)}
           onEnd={() => setVideoActive(false)}
@@ -157,7 +158,7 @@ const Video = ({
           <div className="video__curtain"></div>
           <button
             className="video__play"
-            aria-label={language === 'it' ? 'Riproduci video' : 'Play video'}
+            aria-label={t('playVideo')}
             onClick={handlePlayStart}
             onKeyDown={handleKeyDown}
           >
@@ -170,15 +171,7 @@ const Video = ({
         <button
           ref={buttonRef}
           className="video__control"
-          aria-label={
-            isPlaying
-              ? language === 'it'
-                ? 'Metti in pausa video'
-                : 'Pause video'
-              : language === 'it'
-              ? 'Riprendi video'
-              : 'Resume video'
-          }
+          aria-label={isPlaying ? t('pauseVideo') : t('resumeVideo')}
           onClick={() => (isPlaying ? handleStop() : handlePlay())}
           onKeyDown={handleKeyDown}
         >
