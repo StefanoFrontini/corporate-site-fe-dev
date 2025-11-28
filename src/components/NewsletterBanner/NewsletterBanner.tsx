@@ -126,7 +126,9 @@ export const NewsletterBanner = () => {
           'Inserisci un indirizzo email valido e seleziona almeno un gruppo'
         );
       } else if (!emailValid) {
-        setValidationError('Inserisci un indirizzo email valido');
+        setValidationError(
+          'Inserisci un indirizzo email valido, ad esempio nome@dominio.it'
+        );
       } else if (!atLeastOneChecked) {
         setValidationError('Seleziona almeno un gruppo');
       }
