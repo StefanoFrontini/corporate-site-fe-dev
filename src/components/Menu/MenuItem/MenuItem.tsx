@@ -40,10 +40,11 @@ export const MenuItem = ({
   const commonProps = {
     'aria-current': ariaCurrent,
     onKeyDown: handleSubmenuItemKeyDown,
-    ...(disabled && item.uiRouterKey.includes('media') && { tabIndex: -1 }),
   };
 
-  if (external) {
+  if (disabled) {
+    return <span {...commonProps}>{title}</span>;
+  } else if (external) {
     return (
       <a
         {...commonProps}
@@ -60,15 +61,6 @@ export const MenuItem = ({
         {title}
       </a>
     );
-  } else if (disabled) {
-    if (path && item.uiRouterKey.includes('media')) {
-      return (
-        <Link {...commonProps} activeClassName="is-current" to={path}>
-          {title}
-        </Link>
-      );
-    }
-    return <span {...commonProps}>{title}</span>;
   } else {
     return (
       <Link {...commonProps} activeClassName="is-current" to={path || '#'}>
