@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState, useRef, FocusEventHandler } from 'react';
+import React, { useState, useRef, FocusEventHandler, useId } from 'react';
 import { MenuItem } from '../MenuItem';
 import '../Menu.sass';
 import { useLocation } from '@reach/router';
@@ -16,7 +16,7 @@ export const MenuNavigation = ({
   const { t } = useTranslation();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const { pathname } = useLocation();
-  const submenuId = `submenu-${item.id}`;
+  const submenuId = useId();
   const menuRef = useRef<HTMLLIElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 

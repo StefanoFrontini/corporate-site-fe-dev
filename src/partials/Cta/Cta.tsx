@@ -22,7 +22,7 @@ export const Cta = ({
     <>
       {href && href.startsWith('http') ? (
         <a
-          target={blank ? '_blank' : ''}
+          target={blank ? '_blank' : null}
           rel="noopene noreferrer"
           href={href}
           className={classNames('cta', variant && `--${variant}`, className)}
