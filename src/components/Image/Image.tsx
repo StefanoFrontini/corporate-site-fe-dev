@@ -24,7 +24,6 @@ export const Image = ({
 
     if (image) {
       image.removeAttribute('role');
-      image.removeAttribute('alt');
     }
   }, []);
 
