@@ -52,20 +52,18 @@ export const HeroSlider = ({
               <div className="hero__content">
                 {title && body && (
                   <>
-                    <article>
-                      <h1>{title}</h1>
-                      <div className="wysiwyg">
-                        <Body data={body} />
-                      </div>
-                      {link && (
-                        <Cta
-                          label={linkLabel || title}
-                          href={link}
-                          blank
-                          variant="white"
-                        />
-                      )}
-                    </article>
+                    <h1>{title}</h1>
+                    <div className="wysiwyg">
+                      <Body data={body} />
+                    </div>
+                    {link && (
+                      <Cta
+                        label={linkLabel || title}
+                        href={link}
+                        blank
+                        variant="white"
+                      />
+                    )}
                   </>
                 )}
               </div>

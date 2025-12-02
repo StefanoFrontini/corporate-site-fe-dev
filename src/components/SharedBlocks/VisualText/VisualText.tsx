@@ -150,6 +150,11 @@ export const VisualText = ({
       style={{ backgroundColor: backgroundColor || 'transparent' }}
       id={sectionId}
     >
+      {!(title || eyelet) && (image || youtubeVideo) && (
+        <h2 className="sr-only">
+          {youtubeVideo ? 'Video YouTube' : 'Immagine'}
+        </h2>
+      )}
       <BackgroundGraphics {...{ left, top, size }} />
       <div className="container-fluid">
         <div
