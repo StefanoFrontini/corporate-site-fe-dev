@@ -6,6 +6,7 @@ import { BackgroundGraphics } from '../../BackgroundGraphics';
 import { Image } from '../../Image';
 import { Body } from '../../Remark/Body';
 import { Video } from '../../Video';
+import { useLocation } from '@reach/router';
 
 import './VisualText.sass';
 
@@ -79,8 +80,20 @@ export const VisualText = ({
 
   const VisualCtas = () => <Cta label={ctaText} href={link} />;
 
-  const VisualTitle = () =>
-    visualSize === 'Small' ? <h2>{title}</h2> : <h1>{title}</h1>;
+  const VisualTitle = () => {
+    const { pathname } = useLocation();
+
+    const isHomepage =
+      pathname === '/' || pathname === '/it/' || pathname === '/en/homepage/';
+
+    const renderHeading = isHomepage ? (
+      <h4 className="h1 --primary">{title}</h4>
+    ) : (
+      <h2 className="h1">{title}</h2>
+    );
+
+    return visualSize === 'Small' ? <h4>{title}</h4> : renderHeading;
+  };
 
   const VisualMedia = () => (
     <>
@@ -118,8 +131,8 @@ export const VisualText = ({
   const TextOnly = () => (
     <>
       <div className={`col-12 ${columns[visualSize].textOnly}`}>
-        {eyelet && <h4>{eyelet}</h4>}
-        {title && <VisualTitle />}
+        {eyelet && <h3 className="h4">{eyelet}</h3>}
+        {title && <h2 className="h1">{title}</h2>}
         {body && <VisualBody />}
         {link && ctaText && <VisualCtas />}
       </div>

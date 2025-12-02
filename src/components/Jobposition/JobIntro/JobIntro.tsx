@@ -1,4 +1,3 @@
-import { graphql } from 'gatsby';
 import React from 'react';
 
 const dateFormatOptions: Intl.DateTimeFormatOptions = {
@@ -37,7 +36,7 @@ export const JobIntro = ({
           <div className="row">
             <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
               <div className="intro__heading">
-                {eyelet && <h4>{eyelet}</h4>}
+                {eyelet && <p className="h4">{eyelet}</p>}
                 {title && <h1>{title}</h1>}
               </div>
             </div>

@@ -17,8 +17,8 @@ const youtubeParser = (url: string) => {
 type VideoProps = {
   image?: Queries.STRAPI__MEDIA | null;
   video: string;
-  isSlideChange: boolean;
-  currentSlideIndex: number;
+  isSlideChange?: boolean;
+  currentSlideIndex?: number;
 };
 
 const Video = ({

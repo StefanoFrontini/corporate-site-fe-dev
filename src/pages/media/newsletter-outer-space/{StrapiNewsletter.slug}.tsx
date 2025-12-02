@@ -75,7 +75,7 @@ const Intro = ({ eyelet, title }: Queries.NewsletterIntroFragment) => {
         <div className="row">
           <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
             <div className="intro__heading">
-              <h4>{eyelet}</h4>
+              <p className="h4">{eyelet}</p>
               <h1>{title}</h1>
             </div>
           </div>

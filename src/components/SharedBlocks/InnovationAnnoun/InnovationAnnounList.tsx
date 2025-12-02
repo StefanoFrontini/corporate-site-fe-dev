@@ -32,7 +32,7 @@ const InnovItem = ({
   return (
     <article className="d-flex flex-column justify-content-between" key={id}>
       <div>
-        <h4>{theDate}</h4>
+        <p className="h4">{theDate}</p>
         {isPreview ? (
           <h4 className="--primary --medium">{title}</h4>
         ) : (

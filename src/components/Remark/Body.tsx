@@ -15,10 +15,10 @@ export const Body = ({
     } | null;
   };
   className?: string;
-  forwardRef?: MutableRefObject<any>;
+  forwardRef?: MutableRefObject<null>;
 }) => {
   const isProduction = process.env.NODE_ENV === 'production';
-  const { html } = data?.childMarkdownRemark;
+  const { html } = data.childMarkdownRemark;
 
   const CDN_MEDIA_PATH = `${process.env.CDN_BASE_URL}/${process.env.CDN_MEDIA_DIR}/`;
   const CMS_MEDIA_PATH = `${process.env.STRAPI_API_URL}/${process.env.STRAPI_MEDIA_DIR}/`;

@@ -14,7 +14,7 @@ export const ContentsList = ({
     <div className="container-fluid">
       <div className="row">
         <div className={`col-12 col-lg-10 offset-lg-1 col-xl-9 offset-xl-2`}>
-          {title && <h1>{title}</h1>}
+          {title && <h2>{title}</h2>}
 
           {contentsItems?.length && (
             <div className="row">
@@ -32,7 +32,7 @@ export const ContentsList = ({
                     key={key}
                   >
                     <div className={`blocks-list-entry`}>
-                      {image && <Image data={image as Queries.STRAPI__MEDIA}/>}
+                      {image && <Image data={image as Queries.STRAPI__MEDIA} />}
                       {title && <h4>{title}</h4>}
                       {body && <Body data={body} />}
                       {link && <Cta href={link} label={linkLabel} />}

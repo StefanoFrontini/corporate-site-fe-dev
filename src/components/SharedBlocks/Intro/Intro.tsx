@@ -58,7 +58,7 @@ export const Intro = ({
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-9">
             <div className={title ? 'intro__heading' : 'intro'}>
-              <h4>{eyelet}</h4>
+              <p className="h4">{eyelet}</p>
               {introMenu && <IntroMenu menu={introMenu} />}
               <h1>{title}</h1>
             </div>

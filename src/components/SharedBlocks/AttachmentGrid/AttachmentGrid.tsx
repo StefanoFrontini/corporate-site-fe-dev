@@ -35,7 +35,7 @@ export const AttachmentGrid = ({
       <div className="container-fluid">
         <div className="row">
           <div className={`col-12 ${columns[blockWidth]}`}>
-            {title && <h1>{title}</h1>}
+            {title && <h2 className="h1">{title}</h2>}
             <div className="row">
               {attachmentsGridItems?.map((attachmentItem, key) => {
                 const { attachment, buttonLabel } = attachmentItem || {};
