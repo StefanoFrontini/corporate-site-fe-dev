@@ -127,7 +127,7 @@ export const JobpositionList = ({
                 Prima di candidarti a uno dei nostri annunci di lavoro,
                 ricordati di leggere l&apos;
                 <a href="https://www.pagopa.it/it/privacy-policy-candidati/">
-                  Informativa Privacy e i Termini e Condizioni d'uso del
+                  Informativa Privacy e i Termini e Condizioni d&apos;uso del
                   servizio
                 </a>
               </p>
@@ -136,7 +136,7 @@ export const JobpositionList = ({
             {links && <LinksAttachments links={links} />}
             <div className="jobs-listing__list">
               {openJobs.map(jobposition => (
-                <div className="p-4">
+                <div className="p-4" key={jobposition.id}>
                   <JobEntry jobposition={jobposition} />
                 </div>
               ))}

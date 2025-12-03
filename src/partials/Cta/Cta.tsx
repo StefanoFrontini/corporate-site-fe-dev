@@ -18,16 +18,21 @@ export const Cta = ({
   className,
   href = '#',
 }: CtaProps) => {
+  const isPdf = href?.includes('.pdf');
+
   return (
     <>
       {href && href.startsWith('http') ? (
         <a
           target={blank ? '_blank' : null}
-          rel="noopene noreferrer"
+          rel="noopener noreferrer"
           href={href}
           className={classNames('cta', variant && `--${variant}`, className)}
         >
           <span>{label}</span>
+          {isPdf && (
+            <span className="sr-only">PDF - Apre una nuova scheda</span>
+          )}
         </a>
       ) : (
         <Link
@@ -35,6 +40,9 @@ export const Cta = ({
           className={classNames('cta', variant && `--${variant}`, className)}
         >
           <span>{label}</span>
+          {isPdf && (
+            <span className="sr-only">PDF - Apre una nuova scheda</span>
+          )}
         </Link>
       )}
     </>
