@@ -27,7 +27,7 @@ export const Cta = ({
           target={blank ? '_blank' : null}
           rel="noopener noreferrer"
           href={href}
-          className={classNames('cta', variant && `--${variant}`, className)}
+          className={classNames('cta', variant && `cta--${variant}`, className)}
         >
           <span>{label}</span>
           {isPdf && (
@@ -37,7 +37,7 @@ export const Cta = ({
       ) : (
         <Link
           to={href}
-          className={classNames('cta', variant && `--${variant}`, className)}
+          className={classNames('cta', variant && `cta--${variant}`, className)}
         >
           <span>{label}</span>
           {isPdf && (

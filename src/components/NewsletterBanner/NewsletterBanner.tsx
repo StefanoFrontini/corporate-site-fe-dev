@@ -255,7 +255,7 @@ export const NewsletterBanner = () => {
                   }
                 />
                 <button
-                  className={`cta --white newsletter-submit${
+                  className={`cta cta--white newsletter-submit${
                     loading ? ' is-loading' : ''
                   }`}
                   onClick={reaptchaVerify}
