@@ -231,7 +231,7 @@ export const NewsletterBanner = () => {
                       </li>
                     ))}
                   </ul>
-                  <p className="--alternative --small">
+                  <p className="alternative small">
                     <em>
                       * campo obbligatorio, con possibilità di risposta multipla
                     </em>
@@ -324,7 +324,7 @@ export const NewsletterBanner = () => {
                 </div>
 
                 <div className="mt-5 mt-md-4">
-                  <p className="--alternative --small">
+                  <p className="alternative small">
                     <em>
                       Inserendo il tuo indirizzo email stai accettando la{' '}
                       <a
@@ -337,7 +337,7 @@ export const NewsletterBanner = () => {
                       per la newsletter.
                     </em>
                   </p>
-                  <p className="--alternative --small">
+                  <p className="alternative small">
                     <em>
                       Form protetto tramite reCAPTCHA e{' '}
                       <a

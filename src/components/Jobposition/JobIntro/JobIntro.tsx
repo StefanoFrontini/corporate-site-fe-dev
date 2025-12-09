@@ -48,13 +48,13 @@ export const JobIntro = ({
             <div className="intro__data justify-content-center">
               {startDate && (
                 <div>
-                  <p className="--label">DATA APERTURA</p>
+                  <p className="label">DATA APERTURA</p>
                   <p>{startDate}</p>
                 </div>
               )}
               {endDate && (
                 <div>
-                  <p className="--label">DATA CHIUSURA</p>
+                  <p className="label">DATA CHIUSURA</p>
                   <p>{endDate}</p>
                 </div>
               )}
@@ -64,13 +64,13 @@ export const JobIntro = ({
               <div className="intro__data justify-content-center">
                 {openPositions && (
                   <div>
-                    <p className="--label">POSIZIONI RICERCATE</p>
+                    <p className="label">POSIZIONI RICERCATE</p>
                     <p>{openPositions}</p>
                   </div>
                 )}
                 {hiredPositions && (
                   <div>
-                    <p className="--label">POSIZIONI ASSUNTE</p>
+                    <p className="label">POSIZIONI ASSUNTE</p>
                     <p>{hiredPositions}</p>
                   </div>
                 )}
@@ -80,7 +80,7 @@ export const JobIntro = ({
             {hasSelectionData && (
               <div className="intro__data justify-content-center --auto-w">
                 <div>
-                  <p className="--label">PERSONE SELEZIONATE</p>
+                  <p className="label">PERSONE SELEZIONATE</p>
                   <p>{selectedPeople}</p>
                 </div>
               </div>

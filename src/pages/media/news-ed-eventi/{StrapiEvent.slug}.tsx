@@ -98,7 +98,7 @@ const EventIntro = ({
             <div className="intro__data flex-wrap flex-md-nowrap">
               {startDate && (
                 <div>
-                  <p className="--label">DATA</p>
+                  <p className="label">DATA</p>
                   <p>
                     {new Date(startDate).toLocaleDateString(language, {
                       year: 'numeric',
@@ -110,7 +110,7 @@ const EventIntro = ({
               )}
               {startTime && (
                 <div>
-                  <p className="--label">ORA</p>
+                  <p className="label">ORA</p>
                   <p>
                     dalle {startTime}
                     {`${endTime ? ` alle ${endTime}` : ''}`}
@@ -119,7 +119,7 @@ const EventIntro = ({
               )}
               {eventVenue && (
                 <div>
-                  <p className="--label">LUOGO</p>
+                  <p className="label">LUOGO</p>
                   <p>{eventVenue}</p>
                 </div>
               )}
