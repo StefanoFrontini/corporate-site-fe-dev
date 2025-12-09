@@ -71,11 +71,11 @@ export const HeroSlider = ({
             <div className="col-12 col-lg-5">
               <div className="hero__image">
                 <button
-                  className="hero__nav --prev"
+                  className="hero__nav hero__nav__prev"
                   aria-label={t('slider.prevSlide')}
                 />
                 <button
-                  className="hero__nav --next"
+                  className="hero__nav hero__nav__next"
                   aria-label={t('slider.nextSlide')}
                 />
                 <div className="hero__pagination">
@@ -103,8 +103,8 @@ export const HeroSlider = ({
                   centeredSlides={true}
                   loop={swiperCommons.loop}
                   navigation={{
-                    prevEl: '.hero__nav.--prev',
-                    nextEl: '.hero__nav.--next',
+                    prevEl: '.hero__nav__prev',
+                    nextEl: '.hero__nav__next',
                   }}
                   pagination={false}
                   a11y={{
