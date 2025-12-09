@@ -36,7 +36,7 @@ export const Socials = ({ header }: SocialsProps) => {
   });
 
   return socialsData?.links ? (
-    <ul className={`socials${header ? ' --in-header' : ''}`}>
+    <ul className={`socials${header ? ' in-header' : ''}`}>
       {socialsData?.links.map(social => {
         return (
           <li key={social.url}>
