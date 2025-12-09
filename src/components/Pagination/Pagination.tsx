@@ -62,7 +62,7 @@ export const Pagination = <T,>({
           breakLabel="..."
           breakClassName="page-item"
           breakLinkClassName="page-link"
-          containerClassName="pagination --reactpaginate"
+          containerClassName="pagination reactpaginate"
           activeClassName="is-current"
         />
       )}
