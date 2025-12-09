@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Image } from '../../Image';
 import { Body } from '../../Remark';
 
 import './MapBox.sass';
