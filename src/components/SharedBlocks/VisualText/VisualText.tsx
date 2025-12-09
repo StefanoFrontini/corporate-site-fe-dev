@@ -70,7 +70,7 @@ export const VisualText = ({
       <div className="col-12 col-md-10 offset-md-1">
         <Body
           forwardRef={elementRef}
-          className={classNames(reveal && '--reveal-mode')}
+          className={classNames(reveal && 'reveal-mode')}
           data={body}
         />
       </div>
