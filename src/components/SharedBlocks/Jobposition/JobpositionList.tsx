@@ -94,7 +94,7 @@ export const JobpositionList = ({
     );
 
   return (
-    <section className="block --block-jobs-listing jobs-listing">
+    <section className="block block-jobs-listing jobs-listing">
       <div className="container-fluid">
         <div className="row">
           <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">

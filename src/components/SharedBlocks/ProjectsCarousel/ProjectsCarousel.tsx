@@ -23,7 +23,7 @@ export const ProjectsCarousel = ({
   const { t } = useTranslation();
 
   return (
-    <section className="block --block-project-carousel projects-carousel">
+    <section className="block block-project-carousel projects-carousel">
       <div className="container-fluid">
         <div className="row">
           <div className="col-12 col-md-11 offset-md-1 d-flex align-items-center justify-content-center">

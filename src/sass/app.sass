@@ -87,13 +87,13 @@ $grid-gutter-width: 3.2rem
           transform: translateY(-50%)
           background-color: $c-gray-light
 
-  &.--job
+  &.job
     .intro
       &__data
         width: 100%
         max-width: 52rem
 
-  &.--event
+  &.event
 
     @media (max-width: $mobile - 1)
       .intro
@@ -184,85 +184,85 @@ $grid-gutter-width: 3.2rem
 
 
 
-  &.--has-bg-color
+  &.has-bg-color
     padding-top: 6rem
     padding-bottom: 6rem
     margin-top: 8rem
     margin-bottom: 0
 
-  &.--hero
+  &.hero
     padding-top: 0
 
   // &.--block-press-release
 
-  &.--block-media-highlights
+  &.block-media-highlights
     margin-bottom: 4rem
 
-  &.--block-text
+  &.block-text
     margin-bottom: 2rem
 
     @media (max-width: $tablet - 1)
       margin-bottom: 4rem
 
     &:not(.--centered)
-      + .--block-text, + .--block-visual-text
+      + .block-text, + .block-visual-text
         padding-top: 4rem
 
-      + .--block-useful-links
+      + .block-useful-links
         padding-top: 0
 
-      + .--block-jobs-listing
+      + .block-jobs-listing
         padding-top: 3rem
 
-  &.--block-visual-text
-    &:not(.--has-bg-color)
-      + .--block-visual-text
+  &.block-visual-text
+    &:not(.has-bg-color)
+      + .block-visual-text
         padding-top: 2rem
 
-  &.--block-accordion
-    + .--block-accordion
+  &.block-accordion
+    + .block-accordion
       padding-top: 4rem
 
-  &.--block-intro
+  &.block-intro
     padding-top: 7rem
 
-    &.--nocontent
-      + .--block-text
+    &.nocontent
+      + .block-text
         padding-top: 1rem
 
-      + .--block-accordion
+      + .block-accordion
         padding-top: 0
 
-      + .--block-map-box
+      + .block-map-box
         padding-top: 0
 
     +
-      .--block-universityaccordion
+      .block-universityaccordion
         padding-top: 2rem
 
 
-  &.--block-cta-banner
+  &.block-cta-banner
     margin-top: 6rem
     margin-bottom: 0
 
-  &.--block-newsletter-banner
+  &.block-newsletter-banner
     margin-bottom: 0
     padding-top: 6rem
     padding-bottom: 6rem
 
-  &.--block-attachments-grid, &.--media-highlights
+  &.block-attachments-grid, &.media-highlights
     margin-bottom: 4rem
 
-  &.--block-useful-links
+  &.block-useful-links
     ul
       li
         &:not(:last-child)
           margin-bottom: 1.4rem
 
-    + .--block-useful-links
+    + .block-useful-links
       padding-top: 0
 
-  &.--block-project-carousel
+  &.block-project-carousel
     padding-top: 10rem
     padding-bottom: 10rem
     margin-top: 14rem
@@ -334,14 +334,14 @@ $grid-gutter-width: 3.2rem
           transform: translateY(-50%)
           background-color: $c-gray-light
 
-  &.--job
+  &.job
     .intro
       &__data
         width: 100%
         max-width: 52rem
         margin-bottom: 0
 
-  &.--event
+  &.event
 
     @media (max-width: $mobile - 1)
       .intro

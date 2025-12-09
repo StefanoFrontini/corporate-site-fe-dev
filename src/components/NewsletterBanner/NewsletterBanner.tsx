@@ -183,7 +183,7 @@ export const NewsletterBanner = () => {
     <>
       <div id="newsletter" className="newsletter-banner-anchor"></div>
       <section
-        className={`block --block-newsletter-banner newsletter-banner ${
+        className={`block block-newsletter-banner newsletter-banner ${
           submitStatus === 'success' ? 'is-success' : ''
         } ${submitStatus === 'error' || validationError ? 'is-error' : ''}`}
       >

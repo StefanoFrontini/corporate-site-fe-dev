@@ -54,7 +54,7 @@ export const Accordion = ({
   }
 
   return (
-    <section className="block --block-accordion block-accordion">
+    <section className="block block-accordion">
       <div className="container-fluid">
         <div className="row">
           <div className={`col-12 ${columns[BlockWidth]}`}>

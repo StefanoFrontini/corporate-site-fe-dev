@@ -31,7 +31,7 @@ export const AttachmentGrid = ({
   }
 
   return (
-    <section className="block --block-attachments-grid">
+    <section className="block block-attachments-grid">
       <div className="container-fluid">
         <div className="row">
           <div className={`col-12 ${columns[blockWidth]}`}>

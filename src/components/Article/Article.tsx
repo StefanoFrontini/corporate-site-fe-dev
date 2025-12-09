@@ -48,7 +48,7 @@ export const Article = ({
   };
 
   return (
-    <article className={`article${isEvent(article) ? ' --event' : ''}`}>
+    <article className={`article${isEvent(article) ? ' event' : ''}`}>
       <div className="mb-4">
         <div className="article__image">
           {featuredImage ? (

@@ -30,7 +30,7 @@ export const JobIntro = ({
   const hasSelectionData = selectedPeople ? true : false;
 
   return (
-    <header className="block --block-intro intro --job">
+    <header className="block block-intro intro job">
       <div className="container-fluid">
         {title && (
           <div className="row">

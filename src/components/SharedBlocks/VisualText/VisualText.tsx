@@ -143,8 +143,8 @@ export const VisualText = ({
     <section
       className={classNames(
         'block ',
-        image ? '--block-visual-text' : '--block-text',
-        backgroundColor && '--has-bg-color',
+        image ? 'block-visual-text' : 'block-text',
+        backgroundColor && 'has-bg-color',
         !(body || title || eyelet) && youtubeVideo && 'only-video'
       )}
       style={{ backgroundColor: backgroundColor || 'transparent' }}

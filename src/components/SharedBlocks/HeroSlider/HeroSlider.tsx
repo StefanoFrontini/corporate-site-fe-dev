@@ -44,7 +44,7 @@ export const HeroSlider = ({
     const { title, body, link, linkLabel } = heroSliderItems[0] || {};
 
     return (
-      <section className="block --hero hero" id={slug || id}>
+      <section className="block hero" id={slug || id}>
         <div className="hero__background" />
         <div className="container-fluid">
           <div className="row d-flex align-items-center">

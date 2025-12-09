@@ -52,7 +52,7 @@ export const Intro = ({
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment) => {
   return (
     <section
-      className={classNames('block --block-intro intro', 'mb-0 --nocontent')}
+      className={classNames('block block-intro intro', 'mb-0 nocontent')}
     >
       <div className="container-fluid">
         <div className="row justify-content-center">

@@ -13,7 +13,7 @@ export const CtaBanner = ({
   const lightTheme = theme === 'light';
   return (
     <section
-      className={`block --block-cta-banner ${
+      className={`block block-cta-banner ${
         lightTheme ? 'cta-banner--light' : 'cta-banner'
       }`}
     >

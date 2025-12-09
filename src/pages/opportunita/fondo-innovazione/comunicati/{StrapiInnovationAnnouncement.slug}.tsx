@@ -51,7 +51,7 @@ export const query = graphql`
 
 const InnovIntro = ({ eyelet, title }: Queries.InnovIntroFragment) => {
   return (
-    <header className="block --block-intro intro --event">
+    <header className="block block-intro intro event">
       <div className="container-fluid">
         <div className="row">
           <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
