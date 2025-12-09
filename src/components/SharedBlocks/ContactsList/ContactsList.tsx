@@ -31,7 +31,7 @@ const ContactsList = ({
   return (
     <section
       className={`block --block-contacts-list contacts-list${
-        !title ? ' --no-title' : ''
+        !title ? ' no-title' : ''
       }`}
     >
       <div className="container-fluid">
