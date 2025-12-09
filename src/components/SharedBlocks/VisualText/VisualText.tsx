@@ -145,7 +145,7 @@ export const VisualText = ({
         'block ',
         image ? '--block-visual-text' : '--block-text',
         backgroundColor && '--has-bg-color',
-        !(body || title || eyelet) && youtubeVideo && '--only-video'
+        !(body || title || eyelet) && youtubeVideo && 'only-video'
       )}
       style={{ backgroundColor: backgroundColor || 'transparent' }}
       id={sectionId}
