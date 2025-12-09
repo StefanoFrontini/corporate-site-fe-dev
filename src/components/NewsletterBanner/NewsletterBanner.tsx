@@ -286,7 +286,7 @@ export const NewsletterBanner = () => {
                   {submitStatus === 'success' && (
                     <div
                       id="newsletter-success-message"
-                      className="message --success"
+                      className="message success"
                       role="status"
                       aria-live="polite"
                       aria-atomic="true"
@@ -300,7 +300,7 @@ export const NewsletterBanner = () => {
                   {validationError && (
                     <div
                       id="newsletter-validation-error"
-                      className="message --error"
+                      className="message error"
                       role="alert"
                       aria-live="polite"
                     >
@@ -310,7 +310,7 @@ export const NewsletterBanner = () => {
                   {submitStatus === 'error' && (
                     <div
                       id="newsletter-submit-error"
-                      className="message --error"
+                      className="message error"
                       role="alert"
                       aria-live="assertive"
                       aria-atomic="true"
