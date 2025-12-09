@@ -68,7 +68,7 @@ export const Article = ({
             </h4>
           )}
         </div>
-        <h4 className="--primary --medium">{title}</h4>
+        <h4 className="primary medium">{title}</h4>
         {previewText(14, body?.data?.body)}
       </div>
 

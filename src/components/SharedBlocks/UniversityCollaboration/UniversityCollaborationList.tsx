@@ -26,7 +26,7 @@ const UniversityCollaborationItem = ({
         <AccordionItemButton className="accordion-entry__button">
           <h3>{title}</h3>
           <h4
-            className="--primary"
+            className="primary"
             data-status={isActive ? 'in corso' : 'conclusa'}
           >
             {collaborationTypeTitle}

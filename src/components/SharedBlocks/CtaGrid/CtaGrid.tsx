@@ -19,7 +19,7 @@ export const CtaGrid = ({
                     <div className="col-12 col-md-6 col-lg-4 d-flex" key={key}>
                       <div className="cta-grid__entry">
                         <div>
-                          <h4 className="cta-grid__title --primary">{title}</h4>
+                          <h4 className="cta-grid__title primary">{title}</h4>
                           <p
                             className="cta-grid__text"
                             dangerouslySetInnerHTML={{

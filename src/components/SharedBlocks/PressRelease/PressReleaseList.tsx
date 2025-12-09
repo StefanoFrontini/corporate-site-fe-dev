@@ -34,9 +34,9 @@ const PressReleaseItem = ({
       <div>
         <p className="h4">{theDate}</p>
         {isPreview ? (
-          <h4 className="--primary --medium">{title}</h4>
+          <h4 className="primary medium">{title}</h4>
         ) : (
-          <h3 className="--light">{title}</h3>
+          <h3 className="light">{title}</h3>
         )}
         <div>
           <p>{previewText(36, body?.data.body)}</p>

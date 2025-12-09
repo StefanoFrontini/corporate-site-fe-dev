@@ -87,7 +87,7 @@ export const VisualText = ({
       pathname === '/' || pathname === '/it/' || pathname === '/en/homepage/';
 
     const renderHeading = isHomepage ? (
-      <h4 className="h1 --primary">{title}</h4>
+      <h4 className="h1 primary">{title}</h4>
     ) : (
       <h2 className="h1">{title}</h2>
     );

@@ -20,7 +20,7 @@ const AccordionItemComp = ({
     <AccordionItem className="accordion-entry">
       <AccordionItemHeading className="accordion-entry__header">
         <AccordionItemButton className="accordion-entry__button">
-          <h4 className="--primary">{heading}</h4>
+          <h4 className="primary">{heading}</h4>
         </AccordionItemButton>
       </AccordionItemHeading>
 
