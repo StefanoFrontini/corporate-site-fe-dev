@@ -51,7 +51,7 @@ const PaginatedEntriesList = ({
       keyExtractor={item => item.id}
       data={collaborations}
       renderItem={(item: Queries.UniversityCollaborationFragment) => (
-        <Accordion allowZeroExpanded className="accordion --university">
+        <Accordion allowZeroExpanded className="accordion university">
           <UniversityCollaborationItem data={item} />
         </Accordion>
       )}
@@ -67,7 +67,7 @@ const EntriesList = ({
   return (
     <>
       {collaborations && (
-        <Accordion allowZeroExpanded className="accordion --university">
+        <Accordion allowZeroExpanded className="accordion university">
           {collaborations.map((collaboration, key) => {
             return (
               <UniversityCollaborationItem data={collaboration} key={key} />
