@@ -54,7 +54,6 @@ const InnovItem = ({
 
 export const InnovationAnnounList = ({
   title,
-  pageSlug,
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INNOVATION_ANNOUNCEMENTS_Fragment & {
   pageSlug: string;
 }) => {
