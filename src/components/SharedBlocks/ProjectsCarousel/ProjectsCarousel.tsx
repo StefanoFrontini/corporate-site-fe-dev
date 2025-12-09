@@ -29,12 +29,12 @@ export const ProjectsCarousel = ({
           <div className="col-12 col-md-11 offset-md-1 d-flex align-items-center justify-content-center">
             <header className="projects-carousel__header">
               <button
-                className="projects-carousel__nav --prev"
+                className="projects-carousel__nav prev"
                 aria-label={t('slider.prevSlide')}
               />
               {title && <h2>{title}</h2>}
               <button
-                className="projects-carousel__nav --next"
+                className="projects-carousel__nav next"
                 aria-label={t('slider.nextSlide')}
               />
             </header>
@@ -60,8 +60,8 @@ export const ProjectsCarousel = ({
                   },
                 }}
                 navigation={{
-                  prevEl: '.projects-carousel__nav.--prev',
-                  nextEl: '.projects-carousel__nav.--next',
+                  prevEl: '.projects-carousel__nav.prev',
+                  nextEl: '.projects-carousel__nav.next',
                 }}
               >
                 {projects?.map((item, key) => {
