@@ -5,7 +5,7 @@
   "languageMenuLabel": "Seleziona una lingua",
   "changeLanguageTo": "Cambia lingua in {{language}}",
   "menuNavigationInstructions": "Premi Invio per visitare la pagina, premi Spazio o Freccia Giù per aprire il sottomenu.",
-  "languageChangedFeedback": "Lingua cambiata in {{language}}",
+  "languageChangedFeedback": "Lingua impostata su {{language}}",
   "openMenu": "Apri menu",
   "closeMenu": "Chiudi menu",
   "slider": {
