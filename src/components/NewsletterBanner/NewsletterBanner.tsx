@@ -199,8 +199,13 @@ export const NewsletterBanner = () => {
           </div>
           <div className="row">
             <div className="col-12 col-lg-10 offset-lg-1">
+              <p className="alternative small">
+                <em>
+                  * campo obbligatorio, con possibilità di risposta multipla
+                </em>
+              </p>
               <p className="mb-3" aria-hidden="true">
-                Segui le notizie per*:
+                Segui le notizie per:
               </p>
             </div>
           </div>
@@ -210,7 +215,7 @@ export const NewsletterBanner = () => {
               <div className="col-12 col-md-6 col-lg-5 offset-lg-1">
                 <fieldset className="newsletter-banner__fieldset">
                   <legend className="newsletter-banner__legend">
-                    Segui le notizie per*:
+                    Segui le notizie per:
                   </legend>
                   <ul
                     className="newsletter-banner__options"
@@ -231,11 +236,6 @@ export const NewsletterBanner = () => {
                       </li>
                     ))}
                   </ul>
-                  <p className="alternative small">
-                    <em>
-                      * campo obbligatorio, con possibilità di risposta multipla
-                    </em>
-                  </p>
                 </fieldset>
               </div>
               <div className="col-12 col-md-6 col-lg-5">
