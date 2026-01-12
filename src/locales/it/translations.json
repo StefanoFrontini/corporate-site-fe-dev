@@ -9,10 +9,10 @@
   "openMenu": "Apri menu",
   "closeMenu": "Chiudi menu",
   "slider": {
-    "prevSlide": "Vai alla slide precedente",
-    "nextSlide": "Vai alla slide successiva",
-    "prevSlideMessage": "Slide precedente",
-    "nextSlideMessage": "Slide successiva",
+    "prevSlide": "Precedente",
+    "nextSlide": "Successivo",
+    "prevSlideMessage": "Precedente",
+    "nextSlideMessage": "Successivo",
     "firstSlideMessage": "Questa è la prima slide",
     "lastSlideMessage": "Questa è l'ultima slide",
     "paginationBulletMessage": "Vai alla slide {{index}}"
