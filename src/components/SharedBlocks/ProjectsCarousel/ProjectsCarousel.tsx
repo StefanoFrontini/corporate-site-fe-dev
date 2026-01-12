@@ -28,15 +28,9 @@ export const ProjectsCarousel = ({
         <div className="row">
           <div className="col-12 col-md-11 offset-md-1 d-flex align-items-center justify-content-center">
             <header className="projects-carousel__header">
-              <button
-                className="projects-carousel__nav prev"
-                aria-label={t('slider.prevSlide')}
-              />
+              <button className="projects-carousel__nav prev" />
               {title && <h2>{title}</h2>}
-              <button
-                className="projects-carousel__nav next"
-                aria-label={t('slider.nextSlide')}
-              />
+              <button className="projects-carousel__nav next" />
             </header>
           </div>
         </div>
@@ -62,6 +56,14 @@ export const ProjectsCarousel = ({
                 navigation={{
                   prevEl: '.projects-carousel__nav.prev',
                   nextEl: '.projects-carousel__nav.next',
+                }}
+                a11y={{
+                  enabled: true,
+                  prevSlideMessage: t('slider.prevSlideMessage'),
+                  nextSlideMessage: t('slider.nextSlideMessage'),
+                  firstSlideMessage: t('slider.firstSlideMessage'),
+                  lastSlideMessage: t('slider.lastSlideMessage'),
+                  paginationBulletMessage: t('slider.paginationBulletMessage'),
                 }}
               >
                 {projects?.map((item, key) => {
