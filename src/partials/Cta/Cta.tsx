@@ -31,7 +31,9 @@ export const Cta = ({
         >
           <span>{label}</span>
           {isPdf && (
-            <span className="sr-only">PDF - Apre una nuova scheda</span>
+            <span className="sr-only">
+              Documento PDF - apre in una nuova scheda
+            </span>
           )}
         </a>
       ) : (
@@ -41,7 +43,9 @@ export const Cta = ({
         >
           <span>{label}</span>
           {isPdf && (
-            <span className="sr-only">PDF - Apre una nuova scheda</span>
+            <span className="sr-only">
+              Documento PDF - apre in una nuova scheda
+            </span>
           )}
         </Link>
       )}
