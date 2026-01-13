@@ -9,7 +9,7 @@
   .menu-reserved
     margin-left: -1.6rem
 
-  @media (max-width: $tablet - 1)
+  @media (max-width: $desktop - 1)
     display: flex
     flex-direction: column
     opacity: 0
@@ -57,7 +57,7 @@
 
 .main-navigation, .reserved-navigation
   z-index: 2
-  @media (min-width: $tablet)
+  @media (min-width: $desktop)
     position: relative
     padding: 0 1.6rem
     font-family: $f-alternative
@@ -207,7 +207,7 @@
             border-left: 1.2rem solid transparent
             border-right: 1.2rem solid transparent
 
-  @media (max-width: $tablet - 1)
+  @media (max-width: $desktop - 1)
     position: relative
     font-size: 3.6rem
     color: #FFF
@@ -315,7 +315,7 @@
           visibility: visible
 
 .reserved-navigation
-  @media (min-width: $tablet)
+  @media (min-width: $desktop)
       padding-left: 0
 
       > ul
@@ -327,7 +327,7 @@
           font-weight: 500
           white-space: nowrap
 
-  @media (max-width: $tablet - 1)
+  @media (max-width: $desktop - 1)
     display: flex
     align-items: center
     justify-content: center
@@ -379,19 +379,19 @@
   display: none
 
 .divider
-  width: 45px
+  width: 1.6rem
   height: 1px
-  background: #000000
+  background: #E8EBF1
   transform: rotate(-90deg)
   margin-left: 5px
   margin-right: 5px
-  margin-top: 10px
+  margin-top: 0
 
 .language-switch
   position: relative
 
 .header-language-switch
-  @media (max-width: $tablet - 1)
+  @media (max-width: $desktop - 1)
     display: none
 
 .language-switch-container
@@ -400,7 +400,7 @@
   flex-direction: column
   padding-right: 8px
 
-  @media (min-width: $tablet - 1)
+  @media (min-width: $desktop - 1)
     display: none
 
 .menu-trigger
@@ -428,7 +428,7 @@
       outline-offset: 3px
 
 // Focus for mobile menu (background c-brand)
-@media (max-width: $tablet - 1)
+@media (max-width: $desktop - 1)
   .menu-header .menu-trigger
     &:focus
       outline: 3px solid #FFF

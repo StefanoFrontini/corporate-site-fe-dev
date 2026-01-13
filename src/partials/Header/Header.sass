@@ -10,6 +10,9 @@
   z-index: 100
   padding-top: 1.8rem
 
+  &.header--scrolled
+    border-bottom: 2px solid #E8EBF1
+
   &__top
     display: flex
     justify-content: space-between
@@ -17,6 +20,9 @@
 
   @media (max-width: $desktop - 1)
     height: $header-height-mobile
+
+    &.header--scrolled
+      border-bottom: none
 
     .socials
       display: none
@@ -30,8 +36,3 @@
   @media (max-width: $mobile-xs)
     padding-left: $section-gutter-mobile
     padding-right: $section-gutter-mobile
-
-@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none))
-  .header
-    background-color: rgba(#FFF, .75)
-    backdrop-filter: blur(1rem)

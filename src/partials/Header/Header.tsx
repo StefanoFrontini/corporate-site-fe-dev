@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Menu } from '../../components/Menu';
 import { Hamburger } from '../Hamburger';
 import { Logo } from '../Logo';
@@ -16,7 +16,26 @@ export const Header = ({
   mainMenu: Queries.MainNavigationItemFragment[];
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [scrolled, setScrolled] = useState<boolean>(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 0;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
+
   const handleMobileMenu = () => setMobileMenuOpen(prev => !prev);
   const { language, navigate } = useI18next();
 
@@ -48,7 +67,11 @@ export const Header = ({
   return (
     <header
       onKeyDown={handleKeyDown}
-      className={classNames('header', mobileMenuOpen && 'menu-is-open')}
+      className={classNames(
+        'header',
+        mobileMenuOpen && 'menu-is-open',
+        scrolled && 'header--scrolled'
+      )}
     >
       <div className="header__top">
         <div className="container-fluid">
@@ -61,7 +84,7 @@ export const Header = ({
                 version="default"
               />
             </div>
-            <div className="col-auto d-block d-lg-none">
+            <div className="col-auto d-block d-xl-none">
               <Hamburger
                 ref={hamburgerRef}
                 handler={handleMobileMenu}
@@ -69,7 +92,7 @@ export const Header = ({
               />
             </div>
 
-            <div className="col-auto d-none d-lg-block">
+            <div className="col-auto d-none d-xl-block">
               <Menu reserved={reservedMenu} />
             </div>
           </div>
@@ -82,7 +105,7 @@ export const Header = ({
             <div className="col-auto">
               <Menu main={mainMenu} reserved={reservedMenu} />
             </div>
-            <div className={'col-auto d-lg-flex align-items-center'}>
+            <div className={'col-auto d-xl-flex align-items-center'}>
               <div>
                 <Socials header />
               </div>

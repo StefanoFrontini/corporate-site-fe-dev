@@ -13,18 +13,20 @@
       border-radius: 4px
       transition: outline 0.2s ease
 
-
     svg
+      width: 1.6rem
+      height: 1.6rem
       max-width: 1.6rem
+      max-height: 1.6rem
+      display: block
+      fill: currentColor
 
     &:not(:first-child)
       margin-left: 2rem
 
-    svg
-      display: block
-
   &.in-header
     li
       svg
+        fill: $c-black
         path
           fill: $c-black
