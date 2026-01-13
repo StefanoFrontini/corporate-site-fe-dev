@@ -73,40 +73,23 @@ export const Header = ({
         scrolled && 'header--scrolled'
       )}
     >
-      <div className="header__top">
-        <div className="container-fluid">
-          <div className="row align-items-center justify-content-between">
-            <div className="col-auto">
-              <Logo
-                title="PagoPA"
-                menuOpen={mobileMenuOpen}
-                onClick={handleLogoClick}
-                version="default"
-              />
-            </div>
-            <div className="col-auto d-block d-xl-none">
-              <Hamburger
-                ref={hamburgerRef}
-                handler={handleMobileMenu}
-                isOpen={mobileMenuOpen}
-              />
-            </div>
-
-            <div className="col-auto d-none d-xl-block">
+      <div className="header__single">
+        <div className="header__left">
+          <Logo
+            title="PagoPA"
+            menuOpen={mobileMenuOpen}
+            onClick={handleLogoClick}
+            version="default"
+          />
+          <div className="header__main-menu d-none d-xl-block">
+            <Menu main={mainMenu} />
+          </div>
+          <div className="header__right d-none d-xl-flex">
+            <div className="header__right-top">
               <Menu reserved={reservedMenu} />
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="header__bottom">
-        <div className="container-fluid">
-          <div className="row justify-content-between">
-            <div className="col-auto">
-              <Menu main={mainMenu} reserved={reservedMenu} />
-            </div>
-            <div className={'col-auto d-xl-flex align-items-center'}>
-              <div>
+            <div className="header__right-bottom">
+              <div className="header__socials">
                 <Socials header />
               </div>
               <div className="divider" />
@@ -116,6 +99,19 @@ export const Header = ({
             </div>
           </div>
         </div>
+
+        <div className="header__mobile d-block d-xl-none">
+          <Hamburger
+            ref={hamburgerRef}
+            handler={handleMobileMenu}
+            isOpen={mobileMenuOpen}
+          />
+        </div>
+      </div>
+
+      {/* Menu mobile - shown when hamburger is clicked */}
+      <div className="header__mobile-menu d-xl-none">
+        <Menu main={mainMenu} reserved={reservedMenu} />
       </div>
     </header>
   );

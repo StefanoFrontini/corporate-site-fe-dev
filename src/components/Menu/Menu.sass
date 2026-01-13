@@ -328,9 +328,10 @@
           white-space: nowrap
 
   @media (max-width: $desktop - 1)
+    color: $c-brand
     display: flex
     align-items: center
-    justify-content: center
+    justify-content: flex-end
     &.highlight
       padding-right: 5.4rem
       font-family: $f-primary
@@ -379,13 +380,10 @@
   display: none
 
 .divider
-  width: 1.6rem
-  height: 1px
-  background: #E8EBF1
-  transform: rotate(-90deg)
-  margin-left: 5px
-  margin-right: 5px
-  margin-top: 0
+  width: 1px
+  height: 1.6rem
+  background-color: #E8EBF1
+  margin: 0 0.5rem
 
 .language-switch
   position: relative
