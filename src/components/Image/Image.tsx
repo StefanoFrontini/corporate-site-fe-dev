@@ -34,7 +34,7 @@ export const Image = ({
           image={
             getImage(data.localFile as IGatsbyImageParent) as IGatsbyImageData
           }
-          alt={data.alternativeText || 'featuredImage'}
+          alt={data.alternativeText || ''}
         />
         {caption && (
           <figcaption>

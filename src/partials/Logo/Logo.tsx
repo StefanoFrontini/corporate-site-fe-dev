@@ -22,7 +22,7 @@ export const Logo = ({ title, version, menuOpen, onClick }: LogoProps) => {
       {onClick ? (
         <button
           className="logo"
-          aria-label={`${t('backToHomepage')} ${title}`}
+          aria-label={t('backToHomepage')}
           onClick={onClick}
         >
           <img src={logoSrc} alt={title} />
