@@ -85,9 +85,11 @@ export const Header = ({
             <Menu main={mainMenu} />
           </div>
           <div className="header__right d-none d-xl-flex">
-            <div className="header__right-top">
-              <Menu reserved={reservedMenu} />
-            </div>
+            {language === 'it' && (
+              <div className="header__right-top">
+                <Menu reserved={reservedMenu} />
+              </div>
+            )}
             <div className="header__right-bottom">
               <div className="header__socials">
                 <Socials header />
@@ -109,7 +111,6 @@ export const Header = ({
         </div>
       </div>
 
-      {/* Menu mobile - shown when hamburger is clicked */}
       <div className="header__mobile-menu d-xl-none">
         <Menu main={mainMenu} reserved={reservedMenu} />
       </div>

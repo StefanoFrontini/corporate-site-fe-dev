@@ -28,5 +28,16 @@
   "playVideo": "Play video",
   "pauseVideo": "Pause video",
   "resumeVideo": "Resume video",
-  "productsAndServices": "products-and-services"
+  "productsAndServices": "products-and-services",
+  "pagination": {
+    "nextAriaLabel": "Next page",
+    "previousAriaLabel": "Previous page",
+    "ariaLabelBuilder": "Page {{page}}",
+    "breakAriaLabels": {
+      "forward": "Jump forward",
+      "backward": "Jump backward"
+    },
+    "nextLabel": "Next",
+    "previousLabel": "Previous"
+  }
 }

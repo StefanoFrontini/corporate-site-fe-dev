@@ -1,6 +1,8 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 
+import { useTranslation } from 'gatsby-plugin-react-i18next';
+
 import './Pagination.sass';
 
 export const Pagination = <T,>({
@@ -23,6 +25,8 @@ export const Pagination = <T,>({
   const [currentItems, setCurrentItems] = useState<T[] | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
   const [itemOffset, setItemOffset] = useState<number>(0);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -47,12 +51,19 @@ export const Pagination = <T,>({
       </div>
       {navHidden || (
         <ReactPaginate
-          nextLabel="Avanti"
+          nextAriaLabel={t('pagination.nextAriaLabel')}
+          previousAriaLabel={t('pagination.previousAriaLabel')}
+          ariaLabelBuilder={i => t('pagination.ariaLabelBuilder', { page: i })}
+          breakAriaLabels={{
+            forward: t('pagination.breakAriaLabels.forward'),
+            backward: t('pagination.breakAriaLabels.backward'),
+          }}
+          nextLabel={t('pagination.nextLabel')}
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           marginPagesDisplayed={2}
           pageCount={pageCount}
-          previousLabel="Precedente"
+          previousLabel={t('pagination.previousLabel')}
           pageClassName="pagination__page"
           pageLinkClassName="page-link"
           previousClassName=""
