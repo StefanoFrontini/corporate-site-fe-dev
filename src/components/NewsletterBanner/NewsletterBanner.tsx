@@ -239,7 +239,13 @@ export const NewsletterBanner = () => {
                 </fieldset>
               </div>
               <div className="col-12 col-md-6 col-lg-5">
+                <label htmlFor="email">
+                  <p className="alternative small">
+                    <em>Indirizzo e-mail</em>
+                  </p>
+                </label>
                 <input
+                  id="email"
                   type="email"
                   autoComplete="email"
                   placeholder="Inserisci la tua email"
