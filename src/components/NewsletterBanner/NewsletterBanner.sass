@@ -1,3 +1,6 @@
+div:has(> .newsletter-banner__email-label)
+  position: relative
+
 .newsletter-banner-anchor
   position: relative
   display: block
@@ -57,6 +60,15 @@
     border: none
     padding: 0
     margin: 0
+
+  &__email-label
+    position: absolute
+    top: -2rem
+    color: #FFF
+    font-size: 1.2rem
+    line-height: 1.5
+    font-weight: 500
+
 
   &__legend
     position: absolute

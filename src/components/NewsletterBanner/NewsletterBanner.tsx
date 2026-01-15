@@ -3,6 +3,8 @@ import Reaptcha from 'reaptcha';
 
 import './NewsletterBanner.sass';
 
+import { useTranslation, Trans } from 'gatsby-plugin-react-i18next';
+
 const endpoint =
   'https://api.io.italia.it/api/payportal/v1/newsletters/io/lists/6/recipients';
 
@@ -14,27 +16,27 @@ type NewsletterGroup = {
 
 const initialNewsletterGroups: NewsletterGroup[] = [
   {
-    label: 'Cittadini',
+    label: 'citizens',
     value: 47,
     checked: true,
   },
   {
-    label: 'Pubbliche Amministrazioni',
+    label: 'publicAdministrations',
     value: 48,
     checked: false,
   },
   {
-    label: 'Aziende e Professionisti',
+    label: 'businesses',
     value: 49,
     checked: false,
   },
   {
-    label: 'Università e Centri di Ricerca',
+    label: 'universities',
     value: 50,
     checked: false,
   },
   {
-    label: 'Giornalisti',
+    label: 'journalists',
     value: 51,
     checked: false,
   },
@@ -48,6 +50,8 @@ type CheckboxProps = {
 };
 
 const Checkbox = ({ label, value, checked, onChange }: CheckboxProps) => {
+  const { t } = useTranslation();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(value, e.target.checked);
   };
@@ -71,7 +75,7 @@ const Checkbox = ({ label, value, checked, onChange }: CheckboxProps) => {
         tabIndex={-1}
       />
       <label htmlFor={`cb-inp-${value}`} tabIndex={0} onKeyDown={handleKeyDown}>
-        {label}
+        {t(`newsletter.groups.${label}`)}
       </label>
     </div>
   );
@@ -92,6 +96,8 @@ export const NewsletterBanner = () => {
   >('idle');
 
   const reaptchaRef = useRef<Reaptcha>(null);
+
+  const { t } = useTranslation();
 
   const handleCheckboxChange = (value: number, checked: boolean) => {
     const newGroups = groups.map(group =>
@@ -122,15 +128,11 @@ export const NewsletterBanner = () => {
 
     if (!isValid) {
       if (!emailValid && !atLeastOneChecked) {
-        setValidationError(
-          'Inserisci un indirizzo email valido e seleziona almeno un gruppo'
-        );
+        setValidationError(t('newsletter.validationErrors.bothRequired'));
       } else if (!emailValid) {
-        setValidationError(
-          'Inserisci un indirizzo email valido, ad esempio nome@dominio.it'
-        );
+        setValidationError(t('newsletter.validationErrors.emailRequired'));
       } else if (!atLeastOneChecked) {
-        setValidationError('Seleziona almeno un gruppo');
+        setValidationError(t('newsletter.validationErrors.groupsRequired'));
       }
     } else {
       setValidationError(null);
@@ -191,21 +193,17 @@ export const NewsletterBanner = () => {
           <div className="row">
             <div className="col-12 col-lg-10 offset-lg-1">
               <h3>
-                Vuoi ricevere la
-                <br />
-                nostra Newsletter?
+                <Trans i18nKey="newsletter.title" components={{ 1: <br /> }} />
               </h3>
             </div>
           </div>
           <div className="row">
             <div className="col-12 col-lg-10 offset-lg-1">
               <p className="alternative small">
-                <em>
-                  * campo obbligatorio, con possibilità di risposta multipla
-                </em>
+                <em>{t('newsletter.requiredField')}</em>
               </p>
               <p className="mb-3" aria-hidden="true">
-                Segui le notizie per:
+                {t('newsletter.followNews')}
               </p>
             </div>
           </div>
@@ -215,7 +213,7 @@ export const NewsletterBanner = () => {
               <div className="col-12 col-md-6 col-lg-5 offset-lg-1">
                 <fieldset className="newsletter-banner__fieldset">
                   <legend className="newsletter-banner__legend">
-                    Segui le notizie per:
+                    {t('newsletter.followNews')}
                   </legend>
                   <ul
                     className="newsletter-banner__options"
@@ -239,16 +237,17 @@ export const NewsletterBanner = () => {
                 </fieldset>
               </div>
               <div className="col-12 col-md-6 col-lg-5">
-                <label htmlFor="email">
-                  <p className="alternative small">
-                    <em>Indirizzo e-mail</em>
-                  </p>
+                <label
+                  htmlFor="email"
+                  className="newsletter-banner__email-label"
+                >
+                  {t('newsletter.emailLabel')}
                 </label>
                 <input
                   id="email"
                   type="email"
                   autoComplete="email"
-                  placeholder="Inserisci la tua email"
+                  placeholder={t('newsletter.emailPlaceholder')}
                   className="input newsletter-email"
                   required
                   value={email}
@@ -272,7 +271,7 @@ export const NewsletterBanner = () => {
                       : undefined
                   }
                 >
-                  <span>Iscriviti</span>
+                  <span>{t('newsletter.subscribeButton')}</span>
                   <span className="loader">
                     <span></span>
                     <span></span>
@@ -297,10 +296,7 @@ export const NewsletterBanner = () => {
                       aria-live="polite"
                       aria-atomic="true"
                     >
-                      <span>
-                        Richiesta inviata correttamente! A breve riceverai una
-                        email per confermare la tua iscrizione.
-                      </span>
+                      <span>{t('newsletter.successMessage')}</span>
                     </div>
                   )}
                   {validationError && (
@@ -321,10 +317,7 @@ export const NewsletterBanner = () => {
                       aria-live="assertive"
                       aria-atomic="true"
                     >
-                      <span>
-                        Si è verificato un problema, si prega di riprovare più
-                        tardi.
-                      </span>
+                      <span>{t('newsletter.errorMessage')}</span>
                     </div>
                   )}
                 </div>
@@ -332,36 +325,41 @@ export const NewsletterBanner = () => {
                 <div className="mt-5 mt-md-4">
                   <p className="alternative small">
                     <em>
-                      Inserendo il tuo indirizzo email stai accettando la{' '}
-                      <a
-                        href={'/it/privacy-policy/'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        nostra informativa sul trattamento dei dati personali
-                      </a>{' '}
-                      per la newsletter.
+                      <Trans
+                        i18nKey="newsletter.privacyNotice"
+                        components={{
+                          1: (
+                            <a
+                              href="/it/privacy-policy/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            />
+                          ),
+                        }}
+                      />
                     </em>
                   </p>
                   <p className="alternative small">
                     <em>
-                      Form protetto tramite reCAPTCHA e{' '}
-                      <a
-                        href="https://policies.google.com/privacy"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Google Privacy Policy
-                      </a>{' '}
-                      e{' '}
-                      <a
-                        href="https://policies.google.com/terms"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Termini di servizio
-                      </a>{' '}
-                      applicati.
+                      <Trans
+                        i18nKey="newsletter.recaptchaNotice"
+                        components={{
+                          1: (
+                            <a
+                              href="https://policies.google.com/privacy"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            />
+                          ),
+                          2: (
+                            <a
+                              href="https://policies.google.com/terms"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            />
+                          ),
+                        }}
+                      />
                     </em>
                   </p>
                 </div>

@@ -39,5 +39,29 @@
     },
     "nextLabel": "Next",
     "previousLabel": "Previous"
+  },
+  "newsletter": {
+    "title": "Would you like to receive<1/>our Newsletter?",
+    "requiredField": "*Required field, multiple selections allowed",
+    "followNews": "Follow news for:",
+    "groups": {
+      "citizens": "Citizens",
+      "publicAdministrations": "Public Administrations",
+      "businesses": "Businesses and Professionals",
+      "universities": "Universities and Research Centers",
+      "journalists": "Journalists"
+    },
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email address",
+    "subscribeButton": "Subscribe",
+    "privacyNotice": "By entering your mail address, you agree to our <1>personal data processing notice</1> for the newsletter.",
+    "recaptchaNotice": "This form is protected by reCAPTCHA and the <1>Google Privacy Policy</1> and <2>Terms of Service</2> apply.",
+    "successMessage": "Request sent successfully. You will shortly receive an email to confirm your subscription.",
+    "errorMessage": "Unable to send the request. Please try again later.",
+    "validationErrors": {
+      "emailRequired": "Enter a valid email address (e.g. name@domain.com).",
+      "groupsRequired": "Select at least one group.",
+      "bothRequired": "Enter a valid email address and select at least one group."
+    }
   }
 }
