@@ -273,6 +273,12 @@
           margin-top: 1rem
 
         &.alternative
+          background-color: $c-brand-extralight
+          color: $c-brand
+          font-weight: 500
+          margin-bottom: 0
+          padding-right: 1rem
+
           a:focus
             outline: 3px solid $c-brand
             outline-offset: 3px
@@ -309,7 +315,7 @@
           transform: rotate(-180deg)
 
         > ul
-          max-height: 55rem
+          max-height: 75rem
           margin-bottom: 2rem
           opacity: 1
           visibility: visible
@@ -435,3 +441,12 @@
 .w-sub
   .menu-trigger
     position: relative
+
+// External link icon with brand color for light backgrounds (desktop only)
+.alternative .external-link::after
+  background-image: url(../../images/ui/external-link-brand.svg)
+
+// In mobile, reserved navigation has white background, so use brand color icon
+@media (max-width: $desktop - 1)
+  .menu-reserved .external-link::after
+    background-image: url(../../images/ui/external-link-brand.svg)

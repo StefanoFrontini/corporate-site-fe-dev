@@ -45,3 +45,34 @@ a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])
 
 html
   scroll-behavior: smooth
+
+
+.external-link
+  display: flex !important
+  align-items: center
+  justify-content: space-between
+
+  &:hover
+    &::after
+      transform: translateX(.3rem)
+
+
+  &::after
+    content: ''
+    width: 24px
+    height: 24px
+    min-width: 24px
+    background-image: url(../images/ui/external-link.svg)
+    background-size: contain
+    background-repeat: no-repeat
+    transition: all $transition-fast
+
+
+  @media (max-width: $desktop - 1)
+    justify-content: flex-end
+    gap: 1.2rem
+
+    &::after
+      width: 18px
+      height: 18px
+      min-width: 18px

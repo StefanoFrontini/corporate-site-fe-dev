@@ -42,18 +42,26 @@ export const MenuItem = ({
     onKeyDown: handleSubmenuItemKeyDown,
   };
 
+  const screenReaderOpenText = (
+    <span className="sr-only">link esterno - apre in una nuova scheda</span>
+  );
+
   if (disabled) {
     return <span {...commonProps}>{title}</span>;
   } else if (external) {
     return (
-      <a
-        {...commonProps}
-        href={path || '#'}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {title}
-      </a>
+      <>
+        <a
+          {...commonProps}
+          className="external-link"
+          href={path || '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {title}
+        </a>
+        {screenReaderOpenText}
+      </>
     );
   } else if (type == 'INTERNAL') {
     return (
