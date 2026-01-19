@@ -21,6 +21,9 @@ export const LogoLinks = ({
               <div className="row align-items-center">
                 {logoLinks.map((logo, key) => {
                   const { attachment, link } = logo || {};
+                  const isNextGenerationEU = attachment.url.includes(
+                    'IT_Finanziato_dall_Unione_europea'
+                  );
 
                   return (
                     <div
@@ -37,6 +40,11 @@ export const LogoLinks = ({
                             href={link}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={
+                              isNextGenerationEU
+                                ? "Vai ai progetti PNRR finanziati dall'Unione Europea"
+                                : null
+                            }
                           >
                             <Image data={attachment as Queries.STRAPI__MEDIA} />
                           </a>
