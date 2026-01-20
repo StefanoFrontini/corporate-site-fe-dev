@@ -33,7 +33,17 @@ const PressReleaseItem = ({
     <article className="d-flex flex-column justify-content-between" key={id}>
       <div>
         <p className="h4">{theDate}</p>
-        {isPreview ? (
+        {slug ? (
+          <Cta
+            as={isPreview ? 'h4' : 'h3'}
+            href={isPreview ? `./comunicati-stampa/${slug}` : slug}
+            label={title || ''}
+            variant="link"
+            showArrow={false}
+            innerClassName={isPreview ? 'primary medium' : 'light'}
+            className="cta--block"
+          />
+        ) : isPreview ? (
           <h4 className="primary medium">{title}</h4>
         ) : (
           <h3 className="light">{title}</h3>
@@ -42,15 +52,6 @@ const PressReleaseItem = ({
           <p>{previewText(36, body?.data.body)}</p>
         </div>
       </div>
-
-      {slug && (
-        <div className="d-flex justify-content-start">
-          <Cta
-            href={isPreview ? `./comunicati-stampa/${slug}` : slug}
-            label="Leggi"
-          />
-        </div>
-      )}
     </article>
   );
 };

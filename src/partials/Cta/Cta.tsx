@@ -8,7 +8,10 @@ type CtaProps = {
   blank?: boolean;
   variant?: string;
   className?: string;
+  innerClassName?: string;
   href?: string;
+  as?: React.ElementType;
+  showArrow?: boolean;
 };
 
 export const Cta = ({
@@ -16,15 +19,21 @@ export const Cta = ({
   blank = false,
   variant,
   className,
+  innerClassName,
   href = '#',
+  as: Component = 'span',
+  showArrow,
 }: CtaProps) => {
   const isPdf = href?.includes('.pdf');
   const isExternal = href && href.startsWith('http');
+
+  const shouldShowArrow = showArrow ?? variant === 'link';
 
   const commonClasses = classNames(
     'cta',
     variant && `cta--${variant}`,
     isExternal && 'external-link',
+    !shouldShowArrow && 'cta--no-arrow',
     className
   );
 
@@ -36,6 +45,9 @@ export const Cta = ({
       Documento PDF - link esterno - apre in una nuova scheda
     </span>
   );
+  const screenReaderInternalText = (
+    <span className="sr-only">Link, {label}</span>
+  );
 
   return (
     <>
@@ -46,13 +58,13 @@ export const Cta = ({
           href={href}
           className={commonClasses}
         >
-          <span>{label}</span>
+          <Component className={innerClassName}>{label}</Component>
           {isPdf ? screenReaderPDFText : screenReaderOpenText}
         </a>
       ) : (
         <Link to={href} className={commonClasses}>
-          <span>{label}</span>
-          {isPdf ? screenReaderPDFText : screenReaderOpenText}
+          <Component className={innerClassName}>{label}</Component>
+          {screenReaderInternalText}
         </Link>
       )}
     </>

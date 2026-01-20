@@ -68,14 +68,21 @@ export const Article = ({
             </h4>
           )}
         </div>
-        <h4 className="primary medium">{title}</h4>
+        {slug ? (
+          <Cta
+            as="h4"
+            href={isPreview ? `./news-ed-eventi/${slug}` : slug}
+            label={title || ''}
+            variant="link"
+            showArrow={false}
+            innerClassName="primary medium"
+            className="cta--block"
+          />
+        ) : (
+          <h4 className="primary medium">{title}</h4>
+        )}
         {previewText(14, body?.data?.body)}
       </div>
-
-      <Cta
-        href={isPreview ? `./news-ed-eventi/${slug}` : slug}
-        label={t('discover')}
-      />
     </article>
   );
 };

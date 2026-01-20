@@ -20,7 +20,7 @@
   &.cta--link.external-link::after
     background-image: url(../../images/ui/external-link-brand.svg)
 
-  > span
+  > span:not(.sr-only)
     position: relative
     color: inherit
     text-transform: uppercase
@@ -44,7 +44,7 @@
     transition-delay: 0s
     border-color: $c-brand
 
-    > span
+    > span:not(.sr-only)
       transition-delay: 0s
       color: #fff
 
@@ -52,13 +52,9 @@
       transition-delay: 0s
       transform: translate3d(-1%, -49%, 0)
 
-    &::after
+    &.external-link::after
       background-image: url(../../images/ui/external-link.svg)
       z-index: 1
-
-    &.cta--link:hover
-      &::after
-        background-image: url(../../images/ui/external-link-brand.svg)
 
   &.is-loading
     background-color: $c-brand-dark !important
@@ -75,6 +71,8 @@
     cursor: default
     opacity: .5
 
+  > h1, > h2, > h3, > h4, > h5, > h6
+    font-family: $f-primary
 
   &--white
     background-color: #FFF
@@ -96,7 +94,7 @@
       background-color: #FFF
 
     &:not(.is-loading):not(:disabled):hover
-      > span
+      > span:not(.sr-only)
         color: $c-brand
 
   &--black-hollow
@@ -106,7 +104,7 @@
 
     &:not(.is-loading):not(:disabled):hover
       border-color: #FFF
-      > span
+      > span:not(.sr-only)
         color: $c-black
 
   &--black
@@ -116,7 +114,7 @@
 
     &:not(.is-loading):not(:disabled):hover
       border-color: $c-black
-      > span
+      > span:not(.sr-only)
         color: #FFF
 
   &--link-simple
@@ -136,16 +134,16 @@
       text-transform: none !important
       font-size: 1.4rem !important
 
-      > span
+      > span:not(.sr-only)
         color: $c-brand !important
         text-transform: none !important
 
-    > span
+    > span:not(.sr-only)
       color: $c-brand
       text-transform: none
 
     &:not(.is-loading):not(:disabled):hover
-      > span
+      > span:not(.sr-only)
         color: $c-brand-dark
 
     &::before
@@ -160,7 +158,7 @@
     min-width: 0
     overflow: visible
 
-    > span
+    > span:not(.sr-only)
       color: $c-brand
 
     &::before
@@ -186,12 +184,18 @@
         background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="20"%3E%3Cpath fill="%2300818D" fill-rule="nonzero" d="M9.018 0c.2 0 .393.065.552.185l.09.079L15.716 6.2a.953.953 0 01.277.556l.008.127v10.288c0 1.505-1.147 2.737-2.596 2.823l-.162.005H2.758c-1.47 0-2.67-1.179-2.753-2.662L0 17.172V2.828C0 1.323 1.147.09 2.596.005L2.758 0h6.26zm-.929 1.892l-5.331.001c-.461 0-.844.36-.896.825l-.006.11v14.344c0 .481.35.875.797.929l.105.006h10.484c.461 0 .844-.36.896-.825l.006-.11V7.831H9.933c-.973 0-1.768-.772-1.838-1.747l-.005-.14V1.892zM9.945 3.17v2.768h2.824L9.945 3.17z"/%3E%3C/svg%3E')
 
     &:not(.is-loading):not(:disabled):hover
-      > span
+      > span:not(.sr-only)
         color: $c-brand-dark
 
       &::after
         transform: translateX(.4rem)
 
+  &.cta--no-arrow:not(.external-link)::after
+    content: none !important
+    display: none !important
+
+  &.cta--block
+    display: block
 
 .cta.external-link
   display: inline-flex !important
