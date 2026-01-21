@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import classNames from 'classnames';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 import './Cta.sass';
 type CtaProps = {
@@ -24,6 +25,7 @@ export const Cta = ({
   as: Component = 'span',
   showArrow,
 }: CtaProps) => {
+  const { t } = useTranslation();
   const isPdf = href?.includes('.pdf');
   const isExternal = href && href.startsWith('http');
 
@@ -38,15 +40,13 @@ export const Cta = ({
   );
 
   const screenReaderOpenText = (
-    <span className="sr-only">link esterno - apre in una nuova scheda</span>
+    <span className="sr-only">{t('cta.screenReaderExternal')}</span>
   );
   const screenReaderPDFText = (
-    <span className="sr-only">
-      Documento PDF - link esterno - apre in una nuova scheda
-    </span>
+    <span className="sr-only">{t('cta.screenReaderPDF')}</span>
   );
   const screenReaderInternalText = (
-    <span className="sr-only">Link, {label}</span>
+    <span className="sr-only">{t('cta.screenReaderInternal', { label })}</span>
   );
 
   return (

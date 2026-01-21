@@ -4,10 +4,13 @@ import { Image } from '../../Image';
 
 import './LogoLinks.sass';
 
+import { useTranslation } from 'gatsby-plugin-react-i18next';
+
 export const LogoLinks = ({
   title,
   logoLinks,
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_LOGO_LINKS_Fragment): ReactElement => {
+  const { t } = useTranslation();
   return (
     <section
       className={`block --block-logo-links logo-links${!title ? ' pt-0' : ''}`}
@@ -42,7 +45,7 @@ export const LogoLinks = ({
                             rel="noopener noreferrer"
                             aria-label={
                               isNextGenerationEU
-                                ? "Vai ai progetti PNRR finanziati dall'Unione Europea"
+                                ? t('logoLinks.nextGenerationEUAriaLabel')
                                 : null
                             }
                           >

@@ -29,6 +29,14 @@
   "pauseVideo": "Pause video",
   "resumeVideo": "Resume video",
   "productsAndServices": "products-and-services",
+  "logoLinks": {
+    "nextGenerationEUAriaLabel": "Go to PNRR projects funded by the European Union"
+  },
+  "cta": {
+    "screenReaderExternal": "external link - opens in a new tab",
+    "screenReaderPDF": "PDF document - external link - opens in a new tab",
+    "screenReaderInternal": "Link, {{label}}"
+  },
   "pagination": {
     "nextAriaLabel": "Next page",
     "previousAriaLabel": "Previous page",
