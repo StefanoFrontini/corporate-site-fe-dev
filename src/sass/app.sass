@@ -160,6 +160,11 @@ $grid-gutter-width: 3.2rem
     margin-bottom: 0
 
 .block
+  &.block-useful-links
+    .cta.cta--link.external-link:hover
+      &::after
+        background-image: url(../images/ui/external-link-brand.svg)
+
   scroll-margin-top: 15rem
   position: relative
   display: block
