@@ -18,9 +18,9 @@
     "paginationBulletMessage": "Go to slide {{index}}"
   },
   "navigationMain": "Main navigation",
-  "navigationReserved": "Reserved navigation",
-  "navigationFooterTop": "Useful links",
-  "navigationFooterBottom": "Legal links",
+  "navigationReserved": "Secondary navigation",
+  "navigationFooterTop": "Footer navigation",
+  "navigationFooterBottom": "Footer navigation",
   "cookiePreferences": "Cookie preferences",
   "discover": "Discover",
   "backToHomepage": "Back to homepage",

@@ -18,9 +18,9 @@
     "paginationBulletMessage": "Vai alla slide {{index}}"
   },
   "navigationMain": "Navigazione principale",
-  "navigationReserved": "Navigazione riservata",
-  "navigationFooterTop": "Link utili",
-  "navigationFooterBottom": "Link legali",
+  "navigationReserved": "Navigazione secondaria",
+  "navigationFooterTop": "Navigazione footer",
+  "navigationFooterBottom": "Navigazione footer",
   "cookiePreferences": "Preferenze cookie",
   "discover": "Scopri",
   "backToHomepage": "Vai alla home page",
