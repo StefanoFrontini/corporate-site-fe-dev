@@ -33,9 +33,18 @@
     "nextGenerationEUAriaLabel": "Go to PNRR projects funded by the European Union"
   },
   "cta": {
-    "screenReaderExternal": "external link - opens in a new tab",
+    "screenReaderExternal": "external link, opens in a new tab, {{label}}",
+    "screenReaderInternal": "link, {{label}}",
+    "screenReaderExternalWithTitle": "external link, opens in a new tab, {{label}} on {{title}}",
+    "screenReaderInternalWithTitle": "link, {{label}} on {{title}}",
+    "screenReaderExternalSpecial": "external link, opens in a new tab, {{label}} on 'European Digital Identity Wallet'",
+    "screenReaderInternalSpecial": "link, {{label}} on European Digital Identity Wallet",
     "screenReaderPDF": "PDF document - external link - opens in a new tab",
-    "screenReaderInternal": "Link, {{label}}"
+    "discoverMoreLabel": "Discover more",
+    "projectVisionTitle": "Project vision"
+  },
+  "menuItem": {
+    "screenReaderExternal": "external link - opens in a new tab, {{title}}"
   },
   "pagination": {
     "nextAriaLabel": "Next page",

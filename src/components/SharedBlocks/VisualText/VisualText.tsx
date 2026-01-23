@@ -12,6 +12,167 @@ import './VisualText.sass';
 
 type VisualSize = 'Small' | 'Half' | 'Big' | 'Full';
 
+type VisualBodyProps = {
+  body: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['body'];
+  reveal: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['reveal'];
+  elementRef: React.MutableRefObject<null>;
+};
+
+const VisualBody = ({ body, reveal, elementRef }: VisualBodyProps) =>
+  reveal ? (
+    <div className="col-12 col-md-10 offset-md-1">
+      <Body
+        forwardRef={elementRef}
+        className={classNames(reveal && 'reveal-mode')}
+        data={body}
+      />
+    </div>
+  ) : (
+    <Body forwardRef={elementRef} data={body} />
+  );
+
+type VisualCtasProps = {
+  ctaText: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['ctaText'];
+  link: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['link'];
+  title?: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['title'];
+};
+
+const VisualCtas = ({ ctaText, link, title }: VisualCtasProps) => (
+  <Cta label={ctaText} href={link} title={title} />
+);
+
+type VisualTitleProps = {
+  title: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['title'];
+  visualSize: VisualSize;
+};
+
+const VisualTitle = ({ title, visualSize }: VisualTitleProps) => {
+  const { pathname } = useLocation();
+
+  const isHomepage =
+    pathname === '/' || pathname === '/it/' || pathname === '/en/homepage/';
+
+  const renderHeading = isHomepage ? (
+    <h4 className="h1 primary">{title}</h4>
+  ) : (
+    <h2 className="h1">{title}</h2>
+  );
+
+  return visualSize === 'Small' ? <h4>{title}</h4> : renderHeading;
+};
+
+type VisualMediaProps = {
+  eyelet: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['eyelet'];
+  title: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['title'];
+  body: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['body'];
+  image: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['image'];
+  caption: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['caption'];
+  youtubeVideo: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['youtubeVideo'];
+  link: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['link'];
+  ctaText: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['ctaText'];
+  visualSize: VisualSize;
+  columns: Record<
+    VisualSize,
+    { visual: string; content: string; textOnly: string }
+  >;
+  fullWidthLayout: boolean;
+  elementRef: React.MutableRefObject<null>;
+  reveal: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['reveal'];
+};
+
+const VisualMedia = ({
+  eyelet,
+  title,
+  body,
+  image,
+  caption,
+  youtubeVideo,
+  link,
+  ctaText,
+  visualSize,
+  columns,
+  fullWidthLayout,
+  elementRef,
+  reveal,
+}: VisualMediaProps) => (
+  <>
+    {fullWidthLayout && (
+      <div className="col-12 col-md-10 offset-md-1">
+        {eyelet && <h4>{eyelet}</h4>}
+        {title && <VisualTitle title={title} visualSize={visualSize} />}
+      </div>
+    )}
+    <div className={`col-12 ${columns[visualSize]?.visual}`}>
+      <div className="block__visual">
+        {youtubeVideo ? (
+          <Video
+            video={youtubeVideo}
+            image={(image as Queries.STRAPI__MEDIA) || null}
+          />
+        ) : (
+          image && (
+            <Image data={image as Queries.STRAPI__MEDIA} caption={caption} />
+          )
+        )}
+      </div>
+    </div>
+    <div className={`col-12 ${columns[visualSize].content}`}>
+      <div className="block__content">
+        {!fullWidthLayout && eyelet && <h4>{eyelet}</h4>}
+        {!fullWidthLayout && title && (
+          <VisualTitle title={title} visualSize={visualSize} />
+        )}
+        {body && (
+          <VisualBody body={body} reveal={reveal} elementRef={elementRef} />
+        )}
+        {link && ctaText && (
+          <VisualCtas ctaText={ctaText} link={link} title={title} />
+        )}
+      </div>
+    </div>
+  </>
+);
+
+type TextOnlyProps = {
+  eyelet: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['eyelet'];
+  title: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['title'];
+  body: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['body'];
+  link: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['link'];
+  ctaText: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['ctaText'];
+  visualSize: VisualSize;
+  columns: Record<
+    VisualSize,
+    { visual: string; content: string; textOnly: string }
+  >;
+  elementRef: React.MutableRefObject<null>;
+  reveal: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['reveal'];
+};
+
+const TextOnly = ({
+  eyelet,
+  title,
+  body,
+  link,
+  ctaText,
+  visualSize,
+  columns,
+  elementRef,
+  reveal,
+}: TextOnlyProps) => (
+  <>
+    <div className={`col-12 ${columns[visualSize].textOnly}`}>
+      {eyelet && <h3 className="h4">{eyelet}</h3>}
+      {title && <h2 className="h1">{title}</h2>}
+      {body && (
+        <VisualBody body={body} reveal={reveal} elementRef={elementRef} />
+      )}
+      {link && ctaText && (
+        <VisualCtas ctaText={ctaText} link={link} title={title} />
+      )}
+    </div>
+  </>
+);
+
 export const VisualText = ({
   eyelet,
   title,
@@ -65,80 +226,6 @@ export const VisualText = ({
 
   const { left, top, size } = backgroundAnimation || {};
 
-  const VisualBody = () =>
-    reveal ? (
-      <div className="col-12 col-md-10 offset-md-1">
-        <Body
-          forwardRef={elementRef}
-          className={classNames(reveal && 'reveal-mode')}
-          data={body}
-        />
-      </div>
-    ) : (
-      <Body forwardRef={elementRef} data={body} />
-    );
-
-  const VisualCtas = () => <Cta label={ctaText} href={link} />;
-
-  const VisualTitle = () => {
-    const { pathname } = useLocation();
-
-    const isHomepage =
-      pathname === '/' || pathname === '/it/' || pathname === '/en/homepage/';
-
-    const renderHeading = isHomepage ? (
-      <h4 className="h1 primary">{title}</h4>
-    ) : (
-      <h2 className="h1">{title}</h2>
-    );
-
-    return visualSize === 'Small' ? <h4>{title}</h4> : renderHeading;
-  };
-
-  const VisualMedia = () => (
-    <>
-      {fullWidthLayout && (
-        <div className="col-12 col-md-10 offset-md-1">
-          {eyelet && <h4>{eyelet}</h4>}
-          {title && <VisualTitle />}
-        </div>
-      )}
-      <div className={`col-12 ${columns[visualSize]?.visual}`}>
-        <div className="block__visual">
-          {youtubeVideo ? (
-            <Video
-              video={youtubeVideo}
-              image={(image as Queries.STRAPI__MEDIA) || null}
-            />
-          ) : (
-            image && (
-              <Image data={image as Queries.STRAPI__MEDIA} caption={caption} />
-            )
-          )}
-        </div>
-      </div>
-      <div className={`col-12 ${columns[visualSize].content}`}>
-        <div className="block__content">
-          {!fullWidthLayout && eyelet && <h4>{eyelet}</h4>}
-          {!fullWidthLayout && title && <VisualTitle />}
-          {body && <VisualBody />}
-          {link && ctaText && <VisualCtas />}
-        </div>
-      </div>
-    </>
-  );
-
-  const TextOnly = () => (
-    <>
-      <div className={`col-12 ${columns[visualSize].textOnly}`}>
-        {eyelet && <h3 className="h4">{eyelet}</h3>}
-        {title && <h2 className="h1">{title}</h2>}
-        {body && <VisualBody />}
-        {link && ctaText && <VisualCtas />}
-      </div>
-    </>
-  );
-
   return (
     <section
       className={classNames(
@@ -163,7 +250,35 @@ export const VisualText = ({
             reverseOrder && 'flex-row-reverse justify-content-end'
           )}
         >
-          {image || youtubeVideo ? <VisualMedia /> : <TextOnly />}
+          {image || youtubeVideo ? (
+            <VisualMedia
+              eyelet={eyelet}
+              title={title}
+              body={body}
+              image={image}
+              caption={caption}
+              youtubeVideo={youtubeVideo}
+              link={link}
+              ctaText={ctaText}
+              visualSize={visualSize}
+              columns={columns}
+              fullWidthLayout={fullWidthLayout}
+              elementRef={elementRef}
+              reveal={reveal}
+            />
+          ) : (
+            <TextOnly
+              eyelet={eyelet}
+              title={title}
+              body={body}
+              link={link}
+              ctaText={ctaText}
+              visualSize={visualSize}
+              columns={columns}
+              elementRef={elementRef}
+              reveal={reveal}
+            />
+          )}
         </div>
       </div>
     </section>

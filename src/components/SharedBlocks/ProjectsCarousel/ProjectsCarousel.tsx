@@ -107,6 +107,7 @@ export const ProjectsCarousel = ({
                           {carouselCtaLabel && (
                             <Cta
                               label={carouselCtaLabel}
+                              title={carouselTitle}
                               href={`/${language}/${t(
                                 'productsAndServices'
                               )}/${slug}`}

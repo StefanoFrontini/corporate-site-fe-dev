@@ -6,6 +6,7 @@ import { useTranslation } from 'gatsby-plugin-react-i18next';
 import './Cta.sass';
 type CtaProps = {
   label: string;
+  title?: string;
   blank?: boolean;
   variant?: string;
   className?: string;
@@ -17,6 +18,7 @@ type CtaProps = {
 
 export const Cta = ({
   label,
+  title,
   blank = false,
   variant,
   className,
@@ -39,14 +41,38 @@ export const Cta = ({
     className
   );
 
-  const screenReaderOpenText = (
-    <span className="sr-only">{t('cta.screenReaderExternal')}</span>
-  );
-  const screenReaderPDFText = (
-    <span className="sr-only">{t('cta.screenReaderPDF')}</span>
-  );
-  const screenReaderInternalText = (
-    <span className="sr-only">{t('cta.screenReaderInternal', { label })}</span>
+  function getScreenReaderKey() {
+    const discoverMoreLabel = t('cta.discoverMoreLabel');
+    const projectVisionTitle = t('cta.projectVisionTitle');
+    const isDiscoverMore = label === discoverMoreLabel;
+    const isProjectVision = title === projectVisionTitle;
+
+    if (isPdf) {
+      return 'cta.screenReaderPDF';
+    }
+
+    if (isExternal) {
+      if (isDiscoverMore) {
+        if (isProjectVision) {
+          return 'cta.screenReaderExternalSpecial';
+        }
+        return 'cta.screenReaderExternalWithTitle';
+      }
+      return 'cta.screenReaderExternal';
+    } else {
+      if (isDiscoverMore) {
+        if (isProjectVision) {
+          return 'cta.screenReaderInternalSpecial';
+        }
+        return 'cta.screenReaderInternalWithTitle';
+      }
+      return 'cta.screenReaderInternal';
+    }
+  }
+
+  const screenReaderKey = getScreenReaderKey();
+  const screenReaderText = (
+    <span className="sr-only">{t(screenReaderKey, { label, title })}</span>
   );
 
   return (
@@ -57,14 +83,15 @@ export const Cta = ({
           rel="noopener noreferrer"
           href={href}
           className={commonClasses}
+          title={title}
         >
           <Component className={innerClassName}>{label}</Component>
-          {isPdf ? screenReaderPDFText : screenReaderOpenText}
+          {screenReaderText}
         </a>
       ) : (
-        <Link to={href} className={commonClasses}>
+        <Link to={href} className={commonClasses} title={title}>
           <Component className={innerClassName}>{label}</Component>
-          {screenReaderInternalText}
+          {screenReaderText}
         </Link>
       )}
     </>

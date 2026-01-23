@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 import '../Menu.sass';
 
@@ -35,6 +36,7 @@ export const MenuItem = ({
   disabled?: boolean;
   'aria-current'?: 'page' | undefined;
 }) => {
+  const { t } = useTranslation();
   const { title, external, path, type } = item;
 
   const commonProps = {
@@ -43,7 +45,9 @@ export const MenuItem = ({
   };
 
   const screenReaderOpenText = (
-    <span className="sr-only">link esterno - apre in una nuova scheda</span>
+    <span className="sr-only">
+      {t('menuItem.screenReaderExternal', { title })}
+    </span>
   );
 
   if (disabled) {
