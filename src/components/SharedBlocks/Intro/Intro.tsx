@@ -57,6 +57,12 @@ export const Intro = ({
     title === 'Il nostro impegno per uno sviluppo sostenibile';
   const isProjects = eyelet === t('intro.projectsEyelet');
 
+  function renderEyelet() {
+    if (!eyelet) return null;
+    if (isProjects) return <h2 className="h4">{eyelet}</h2>;
+    return <h1 className="h4">{eyelet}</h1>;
+  }
+
   return (
     <section
       className={classNames('block block-intro intro', 'mb-0 nocontent')}
@@ -65,11 +71,7 @@ export const Intro = ({
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-9">
             <div className={title ? 'intro__heading' : 'intro'}>
-              {eyelet && isProjects ? (
-                <h2 className="h4">{eyelet}</h2>
-              ) : (
-                <h1 className="h4">{eyelet}</h1>
-              )}
+              {renderEyelet()}
               {introMenu && <IntroMenu menu={introMenu} />}
               {isSustainableDev ? (
                 <h1 className="h1">{title}</h1>
