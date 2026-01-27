@@ -64,7 +64,6 @@ const Video = ({
   };
 
   const handlePlayStart = () => {
-    console.log('handlePlayStart');
     handlePlay();
     setVideoPreview(false);
     setVideoActive(true);

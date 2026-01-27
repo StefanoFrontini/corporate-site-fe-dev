@@ -103,7 +103,7 @@ export const PressReleaseList = ({
       } d-flex row justify-content-center`}
     >
       <div className="col-8">
-        {title && <h1>{title}</h1>}
+        {title && <h2 className="h1">{title}</h2>}
         <Pagination
           className={`container-fluid row m-0 p-0 justify-content-center ${
             isPreview ? 'flex-row' : ''

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Cta } from '../../../partials/Cta';
 
 export type BlockConf = {
   BlockPosition: 'Left' | 'Right' | 'Center';
@@ -43,14 +44,7 @@ export const AttachmentGrid = ({
                   <div className="col-12 col-md-6 col-lg-4 d-flex" key={key}>
                     <article className="icon-box">
                       {attachment?.url && (
-                        <a
-                          href={attachment?.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="cta mt-0"
-                        >
-                          <span>{buttonLabel}</span>
-                        </a>
+                        <Cta label={buttonLabel} href={attachment?.url} />
                       )}
                     </article>
                   </div>

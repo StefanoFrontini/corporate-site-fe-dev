@@ -4,6 +4,7 @@ import { Image } from '../../Image';
 import { useLocation } from '@reach/router';
 import classNames from 'classnames';
 import { Body } from '../../Remark/Body';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 type IntroMenuProps = {
   menu: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment['introMenu'];
@@ -30,8 +31,9 @@ const IntroMenu = ({ menu }: IntroMenuProps) => {
                 {(linkLabel || title) && (
                   <Cta
                     label={linkLabel || title}
-                    href={isCurrent ? '#' : link}
+                    href={link}
                     variant="link-simple"
+                    as="h1"
                   />
                 )}
               </li>
@@ -50,6 +52,11 @@ export const Intro = ({
   introMenu,
   body,
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment) => {
+  const { t } = useTranslation();
+  const isSustainableDev =
+    title === 'Il nostro impegno per uno sviluppo sostenibile';
+  const isProjects = eyelet === t('intro.projectsEyelet');
+
   return (
     <section
       className={classNames('block block-intro intro', 'mb-0 nocontent')}
@@ -58,9 +65,17 @@ export const Intro = ({
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-9">
             <div className={title ? 'intro__heading' : 'intro'}>
-              <p className="h4">{eyelet}</p>
+              {eyelet && isProjects ? (
+                <h2 className="h4">{eyelet}</h2>
+              ) : (
+                <h1 className="h4">{eyelet}</h1>
+              )}
               {introMenu && <IntroMenu menu={introMenu} />}
-              <h1>{title}</h1>
+              {isSustainableDev ? (
+                <h1 className="h1">{title}</h1>
+              ) : (
+                <h2 className="h1">{title}</h2>
+              )}
             </div>
           </div>
         </div>

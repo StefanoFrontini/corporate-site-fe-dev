@@ -46,6 +46,9 @@
   "menuItem": {
     "screenReaderExternal": "link esterno - apre in una nuova scheda, {{title}}"
   },
+  "intro": {
+    "projectsEyelet": "I PROGETTI"
+  },
   "pagination": {
     "nextAriaLabel": "Pagina successiva",
     "previousAriaLabel": "Pagina precedente",

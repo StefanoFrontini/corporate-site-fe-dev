@@ -46,6 +46,9 @@
   "menuItem": {
     "screenReaderExternal": "external link - opens in a new tab, {{title}}"
   },
+  "intro": {
+    "projectsEyelet": "THE PROJECTS"
+  },
   "pagination": {
     "nextAriaLabel": "Next page",
     "previousAriaLabel": "Previous page",

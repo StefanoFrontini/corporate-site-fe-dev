@@ -53,7 +53,7 @@ const VisualTitle = ({ title, visualSize }: VisualTitleProps) => {
     pathname === '/' || pathname === '/it/' || pathname === '/en/homepage/';
 
   const renderHeading = isHomepage ? (
-    <h4 className="h1 primary">{title}</h4>
+    <h3 className="h1 primary">{title}</h3>
   ) : (
     <h2 className="h1">{title}</h2>
   );
@@ -94,44 +94,46 @@ const VisualMedia = ({
   fullWidthLayout,
   elementRef,
   reveal,
-}: VisualMediaProps) => (
-  <>
-    {fullWidthLayout && (
-      <div className="col-12 col-md-10 offset-md-1">
-        {eyelet && <h4>{eyelet}</h4>}
-        {title && <VisualTitle title={title} visualSize={visualSize} />}
+}: VisualMediaProps) => {
+  return (
+    <>
+      {fullWidthLayout && (
+        <div className="col-12 col-md-10 offset-md-1">
+          {eyelet && <h4>{eyelet}</h4>}
+          {title && <VisualTitle title={title} visualSize={visualSize} />}
+        </div>
+      )}
+      <div className={`col-12 ${columns[visualSize]?.visual}`}>
+        <div className="block__visual">
+          {youtubeVideo ? (
+            <Video
+              video={youtubeVideo}
+              image={(image as Queries.STRAPI__MEDIA) || null}
+            />
+          ) : (
+            image && (
+              <Image data={image as Queries.STRAPI__MEDIA} caption={caption} />
+            )
+          )}
+        </div>
       </div>
-    )}
-    <div className={`col-12 ${columns[visualSize]?.visual}`}>
-      <div className="block__visual">
-        {youtubeVideo ? (
-          <Video
-            video={youtubeVideo}
-            image={(image as Queries.STRAPI__MEDIA) || null}
-          />
-        ) : (
-          image && (
-            <Image data={image as Queries.STRAPI__MEDIA} caption={caption} />
-          )
-        )}
+      <div className={`col-12 ${columns[visualSize].content}`}>
+        <div className="block__content">
+          {!fullWidthLayout && eyelet && <h4>{eyelet}</h4>}
+          {!fullWidthLayout && title && (
+            <VisualTitle title={title} visualSize={visualSize} />
+          )}
+          {body && (
+            <VisualBody body={body} reveal={reveal} elementRef={elementRef} />
+          )}
+          {link && ctaText && (
+            <VisualCtas ctaText={ctaText} link={link} title={title} />
+          )}
+        </div>
       </div>
-    </div>
-    <div className={`col-12 ${columns[visualSize].content}`}>
-      <div className="block__content">
-        {!fullWidthLayout && eyelet && <h4>{eyelet}</h4>}
-        {!fullWidthLayout && title && (
-          <VisualTitle title={title} visualSize={visualSize} />
-        )}
-        {body && (
-          <VisualBody body={body} reveal={reveal} elementRef={elementRef} />
-        )}
-        {link && ctaText && (
-          <VisualCtas ctaText={ctaText} link={link} title={title} />
-        )}
-      </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 type TextOnlyProps = {
   eyelet: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_VISUAL_TEXT_Fragment['eyelet'];
@@ -158,20 +160,22 @@ const TextOnly = ({
   columns,
   elementRef,
   reveal,
-}: TextOnlyProps) => (
-  <>
-    <div className={`col-12 ${columns[visualSize].textOnly}`}>
-      {eyelet && <h3 className="h4">{eyelet}</h3>}
-      {title && <h2 className="h1">{title}</h2>}
-      {body && (
-        <VisualBody body={body} reveal={reveal} elementRef={elementRef} />
-      )}
-      {link && ctaText && (
-        <VisualCtas ctaText={ctaText} link={link} title={title} />
-      )}
-    </div>
-  </>
-);
+}: TextOnlyProps) => {
+  return (
+    <>
+      <div className={`col-12 ${columns[visualSize].textOnly}`}>
+        {eyelet && <h2 className="h4">{eyelet}</h2>}
+        {title && <h2 className="h1">{title}</h2>}
+        {body && (
+          <VisualBody body={body} reveal={reveal} elementRef={elementRef} />
+        )}
+        {link && ctaText && (
+          <VisualCtas ctaText={ctaText} link={link} title={title} />
+        )}
+      </div>
+    </>
+  );
+};
 
 export const VisualText = ({
   eyelet,

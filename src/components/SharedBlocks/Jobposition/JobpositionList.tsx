@@ -99,7 +99,7 @@ export const JobpositionList = ({
         <div className="row">
           <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
             {eyelet && <h4>{eyelet}</h4>}
-            {title ? <h1>{title}</h1> : false}
+            {title ? <h2 className="h1">{title}</h2> : false}
             {body && <Body data={body} />}
             {!!commons?.length && (
               <div className="jobs-listing__common">

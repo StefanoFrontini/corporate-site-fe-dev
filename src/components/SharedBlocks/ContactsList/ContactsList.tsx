@@ -37,7 +37,7 @@ const ContactsList = ({
       <div className="container-fluid">
         <div className="row align-items-center">
           <div className={`col-12 ${columns[BlockWidth]}`}>
-            {title && <h1>{title}</h1>}
+            {title && <h2 className="h1">{title}</h2>}
             <div className="row">
               {contacts.map((item, key) => {
                 const { title, email } = item;
