@@ -32,19 +32,17 @@
   "logoLinks": {
     "nextGenerationEUAriaLabel": "Go to PNRR projects funded by the European Union"
   },
+
   "cta": {
-    "screenReaderExternal": "external link, opens in a new tab, {{label}}",
-    "screenReaderInternal": "link, {{label}}",
-    "screenReaderExternalWithTitle": "external link, opens in a new tab, {{label}} on {{title}}",
-    "screenReaderInternalWithTitle": "link, {{label}} on {{title}}",
-    "screenReaderExternalSpecial": "external link, opens in a new tab, {{label}} on 'European Digital Identity Wallet'",
-    "screenReaderInternalSpecial": "link, {{label}} on European Digital Identity Wallet",
-    "screenReaderPDF": "PDF document - external link - opens in a new tab",
+    "screenReaderExternal": "(external link, opens in a new tab)",
+    "screenReaderInternalWithTitle": " on {{title}}",
+    "screenReaderExternalSpecial": "on European Digital Identity Wallet (external link, opens in a new tab)",
+    "screenReaderPDF": "PDF document - opens in a new tab",
     "discoverMoreLabel": "Discover more",
     "projectVisionTitle": "Project vision"
   },
   "menuItem": {
-    "screenReaderExternal": "external link - opens in a new tab, {{title}}"
+    "screenReaderExternal": "(external link, opens in a new tab)"
   },
   "intro": {
     "projectsEyelet": "THE PROJECTS"

@@ -45,9 +45,7 @@ export const MenuItem = ({
   };
 
   const screenReaderOpenText = (
-    <span className="sr-only">
-      {t('menuItem.screenReaderExternal', { title })}
-    </span>
+    <span className="sr-only">{t('menuItem.screenReaderExternal')}</span>
   );
 
   if (disabled) {

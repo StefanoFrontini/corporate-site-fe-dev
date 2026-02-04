@@ -40,40 +40,38 @@ export const Cta = ({
     !shouldShowArrow && 'cta--no-arrow',
     className
   );
-
-  function getScreenReaderKey() {
+  function getScreenReaderText() {
     const discoverMoreLabel = t('cta.discoverMoreLabel');
     const projectVisionTitle = t('cta.projectVisionTitle');
     const isDiscoverMore = label === discoverMoreLabel;
     const isProjectVision = title === projectVisionTitle;
 
     if (isPdf) {
-      return 'cta.screenReaderPDF';
+      return <span className="sr-only">{t('cta.screenReaderPDF')}</span>;
     }
 
     if (isExternal) {
       if (isDiscoverMore) {
         if (isProjectVision) {
-          return 'cta.screenReaderExternalSpecial';
+          return (
+            <span className="sr-only">
+              {t('cta.screenReaderExternalSpecial')}
+            </span>
+          );
         }
-        return 'cta.screenReaderExternalWithTitle';
       }
-      return 'cta.screenReaderExternal';
+      return <span className="sr-only">{t('cta.screenReaderExternal')}</span>;
     } else {
       if (isDiscoverMore) {
-        if (isProjectVision) {
-          return 'cta.screenReaderInternalSpecial';
-        }
-        return 'cta.screenReaderInternalWithTitle';
+        return (
+          <span className="sr-only">
+            {t('cta.screenReaderInternalWithTitle', { title })}
+          </span>
+        );
       }
-      return 'cta.screenReaderInternal';
+      return <></>;
     }
   }
-
-  const screenReaderKey = getScreenReaderKey();
-  const screenReaderText = (
-    <span className="sr-only">{t(screenReaderKey, { label, title })}</span>
-  );
 
   return (
     <>
@@ -83,15 +81,14 @@ export const Cta = ({
           rel="noopener noreferrer"
           href={href}
           className={commonClasses}
-          title={title}
         >
           <Component className={innerClassName}>{label}</Component>
-          {screenReaderText}
+          {getScreenReaderText()}
         </a>
       ) : (
-        <Link to={href} className={commonClasses} title={title}>
+        <Link to={href} className={commonClasses}>
           <Component className={innerClassName}>{label}</Component>
-          {screenReaderText}
+          {getScreenReaderText()}
         </Link>
       )}
     </>
