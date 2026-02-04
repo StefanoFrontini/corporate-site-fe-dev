@@ -236,6 +236,7 @@ export const NewsletterBanner = () => {
                   </ul>
                 </fieldset>
               </div>
+
               <div className="col-12 col-md-6 col-lg-5">
                 <label
                   htmlFor="email"
@@ -243,6 +244,7 @@ export const NewsletterBanner = () => {
                 >
                   {t('newsletter.emailLabel')}
                 </label>
+
                 <input
                   id="email"
                   type="email"
@@ -259,6 +261,18 @@ export const NewsletterBanner = () => {
                     validationError && !isEmailValid ? 'true' : 'false'
                   }
                 />
+
+                {validationError && (
+                  <div
+                    id="newsletter-validation-error"
+                    className="message error"
+                    role="alert"
+                    style={{ marginTop: '2rem' }}
+                  >
+                    <span>{validationError}</span>
+                  </div>
+                )}
+
                 <button
                   className={`cta cta--white newsletter-submit${
                     loading ? ' is-loading' : ''
@@ -280,13 +294,6 @@ export const NewsletterBanner = () => {
                   </span>
                 </button>
 
-                <Reaptcha
-                  ref={reaptchaRef}
-                  sitekey="6LcBa7AaAAAAAEb8kvsHtZ_09Ctd2l0XqceFUHTe"
-                  size="invisible"
-                  onVerify={newsletterSubmit}
-                  onLoad={() => setLoading(false)}
-                />
                 <div>
                   {submitStatus === 'success' && (
                     <div
@@ -299,22 +306,12 @@ export const NewsletterBanner = () => {
                       <span>{t('newsletter.successMessage')}</span>
                     </div>
                   )}
-                  {validationError && (
-                    <div
-                      id="newsletter-validation-error"
-                      className="message error"
-                      role="alert"
-                      aria-live="polite"
-                    >
-                      <span>{validationError}</span>
-                    </div>
-                  )}
+
                   {submitStatus === 'error' && (
                     <div
                       id="newsletter-submit-error"
                       className="message error"
                       role="alert"
-                      aria-live="assertive"
                       aria-atomic="true"
                     >
                       <span>{t('newsletter.errorMessage')}</span>
@@ -363,6 +360,14 @@ export const NewsletterBanner = () => {
                     </em>
                   </p>
                 </div>
+
+                <Reaptcha
+                  ref={reaptchaRef}
+                  sitekey="6LcBa7AaAAAAAEb8kvsHtZ_09Ctd2l0XqceFUHTe"
+                  size="invisible"
+                  onVerify={newsletterSubmit}
+                  onLoad={() => setLoading(false)}
+                />
               </div>
             </div>
           </form>
