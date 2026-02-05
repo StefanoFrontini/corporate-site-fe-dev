@@ -7,9 +7,10 @@ import './Socials.sass';
 
 type SocialsProps = {
   header?: boolean;
+  ariaLabelledBy?: string;
 };
 
-export const Socials = ({ header }: SocialsProps) => {
+export const Socials = ({ header, ariaLabelledBy }: SocialsProps) => {
   const query = useStaticQuery(graphql`
     fragment Socials on SocialsJson {
       locale
@@ -36,7 +37,10 @@ export const Socials = ({ header }: SocialsProps) => {
   });
 
   return socialsData?.links ? (
-    <ul className={`socials${header ? ' in-header' : ''}`}>
+    <ul
+      aria-labelledby={ariaLabelledBy}
+      className={`socials${header ? ' in-header' : ''}`}
+    >
       {socialsData?.links.map(social => {
         return (
           <li key={social.url}>

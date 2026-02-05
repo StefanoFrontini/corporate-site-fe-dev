@@ -21,13 +21,13 @@ export const CtaBanner = ({
         <div className="row align-items-center">
           <div className="col-12 col-md-5 offset-md-1 col-lg-7 offset-lg-1">
             {title && (
-              <h3
+              <div
                 className={`${
                   lightTheme ? 'cta-banner__title--light' : 'cta-banner__title'
-                } mb-md-0`}
+                } mb-md-0 h3`}
               >
                 {title}
-              </h3>
+              </div>
             )}
           </div>
           {link && (linkLabel || title) && (

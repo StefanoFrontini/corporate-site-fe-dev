@@ -35,12 +35,12 @@ const PressReleaseItem = ({
         <p className="h4">{theDate}</p>
         {slug ? (
           <Cta
-            as={isPreview ? 'h4' : 'h3'}
+            as="h3"
             href={isPreview ? `./comunicati-stampa/${slug}` : slug}
             label={title || ''}
             variant="link"
             showArrow={false}
-            innerClassName={isPreview ? 'primary medium' : 'light'}
+            innerClassName={isPreview ? 'h4 primary medium' : 'h4 light'}
             className="cta--block"
           />
         ) : isPreview ? (

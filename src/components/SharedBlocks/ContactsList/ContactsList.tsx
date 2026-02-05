@@ -45,7 +45,7 @@ const ContactsList = ({
                   <div className="col-12 col-md-6 d-flex" key={key}>
                     <div className="contacts-list__entry">
                       <div>
-                        <h4>{title}</h4>
+                        <h3 className="h4">{title}</h3>
                       </div>
                       <div>
                         <a

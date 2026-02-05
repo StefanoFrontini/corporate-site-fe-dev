@@ -59,7 +59,7 @@ export const Intro = ({
 
   function renderEyelet() {
     if (!eyelet) return null;
-    if (isProjects) return <h2 className="h4">{eyelet}</h2>;
+    if (isProjects) return <div className="h4">{eyelet}</div>;
     return <h1 className="h4">{eyelet}</h1>;
   }
 

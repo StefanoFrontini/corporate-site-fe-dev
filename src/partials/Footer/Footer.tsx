@@ -57,8 +57,10 @@ export const Footer = ({ footerTop, footerBottom }: FooterProps) => {
             </div>
             <div className="col-12 col-md-auto">
               <div className="d-flex mb-4">
-                <h5 className="mb-0 me-5">{t('followUs')}</h5>
-                <Socials />
+                <div id="socialsLabelId" className="h5 mb-0 me-5">
+                  {t('followUs')}
+                </div>
+                <Socials ariaLabelledBy="socialsLabelId" />
               </div>
             </div>
             <div className="col-12 col-md-6">{localeData?.company}</div>

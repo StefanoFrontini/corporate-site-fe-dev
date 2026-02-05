@@ -111,7 +111,7 @@ export const JobpositionList = ({
                       key={key}
                     >
                       <div className="col-12 col-xl-4">
-                        <h4 className="mb-0">{title}</h4>
+                        <h3 className="h4 mb-0">{title}</h3>
                       </div>
                       <div className="col-12 col-xl-8">
                         <p className="mb-0">{body}</p>
