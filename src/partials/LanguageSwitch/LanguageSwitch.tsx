@@ -128,12 +128,7 @@ export const LanguageSwitch = () => {
   const currentLanguageCode = language.toUpperCase();
 
   return (
-    <div
-      ref={menuRef}
-      className="language-switch"
-      onBlur={handleBlur}
-      style={{ position: 'relative' }}
-    >
+    <div ref={menuRef} onBlur={handleBlur} style={{ position: 'relative' }}>
       <div
         aria-live="polite"
         style={{
@@ -205,7 +200,10 @@ export const LanguageSwitch = () => {
                 padding: 0,
                 listStyle: 'none',
                 margin: 0,
-                width: '100%',
+                width: '60px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0px',
               }}
             >
               {languages.map((lng, index) => {
