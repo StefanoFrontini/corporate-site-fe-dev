@@ -268,9 +268,19 @@ $grid-gutter-width: 3.2rem
             margin-left: 1rem
             margin-right: 1rem
             color: $c-gray-dark
+            text-decoration: none
+            display: inline-block
+            line-height: 0.75
 
         &.is-current
-          color: $c-brand
+          .cta
+            color: $c-brand
+            text-decoration: solid underline $c-brand 2px
+            text-underline-offset: 4px
+
+            > h1
+              font-weight: 700
+
 
       .cta
         font-family: $f-primary
@@ -281,3 +291,8 @@ $grid-gutter-width: 3.2rem
         > h1
           color: inherit
           font-size: 3.2rem
+          transition: all $transition-fast $tf
+          line-height: 0.75
+
+          &:hover
+            color: $c-brand

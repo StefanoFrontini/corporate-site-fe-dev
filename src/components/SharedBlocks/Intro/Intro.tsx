@@ -25,7 +25,11 @@ const IntroMenu = ({ menu }: IntroMenuProps) => {
               .replace(/\/+$/, '')
               .split('/')
               .pop();
-            const isCurrent = pathname.split('/').includes(linkWithoutSlashes);
+            const urlSplit = pathname.replace(/\/+$/, '').split('/');
+
+            const isCurrent =
+              urlSplit[urlSplit.length - 1] === linkWithoutSlashes;
+
             return (
               <li key={key} className={classNames(isCurrent && 'is-current')}>
                 {(linkLabel || title) && (
