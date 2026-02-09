@@ -242,9 +242,7 @@ export const VisualText = ({
       id={sectionId}
     >
       {!(title || eyelet) && (image || youtubeVideo) && (
-        <div className="sr-only">
-          {youtubeVideo ? 'Video YouTube' : 'Immagine'}
-        </div>
+        <>{image && <div className="sr-only">Immagine</div>}</>
       )}
       <BackgroundGraphics {...{ left, top, size }} />
       <div className="container-fluid">
