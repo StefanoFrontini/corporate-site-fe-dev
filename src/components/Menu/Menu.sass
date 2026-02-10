@@ -450,3 +450,31 @@
 @media (max-width: $desktop - 1)
   .menu-reserved .external-link::after
     background-image: url(../../images/ui/external-link-brand.svg)
+
+// Fix for focus indicators not visible on highlight elements
+@media (max-width: $desktop - 1)
+  .menu-header
+    .highlight
+      a:focus, span:focus, .menu-trigger:focus
+        outline: 3px solid #FFF
+        outline-offset: 3px
+
+    .menu-reserved
+      .highlight
+        a:focus, span:focus, .menu-trigger:focus
+          outline: 3px solid $c-brand
+          outline-offset: 3px
+
+// Fix for focus on highlight elements on menu reserved (background white)
+      .reserved-navigation:not(.highlight)
+        a:focus, span:focus, .menu-trigger:focus
+          outline: 3px solid $c-brand
+          outline-offset: 3px
+
+// Fix hamburger focus
+.hamburger
+  &:focus
+    outline: 3px solid #FFF
+    outline-offset: 3px
+    box-shadow: 0 0 0 1px #fff, 0 0 0 4px $c-brand
+

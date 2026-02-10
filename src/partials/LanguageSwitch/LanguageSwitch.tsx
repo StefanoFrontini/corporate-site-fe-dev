@@ -41,11 +41,39 @@ export const LanguageSwitch = () => {
     setIsOpen(prev => !prev);
   };
 
+  // Helper function to find the next focusable element on the mobile menu
+  const findNextFocusableInMobileMenu = (
+    currentElement: HTMLElement | null
+  ): HTMLElement | null => {
+    if (!currentElement) return null;
+
+    // Find the closest mobile menu
+    const mobileMenu = currentElement.closest(
+      '.header__mobile-menu, .menu-header'
+    );
+    if (!mobileMenu) return null;
+
+    const focusableElements = mobileMenu.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (focusableElements.length === 0) return null;
+
+    const currentIndex = Array.from(focusableElements).indexOf(currentElement);
+
+    if (currentIndex === -1) {
+      return focusableElements[0] as HTMLElement;
+    }
+
+    if (currentIndex === focusableElements.length - 1) {
+      return focusableElements[0] as HTMLElement;
+    }
+
+    return focusableElements[currentIndex + 1] as HTMLElement;
+  };
+
   // --- FOCUS MANAGEMENT ---
   useEffect(() => {
-    // Reset refs when the number of languages or open state changes
-    itemsRef.current = itemsRef.current.slice(0, languages.length);
-
     if (isOpen) {
       // When the menu opens, move focus to the FIRST menu item
       // setTimeout ensures the DOM is rendered before focusing
@@ -54,13 +82,9 @@ export const LanguageSwitch = () => {
         if (firstItem) firstItem.focus();
       }, 50);
       return () => clearTimeout(timer);
-    } else {
-      // When closing, return focus to the main trigger button (if focus was inside the menu)
-      if (menuRef.current?.contains(document.activeElement)) {
-        triggerRef.current?.focus();
-      }
     }
-  }, [isOpen, languages.length]);
+    // When menu has been closed, the focus management is handled by handleMenuKeyDown for Escape, Tab/Shift+Tab
+  }, [isOpen]);
 
   // --- KEYBOARD NAVIGATION ---
 
@@ -72,6 +96,19 @@ export const LanguageSwitch = () => {
     } else if (e.key === 'Escape') {
       e.preventDefault();
       setIsOpen(false);
+    } else if (e.key === 'Tab' && isOpen) {
+      e.preventDefault();
+      if (e.shiftKey) {
+        // Shift+Tab: go to next option on the menu
+        if (itemsRef.current[languages.length - 1]) {
+          itemsRef.current[languages.length - 1].focus();
+        }
+      } else {
+        // Tab: go to first option on the menu
+        if (itemsRef.current[0]) {
+          itemsRef.current[0].focus();
+        }
+      }
     }
   };
 
@@ -104,13 +141,52 @@ export const LanguageSwitch = () => {
       }
       case 'Escape': {
         e.preventDefault();
+        e.stopPropagation();
         setIsOpen(false);
-        // Focus will return to the trigger thanks to the useEffect
+        // Focus on trigger
+        setTimeout(() => {
+          triggerRef.current?.focus();
+        }, 0);
         break;
       }
       case 'Tab': {
-        // Standard behavior: close menu and let focus move to the next page element
-        setIsOpen(false);
+        if (e.shiftKey) {
+          // Shift+Tab: go to previous element
+          if (index === 0) {
+            // If on the first option, close the menu. Let the browser handle focus
+            setIsOpen(false);
+          } else {
+            // Go to previous option
+            e.preventDefault();
+            const prevIndex = index - 1;
+            itemsRef.current[prevIndex]?.focus();
+          }
+        } else {
+          // Tab: go to next element
+          if (index === languages.length - 1) {
+            // Tab on the next element: close the menu and go to next element on mobile menu
+            e.preventDefault();
+            setIsOpen(false);
+
+            setTimeout(() => {
+              // After the menu has been closed, find the next focusable element on the mobile menu
+              const nextElement = findNextFocusableInMobileMenu(
+                triggerRef.current
+              );
+              if (nextElement) {
+                nextElement.focus();
+              } else {
+                // Fallback: focus on trigger
+                triggerRef.current?.focus();
+              }
+            }, 0);
+          } else {
+            // Go to next option
+            e.preventDefault();
+            const nextIndex = index + 1;
+            itemsRef.current[nextIndex]?.focus();
+          }
+        }
         break;
       }
       default:
@@ -239,7 +315,6 @@ export const LanguageSwitch = () => {
                         backgroundColor: isCurrent ? '#dfe3eb' : 'white',
                         font: 'inherit',
                         textAlign: 'left',
-                        fontWeight: isCurrent ? 'bold' : 'normal',
                       }}
                     >
                       <img

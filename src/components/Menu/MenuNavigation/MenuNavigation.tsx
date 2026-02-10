@@ -20,29 +20,118 @@ export const MenuNavigation = ({
   const menuRef = useRef<HTMLLIElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
+  const { items, highlight } = item;
+
+  const isCurrent = pathname
+    .split('/')
+    .includes(item.uiRouterKey.replace(/-\d+/, '') as string);
+  const hasChildren = !!items?.length;
+
   const handleSubmenu = () => {
     setSubmenuOpen(prev => !prev);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.target instanceof HTMLButtonElement) {
-      if (e.key === 'Enter') {
-        if (item.uiRouterKey.includes('media') && item.path) {
-          navigate(item.path);
-        } else {
-          e.preventDefault();
-          handleSubmenu();
-        }
-      } else if (e.key === ' ' || e.key === 'ArrowDown' || e.key === 'Enter') {
+    const target = e.target as HTMLElement;
+
+    if (
+      target instanceof HTMLButtonElement &&
+      target.classList.contains('menu-trigger')
+    ) {
+      // Menu triger management (first layer)
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         handleSubmenu();
+      } else if (e.key === 'ArrowDown' && submenuOpen && hasChildren) {
+        // If submenu is open, focus on the first entry of the second layer
+        e.preventDefault();
+        const firstSubItem = menuRef.current?.querySelector(
+          'ul li:first-child a, ul li:first-child .menu-item'
+        );
+        if (firstSubItem instanceof HTMLElement) {
+          firstSubItem.focus();
+        }
+      } else if (e.key === 'ArrowDown' && !submenuOpen && hasChildren) {
+        // If submenu is closed, open it
+        e.preventDefault();
+        handleSubmenu();
+
+        // After the submenu has been opened, focus goes to the first entry
+        setTimeout(() => {
+          const firstSubItem = menuRef.current?.querySelector(
+            'ul li:first-child a, ul li:first-child .menu-item'
+          );
+          if (firstSubItem instanceof HTMLElement) {
+            console.log({ firstSubItem });
+            firstSubItem.focus();
+          }
+        }, 150);
+      } else if (e.key === 'ArrowUp' && submenuOpen && hasChildren) {
+        // If submenu is open, keypress is arrow up and we are on the first layer entry, focus goes to the last entry.
+        e.preventDefault();
+        const subItems = Array.from(
+          menuRef.current?.querySelectorAll('ul li a, ul li .menu-item') || []
+        ) as HTMLElement[];
+
+        if (subItems.length > 0) {
+          const lastItem = subItems[subItems.length - 1];
+          lastItem.focus();
+        }
+        console.log('first:', subItems);
       } else if (e.key === 'Escape' && submenuOpen) {
+        e.preventDefault();
         setSubmenuOpen(false);
+        triggerRef.current?.focus();
       }
-    } else if (e.key === 'Escape') {
+    } else if (target.closest('ul li') && submenuOpen) {
+      // Focus management for the second layer
+      const subItems = Array.from(
+        menuRef.current?.querySelectorAll('ul li a, ul li .menu-item') || []
+      ) as HTMLElement[];
+      console.log(target.closest('ul li'));
+      console.log('second:', subItems);
+
+      const currentIndex = subItems.indexOf(target);
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIndex =
+          currentIndex < subItems.length - 1 ? currentIndex + 1 : 0;
+        subItems[nextIndex]?.focus();
+
+        // If we are on the last entry and keypress is arrow down, go back to trigger
+        if (currentIndex === subItems.length - 1) {
+          triggerRef.current?.focus();
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIndex =
+          currentIndex > 0 ? currentIndex - 1 : subItems.length - 1;
+        subItems[prevIndex]?.focus();
+
+        // If we are in the first entry and keypress is arrow up, go back to trigger
+        if (currentIndex === 0) {
+          triggerRef.current?.focus();
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        setSubmenuOpen(false);
+        triggerRef.current?.focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        if (subItems.length > 0) {
+          subItems[0].focus();
+        }
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        if (subItems.length > 0) {
+          subItems[subItems.length - 1].focus();
+        }
+      }
+    } else if (e.key === 'Escape' && submenuOpen) {
       e.preventDefault();
-      handleSubmenu();
-      triggerRef.current.focus();
+      setSubmenuOpen(false);
+      triggerRef.current?.focus();
     }
   };
 
@@ -63,13 +152,6 @@ export const MenuNavigation = ({
       setSubmenuOpen(false);
     }
   };
-
-  const { items, highlight } = item;
-
-  const isCurrent = pathname
-    .split('/')
-    .includes(item.uiRouterKey.replace(/-\d+/, '') as string);
-  const hasChildren = !!items?.length;
 
   return (
     <li

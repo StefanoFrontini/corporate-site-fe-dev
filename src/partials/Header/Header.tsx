@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Menu } from '../../components/Menu';
 import { Hamburger } from '../Hamburger';
 import { Logo } from '../Logo';
@@ -18,6 +18,7 @@ export const Header = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,14 +30,70 @@ export const Header = ({
 
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    handleScroll();
+    // handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
 
-  const handleMobileMenu = () => setMobileMenuOpen(prev => !prev);
+  // Focus trap for mobile menu
+  useEffect(() => {
+    if (!mobileMenuOpen || !mobileMenuRef.current) return;
+
+    const focusableElements = mobileMenuRef.current.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (focusableElements.length === 0) return;
+
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[
+      focusableElements.length - 1
+    ] as HTMLElement;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Focus on the first element when menu has been opened
+    setTimeout(() => {
+      firstElement.focus();
+    }, 100);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mobileMenuOpen]);
+
+  const handleMobileMenu = () => {
+    setMobileMenuOpen(prev => {
+      const newState = !prev;
+      if (!newState) {
+        // When menu closes, focus on hamburger button
+        setTimeout(() => {
+          hamburgerRef.current?.focus();
+        }, 100);
+      }
+      return newState;
+    });
+  };
   const { language, navigate } = useI18next();
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -111,7 +168,7 @@ export const Header = ({
         </div>
       </div>
 
-      <div className="header__mobile-menu d-xl-none">
+      <div ref={mobileMenuRef} className="header__mobile-menu d-xl-none">
         <Menu main={mainMenu} reserved={reservedMenu} />
       </div>
     </header>
