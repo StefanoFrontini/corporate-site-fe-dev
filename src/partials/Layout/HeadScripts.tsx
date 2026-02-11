@@ -17,6 +17,7 @@ export const HeadScripts = () => {
           type: 'text/javascript',
           src: '/js/script-onetrust.js',
         },
+        // Fix W3C error for youtube iframe api
         {
           src: 'https://www.youtube.com/iframe_api',
         },

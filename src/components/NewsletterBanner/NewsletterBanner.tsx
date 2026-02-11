@@ -362,6 +362,7 @@ export const NewsletterBanner = () => {
                 </div>
 
                 <Reaptcha
+                  id="google-reaptcha-id"
                   ref={reaptchaRef}
                   sitekey="6LcBa7AaAAAAAEb8kvsHtZ_09Ctd2l0XqceFUHTe"
                   size="invisible"
