@@ -1,5 +1,11 @@
 import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
-import React, { useState, useRef, useEffect, KeyboardEvent } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  KeyboardEvent,
+  useId,
+} from 'react';
 import ita from '../../images/ita.svg';
 import eng from '../../images/eng.svg';
 import { navigate } from 'gatsby';
@@ -7,6 +13,8 @@ import { navigate } from 'gatsby';
 export const LanguageSwitch = () => {
   const { languages, changeLanguage, language } = useI18next();
   const { t } = useTranslation();
+  const uniqueId = useId();
+  const menuId = `language-menu-${uniqueId}`;
 
   const [isOpen, setIsOpen] = useState(false);
   const [liveText, setLiveText] = useState('');
@@ -229,7 +237,7 @@ export const LanguageSwitch = () => {
         onKeyDown={handleTriggerKeyDown}
         aria-haspopup="true"
         aria-expanded={isOpen}
-        aria-controls="language-menu-list"
+        aria-controls={menuId}
         aria-label={`${t('languageSwitchLabel')}. ${t('currentLanguage', {
           language: `${currentLanguageCode} - ${currentLanguageName}`,
         })}`}
@@ -259,7 +267,7 @@ export const LanguageSwitch = () => {
       </button>
 
       <div
-        id="language-menu-list"
+        id={menuId}
         role="menu"
         hidden={!isOpen}
         style={{
