@@ -258,84 +258,81 @@ export const LanguageSwitch = () => {
         <span style={{ verticalAlign: 'middle' }}>{currentLanguageCode}</span>
       </button>
 
-      {isOpen && (
-        <>
-          <div
-            id="language-menu-list"
-            role="menu"
-            style={{
-              position: 'absolute',
-              width: '100%',
-              backgroundColor: 'white',
-              zIndex: 1000,
-              boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-            }}
-          >
-            <ul
-              style={{
-                padding: 0,
-                listStyle: 'none',
-                margin: 0,
-                width: '60px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0px',
-              }}
-            >
-              {languages.map((lng, index) => {
-                const lngName = getLanguageName(lng);
-                const lngCode = lng.toUpperCase();
-                const isCurrent = lng === language;
+      <div
+        id="language-menu-list"
+        role="menu"
+        hidden={!isOpen}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          backgroundColor: 'white',
+          zIndex: 1000,
+          boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+          display: isOpen ? 'block' : 'none',
+        }}
+      >
+        <ul
+          style={{
+            padding: 0,
+            listStyle: 'none',
+            margin: 0,
+            width: '60px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0px',
+          }}
+        >
+          {languages.map((lng, index) => {
+            const lngName = getLanguageName(lng);
+            const lngCode = lng.toUpperCase();
+            const isCurrent = lng === language;
 
-                return (
-                  <li key={lng} role="none" style={{ margin: 0, padding: 0 }}>
-                    <button
-                      ref={el => (itemsRef.current[index] = el)}
-                      role="menuitem"
-                      lang={lng}
-                      aria-current={isCurrent ? 'true' : undefined}
-                      onClick={() => handleChangeLanguage(lng)}
-                      onKeyDown={e => handleMenuKeyDown(e, index)}
-                      aria-label={`${
-                        lngCode === 'IT'
-                          ? 'Cambia lingua in:'
-                          : 'Change language to:'
-                      } ${lngCode} - ${lngName}`}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent:
-                          lng === 'en' ? 'space-between' : undefined,
-                        padding: '6px',
-                        height: '28px',
-                        width: '100%',
-                        cursor: 'pointer',
-                        border: '1px solid $c-gray-border',
-                        borderTop: 'none',
-                        backgroundColor: isCurrent ? '#dfe3eb' : 'white',
-                        font: 'inherit',
-                        textAlign: 'left',
-                      }}
-                    >
-                      <img
-                        src={lng === 'it' ? ita : eng}
-                        alt=""
-                        style={{
-                          width: '20px',
-                          height: '20px',
-                          marginRight: '5px',
-                          verticalAlign: 'middle',
-                        }}
-                      />
-                      <span style={{ verticalAlign: 'middle' }}>{lngCode}</span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </>
-      )}
+            return (
+              <li key={lng} role="none" style={{ margin: 0, padding: 0 }}>
+                <button
+                  ref={el => (itemsRef.current[index] = el)}
+                  role="menuitem"
+                  lang={lng}
+                  aria-current={isCurrent ? 'true' : undefined}
+                  onClick={() => handleChangeLanguage(lng)}
+                  onKeyDown={e => handleMenuKeyDown(e, index)}
+                  aria-label={`${
+                    lngCode === 'IT'
+                      ? 'Cambia lingua in:'
+                      : 'Change language to:'
+                  } ${lngCode} - ${lngName}`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: lng === 'en' ? 'space-between' : undefined,
+                    padding: '6px',
+                    height: '28px',
+                    width: '100%',
+                    cursor: 'pointer',
+                    border: '1px solid $c-gray-border',
+                    borderTop: 'none',
+                    backgroundColor: isCurrent ? '#dfe3eb' : 'white',
+                    font: 'inherit',
+                    textAlign: 'left',
+                  }}
+                >
+                  <img
+                    src={lng === 'it' ? ita : eng}
+                    alt=""
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      marginRight: '5px',
+                      verticalAlign: 'middle',
+                    }}
+                  />
+                  <span style={{ verticalAlign: 'middle' }}>{lngCode}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };
