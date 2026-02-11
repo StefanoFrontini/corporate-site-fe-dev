@@ -17,6 +17,10 @@ export const HeadScripts = () => {
           type: 'text/javascript',
           src: '/js/script-onetrust.js',
         },
+        {
+          src: 'https://www.youtube.com/iframe_api',
+          async: true,
+        },
       ]}
     />
   );
