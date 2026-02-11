@@ -147,6 +147,7 @@ const Video = ({
       showInfo: 0,
       mute: 1,
       cc_lang_pref: language,
+      enablejsapi: 1,
     },
   };
 
