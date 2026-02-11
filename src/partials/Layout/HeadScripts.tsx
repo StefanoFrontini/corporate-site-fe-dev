@@ -10,7 +10,6 @@ export const HeadScripts = () => {
           ? {
               type: 'text/javascript',
               src: 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js',
-              charset: 'UTF-8',
               'data-domain-script': '8df145b6-c56f-475c-9f81-0a1535a6f6e3',
             }
           : {},
