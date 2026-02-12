@@ -17,47 +17,75 @@ export const Image = ({
   const containerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const presentationImage = containerRef.current.querySelector(
-      'img[alt=""][role="presentation"]'
-    );
+    // Funzione che applica le correzioni
+    const fixAttributes = () => {
+      const images = container.querySelectorAll('img');
 
-    if (presentationImage) {
-      presentationImage.removeAttribute('role');
-    }
+      images.forEach(img => {
+        // 1. Rimuovi role="presentation" se presente e alt è vuoto
+        if (
+          img.getAttribute('alt') === '' &&
+          img.getAttribute('role') === 'presentation'
+        ) {
+          img.removeAttribute('role');
+        }
 
-    const images = containerRef.current.querySelectorAll('img');
+        // 2. Arrotonda Height
+        const height = img.getAttribute('height');
+        if (height && height.includes('.')) {
+          const roundedHeight = Math.round(parseFloat(height)).toString();
+          // Evitiamo loop infiniti: cambiamo solo se il valore è diverso
+          if (height !== roundedHeight) {
+            img.setAttribute('height', roundedHeight);
+          }
+        }
 
-    images.forEach(img => {
-      const height = img.getAttribute('height');
-      const width = img.getAttribute('width');
+        // 3. Arrotonda Width
+        const width = img.getAttribute('width');
+        if (width && width.includes('.')) {
+          const roundedWidth = Math.round(parseFloat(width)).toString();
+          if (width !== roundedWidth) {
+            img.setAttribute('width', roundedWidth);
+          }
+        }
+      });
+    };
 
-      if (height && height.includes('.')) {
-        img.setAttribute('height', Math.round(parseFloat(height)).toString());
-      }
+    // Eseguiamo subito una volta
+    fixAttributes();
 
-      if (width && width.includes('.')) {
-        img.setAttribute('width', Math.round(parseFloat(width)).toString());
-      }
+    // Creiamo un Observer che ascolta i cambiamenti nel DOM (es. lazy loading di Gatsby)
+    const observer = new MutationObserver(() => {
+      fixAttributes();
     });
+
+    // Osserviamo il container per modifiche ai figli o agli attributi
+    observer.observe(container, {
+      childList: true, // Se Gatsby aggiunge/rimuove nodi
+      subtree: true, // Anche in profondità
+      attributes: true, // Se cambiano gli attributi (es. src o style)
+    });
+
+    // Pulizia quando il componente viene smontato
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <>
-      <figure ref={containerRef} className={className}>
-        <GatsbyImage
-          image={
-            getImage(data.localFile as IGatsbyImageParent) as IGatsbyImageData
-          }
-          alt={data.alternativeText || ''}
-        />
-        {caption && (
-          <figcaption>
-            <p>{caption}</p>
-          </figcaption>
-        )}
-      </figure>
-    </>
+    <figure ref={containerRef} className={className}>
+      <GatsbyImage
+        image={
+          getImage(data.localFile as IGatsbyImageParent) as IGatsbyImageData
+        }
+        alt={data.alternativeText || ''}
+      />
+      {caption && (
+        <figcaption>
+          <p>{caption}</p>
+        </figcaption>
+      )}
+    </figure>
   );
 };

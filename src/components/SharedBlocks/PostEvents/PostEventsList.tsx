@@ -57,7 +57,7 @@ export const PostEventsList = ({
         localFile {
           childImageSharp {
             gatsbyImageData(
-              layout: FULL_WIDTH
+              layout: CONSTRAINED
               aspectRatio: 1.33
               transformOptions: { cropFocus: ATTENTION }
             )
