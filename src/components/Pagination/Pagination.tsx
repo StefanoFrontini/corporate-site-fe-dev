@@ -76,6 +76,7 @@ export const Pagination = <T,>({
           containerClassName="pagination reactpaginate"
           activeClassName="is-current"
           hrefBuilder={() => '#'}
+          hrefAllControls={true}
         />
       )}
     </>
