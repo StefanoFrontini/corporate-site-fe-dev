@@ -75,6 +75,7 @@ export const Pagination = <T,>({
           breakLinkClassName="page-link"
           containerClassName="pagination reactpaginate"
           activeClassName="is-current"
+          hrefBuilder={() => '#'}
         />
       )}
     </>
