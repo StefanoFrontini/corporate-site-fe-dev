@@ -20,12 +20,11 @@ export const Image = ({
     const container = containerRef.current;
     if (!container) return;
 
-    // Funzione che applica le correzioni
+    // Fix W3C errors
     const fixAttributes = () => {
       const images = container.querySelectorAll('img');
 
       images.forEach(img => {
-        // 1. Rimuovi role="presentation" se presente e alt è vuoto
         if (
           img.getAttribute('alt') === '' &&
           img.getAttribute('role') === 'presentation'
@@ -33,17 +32,14 @@ export const Image = ({
           img.removeAttribute('role');
         }
 
-        // 2. Arrotonda Height
         const height = img.getAttribute('height');
         if (height && height.includes('.')) {
           const roundedHeight = Math.round(parseFloat(height)).toString();
-          // Evitiamo loop infiniti: cambiamo solo se il valore è diverso
           if (height !== roundedHeight) {
             img.setAttribute('height', roundedHeight);
           }
         }
 
-        // 3. Arrotonda Width
         const width = img.getAttribute('width');
         if (width && width.includes('.')) {
           const roundedWidth = Math.round(parseFloat(width)).toString();
@@ -54,22 +50,18 @@ export const Image = ({
       });
     };
 
-    // Eseguiamo subito una volta
     fixAttributes();
 
-    // Creiamo un Observer che ascolta i cambiamenti nel DOM (es. lazy loading di Gatsby)
     const observer = new MutationObserver(() => {
       fixAttributes();
     });
 
-    // Osserviamo il container per modifiche ai figli o agli attributi
     observer.observe(container, {
-      childList: true, // Se Gatsby aggiunge/rimuove nodi
-      subtree: true, // Anche in profondità
-      attributes: true, // Se cambiano gli attributi (es. src o style)
+      childList: true,
+      subtree: true,
+      attributes: true,
     });
 
-    // Pulizia quando il componente viene smontato
     return () => observer.disconnect();
   }, []);
 

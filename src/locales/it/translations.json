@@ -47,6 +47,7 @@
     "projectsEyelet": "I PROGETTI"
   },
   "pagination": {
+    "ariaLabel": "Paginazione",
     "nextAriaLabel": "Pagina successiva",
     "previousAriaLabel": "Pagina precedente",
     "ariaLabelBuilder": "Pagina {{page}}",
