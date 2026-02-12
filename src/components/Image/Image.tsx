@@ -18,13 +18,29 @@ export const Image = ({
 
   useEffect(() => {
     if (!containerRef.current) return;
-    const image = containerRef.current.querySelector(
+
+    const presentationImage = containerRef.current.querySelector(
       'img[alt=""][role="presentation"]'
     );
 
-    if (image) {
-      image.removeAttribute('role');
+    if (presentationImage) {
+      presentationImage.removeAttribute('role');
     }
+
+    const images = containerRef.current.querySelectorAll('img');
+
+    images.forEach(img => {
+      const height = img.getAttribute('height');
+      const width = img.getAttribute('width');
+
+      if (height && height.includes('.')) {
+        img.setAttribute('height', Math.round(parseFloat(height)).toString());
+      }
+
+      if (width && width.includes('.')) {
+        img.setAttribute('width', Math.round(parseFloat(width)).toString());
+      }
+    });
   }, []);
 
   return (
