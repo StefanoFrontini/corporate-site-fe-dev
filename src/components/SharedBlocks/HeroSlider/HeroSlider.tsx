@@ -7,7 +7,6 @@ import SwiperCore, {
   Navigation,
   Pagination,
 } from 'swiper';
-// import 'swiper/components/effect-fade/effect-fade.min.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.min.css';
 import { Cta } from '../../../partials/Cta';
@@ -43,6 +42,10 @@ export const HeroSlider = ({
 
     const { title, body, link, linkLabel } = heroSliderItems[0] || {};
 
+    const hasVideo = heroSliderItems.some(item => item?.youtubeVideo);
+
+    const isDecorative = !hasVideo;
+
     return (
       <section className="block hero" id={slug || id}>
         <div className="hero__background" />
@@ -69,14 +72,19 @@ export const HeroSlider = ({
               </div>
             </div>
             <div className="col-12 col-lg-5">
-              <div className="hero__image">
+              <div
+                className="hero__image"
+                aria-hidden={isDecorative ? 'true' : undefined}
+              >
                 <button
                   className="hero__nav hero__nav__prev"
                   aria-label={t('slider.prevSlide')}
+                  tabIndex={isDecorative ? -1 : 0}
                 />
                 <button
                   className="hero__nav hero__nav__next"
                   aria-label={t('slider.nextSlide')}
+                  tabIndex={isDecorative ? -1 : 0}
                 />
                 <div className="hero__pagination">
                   {heroSliderItems.length > 1 &&
@@ -93,6 +101,7 @@ export const HeroSlider = ({
                           currentSlideIndex === index ? 'true' : undefined
                         }
                         onClick={() => swiperRef.current?.slideTo(index)}
+                        tabIndex={isDecorative ? -1 : 0}
                       />
                     ))}
                 </div>
@@ -107,16 +116,20 @@ export const HeroSlider = ({
                     nextEl: '.hero__nav__next',
                   }}
                   pagination={false}
-                  a11y={{
-                    enabled: true,
-                    prevSlideMessage: t('slider.prevSlideMessage'),
-                    nextSlideMessage: t('slider.nextSlideMessage'),
-                    firstSlideMessage: t('slider.firstSlideMessage'),
-                    lastSlideMessage: t('slider.lastSlideMessage'),
-                    paginationBulletMessage: t(
-                      'slider.paginationBulletMessage'
-                    ),
-                  }}
+                  a11y={
+                    isDecorative
+                      ? { enabled: false }
+                      : {
+                          enabled: true,
+                          prevSlideMessage: t('slider.prevSlideMessage'),
+                          nextSlideMessage: t('slider.nextSlideMessage'),
+                          firstSlideMessage: t('slider.firstSlideMessage'),
+                          lastSlideMessage: t('slider.lastSlideMessage'),
+                          paginationBulletMessage: t(
+                            'slider.paginationBulletMessage'
+                          ),
+                        }
+                  }
                   onSlideChange={swiper => {
                     handleSlideChange(swiper.activeIndex);
                   }}
