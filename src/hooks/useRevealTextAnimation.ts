@@ -9,6 +9,11 @@ export const useRevealTextAnimation = ({
   elementRef: RefObject<HTMLElement>;
 }) => {
   useEffect(() => {
+    // Check if element exists before using GSAP
+    if (!elementRef.current) {
+      return;
+    }
+
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.set(elementRef.current, { backgroundPosition: '100% 50%' });
