@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import YouTube from 'react-youtube';
 import { YouTubePlayer, Options } from 'youtube-player/dist/types';
 import { Image } from '../Image';
@@ -43,29 +43,19 @@ const Video = ({
   const videoRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const handlePlay = () => {
+  const handlePlay = useCallback(() => {
     if (videoInstance) {
       videoInstance.playVideo();
     }
-  };
+  }, [videoInstance]);
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === ' ' || event.key === 'Enter') {
-      event.preventDefault();
-
-      if (videoPreview && !videoActive) {
-        handlePlayStart();
-      } else if (videoActive && videoInstance) {
-        if (isPlaying) {
-          videoInstance.pauseVideo();
-        } else {
-          videoInstance.playVideo();
-        }
-      }
+  const handleStop = useCallback(() => {
+    if (videoInstance) {
+      videoInstance.pauseVideo();
     }
-  };
+  }, [videoInstance]);
 
-  const handlePlayStart = () => {
+  const handlePlayStart = useCallback(() => {
     handlePlay();
     setVideoPreview(false);
     setVideoActive(true);
@@ -74,13 +64,26 @@ const Video = ({
     setTimeout(() => {
       buttonRef.current?.focus();
     }, 0);
-  };
+  }, [handlePlay, videoInstance]);
 
-  const handleStop = () => {
-    if (videoInstance) {
-      videoInstance.pauseVideo();
-    }
-  };
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === ' ' || event.key === 'Enter') {
+        event.preventDefault();
+
+        if (videoPreview && !videoActive) {
+          handlePlayStart();
+        } else if (videoActive && videoInstance) {
+          if (isPlaying) {
+            videoInstance.pauseVideo();
+          } else {
+            videoInstance.playVideo();
+          }
+        }
+      }
+    },
+    [videoPreview, videoActive, videoInstance, isPlaying, handlePlayStart]
+  );
 
   // Iframe focusable only when video is active ---
   useEffect(() => {
@@ -100,9 +103,12 @@ const Video = ({
   useEffect(() => {
     if (isSlideChange && currentSlideIndex !== 0) {
       handleStop();
-      setVideoActive(false);
+      // Use setTimeout to avoid synchronous setState in effect
+      setTimeout(() => {
+        setVideoActive(false);
+      }, 0);
     }
-  }, [isSlideChange, currentSlideIndex]);
+  }, [isSlideChange, currentSlideIndex, handleStop]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -132,7 +138,7 @@ const Video = ({
     }
 
     return () => ctx?.revert();
-  }, [videoInstance, videoPreview]);
+  }, [videoInstance, videoPreview, handlePlay, handleStop]);
 
   const playerOptions: Options = {
     playerVars: {

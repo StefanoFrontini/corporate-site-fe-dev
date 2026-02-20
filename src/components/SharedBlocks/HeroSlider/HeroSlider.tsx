@@ -15,6 +15,9 @@ import { Body } from '../../Remark/Body';
 import { Video } from '../../Video';
 import './HeroSlider.sass';
 
+// Initialize Swiper modules once at module level
+// Note: SwiperCore.use() is NOT a React Hook, it's a Swiper library method
+// eslint-disable-next-line react-hooks/rules-of-hooks
 SwiperCore.use([Navigation, Pagination, EffectFade, Controller, A11y]);
 
 export const HeroSlider = ({

@@ -4,8 +4,7 @@ export const search = (search: string): string[] => {
   const cookies = Cookies.get();
 
   const foundCookies = Object.entries(cookies)?.reduce<string[]>(
-    (acc, cookie) => {
-      const [cookieName, _] = cookie;
+    (acc, [cookieName]) => {
       if (cookieName?.includes(search)) {
         return [...acc, cookieName];
       }

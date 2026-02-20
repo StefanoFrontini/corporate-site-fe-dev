@@ -6,7 +6,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 export const useRevealTextAnimation = ({
   elementRef,
 }: {
-  elementRef: RefObject<any>;
+  elementRef: RefObject<HTMLElement>;
 }) => {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -46,5 +46,5 @@ export const useRevealTextAnimation = ({
     }, elementRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [elementRef]);
 };

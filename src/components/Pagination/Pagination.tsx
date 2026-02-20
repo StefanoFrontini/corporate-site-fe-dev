@@ -20,18 +20,13 @@ export const Pagination = <T,>({
   style?: CSSProperties;
   navHidden?: boolean;
 }) => {
-  const [currentItems, setCurrentItems] = useState<T[] | null>(null);
-  const [pageCount, setPageCount] = useState<number>(0);
   const [itemOffset, setItemOffset] = useState<number>(0);
 
   const navRef = useRef<HTMLElement>(null);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(data.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(data.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage]);
+  const currentItems = data.slice(itemOffset, itemOffset + itemsPerPage);
+  const pageCount = Math.ceil(data.length / itemsPerPage);
 
   // --- FIX ACCESSIBILITY & W3C ---
   useEffect(() => {

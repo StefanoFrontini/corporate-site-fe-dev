@@ -8,12 +8,11 @@ import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 type IntroMenuProps = {
   menu: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment['introMenu'];
+  pathname: string;
 };
 
-const IntroMenu = ({ menu }: IntroMenuProps) => {
+const IntroMenu = ({ menu, pathname }: IntroMenuProps) => {
   if (!menu?.length) return <></>;
-
-  const { pathname } = useLocation();
 
   return (
     <nav className="intro-menu">
@@ -57,6 +56,7 @@ export const Intro = ({
   body,
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment) => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const isSustainableDev =
     title === 'Il nostro impegno per uno sviluppo sostenibile';
   const isProjects = eyelet === t('intro.projectsEyelet');
@@ -76,7 +76,7 @@ export const Intro = ({
           <div className="col-12 col-md-10 col-lg-9">
             <div className={title ? 'intro__heading' : 'intro'}>
               {renderEyelet()}
-              {introMenu && <IntroMenu menu={introMenu} />}
+              {introMenu && <IntroMenu menu={introMenu} pathname={pathname} />}
               {isSustainableDev ? (
                 <h1 className="h1">{title}</h1>
               ) : (

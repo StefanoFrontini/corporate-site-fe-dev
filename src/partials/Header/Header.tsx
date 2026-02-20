@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Menu } from '../../components/Menu';
 import { Hamburger } from '../Hamburger';
 import { Logo } from '../Logo';
@@ -29,8 +29,6 @@ export const Header = ({
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);

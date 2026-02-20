@@ -1,5 +1,5 @@
 import React from 'react';
-import { PagoPA } from '../../../types';
+import { PagoPABlockConfig } from '../../../types';
 
 import './ContactsList.sass';
 
@@ -14,7 +14,7 @@ const ContactsList = ({
   };
 
   // center default
-  const columns: PagoPA.BlockConfig = {
+  const columns: PagoPABlockConfig = {
     Standard: `col-md-10 offset-md-1 col-lg-8 offset-lg-2`,
     Wide: `col-md-10 offset-md-1`,
   };
