@@ -20,13 +20,14 @@ export const LogoLinks = ({
           <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
             {title && <h4>{title}</h4>}
 
-            {logoLinks?.length && (
+            {logoLinks && logoLinks.length > 0 && (
               <div className="row align-items-center">
                 {logoLinks.map((logo, key) => {
                   const { attachment, link } = logo || {};
-                  const isNextGenerationEU = attachment.url.includes(
-                    'IT_Finanziato_dall_Unione_europea'
-                  );
+                  const isNextGenerationEU =
+                    attachment?.url?.includes(
+                      'IT_Finanziato_dall_Unione_europea'
+                    ) || false;
 
                   return (
                     <div
