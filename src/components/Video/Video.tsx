@@ -115,7 +115,7 @@ const Video = ({
 
     let ctx: gsap.Context | null = null;
 
-    if (videoInstance !== null) {
+    if (videoInstance !== null && videoRef.current) {
       ctx = gsap.context(() => {
         ScrollTrigger.create({
           trigger: videoRef.current,
