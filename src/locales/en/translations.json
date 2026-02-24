@@ -62,7 +62,7 @@
   "newsletter": {
     "title": "Would you like to receive<1/>our Newsletter?",
     "requiredField": "*Required field, multiple selections allowed",
-    "followNews": "Follow news for:",
+    "followNews": "Follow news for*:",
     "groups": {
       "citizens": "Citizens",
       "publicAdministrations": "Public Administrations",

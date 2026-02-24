@@ -61,7 +61,7 @@
   "newsletter": {
     "title": "Vuoi ricevere la<1/>nostra Newsletter?",
     "requiredField": "* campo obbligatorio, con possibilità di risposta multipla",
-    "followNews": "Segui le notizie per:",
+    "followNews": "Segui le notizie per*:",
     "groups": {
       "citizens": "Cittadini",
       "publicAdministrations": "Pubbliche Amministrazioni",
