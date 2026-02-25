@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 import ita from '../../images/ita.svg';
 import eng from '../../images/eng.svg';
-import { navigate } from 'gatsby';
 
 export const LanguageSwitch = () => {
   const { languages, changeLanguage, language } = useI18next();
@@ -29,7 +28,6 @@ export const LanguageSwitch = () => {
   };
 
   const handleChangeLanguage = async (selectedLanguage: string) => {
-    // If clicking the currently active language, just close the menu and do nothing
     if (selectedLanguage === language) {
       setIsOpen(false);
       return;
@@ -38,11 +36,12 @@ export const LanguageSwitch = () => {
     const langName = getLanguageName(selectedLanguage);
     setLiveText(t('languageChangedFeedback', { language: langName }));
     setIsOpen(false);
-    await changeLanguage(selectedLanguage);
-
-    navigate(
-      `/${selectedLanguage}${selectedLanguage === 'it' ? '/' : '/homepage/'}`
-    );
+    const targetPath = selectedLanguage === 'it' ? '/' : '/en/homepage/';
+    await changeLanguage(selectedLanguage, targetPath);
+    // await changeLanguage(selectedLanguage);
+    // window.location.assign(
+    //   `/${selectedLanguage}${selectedLanguage === 'it' ? '/' : '/homepage/'}`
+    // );
   };
 
   const toggleMenu = () => {
