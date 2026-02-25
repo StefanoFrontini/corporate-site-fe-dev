@@ -20,7 +20,6 @@ export const LanguageSwitch = () => {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  // Array of refs to manage focus on each individual menu option
   const itemsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
   const getLanguageName = (lang: string) => {
@@ -28,33 +27,36 @@ export const LanguageSwitch = () => {
   };
 
   const handleChangeLanguage = async (selectedLanguage: string) => {
+    const langName = getLanguageName(selectedLanguage);
+    const langCode = selectedLanguage.toUpperCase();
+
     if (selectedLanguage === language) {
+      const activeFeedbackMsg =
+        selectedLanguage === 'it'
+          ? `Lingua impostata: ${langCode} - ${langName}`
+          : `Language set: ${langCode} - ${langName}`;
+
+      setLiveText(activeFeedbackMsg);
       setIsOpen(false);
+      setTimeout(() => triggerRef.current?.focus(), 0);
       return;
     }
 
-    const langName = getLanguageName(selectedLanguage);
     setLiveText(t('languageChangedFeedback', { language: langName }));
     setIsOpen(false);
     const targetPath = selectedLanguage === 'it' ? '/' : '/en/homepage/';
     await changeLanguage(selectedLanguage, targetPath);
-    // await changeLanguage(selectedLanguage);
-    // window.location.assign(
-    //   `/${selectedLanguage}${selectedLanguage === 'it' ? '/' : '/homepage/'}`
-    // );
   };
 
   const toggleMenu = () => {
     setIsOpen(prev => !prev);
   };
 
-  // Helper function to find the next focusable element on the mobile menu
   const findNextFocusableInMobileMenu = (
     currentElement: HTMLElement | null
   ): HTMLElement | null => {
     if (!currentElement) return null;
 
-    // Find the closest mobile menu
     const mobileMenu = currentElement.closest(
       '.header__mobile-menu, .menu-header'
     );
@@ -79,26 +81,39 @@ export const LanguageSwitch = () => {
     return focusableElements[currentIndex + 1] as HTMLElement;
   };
 
-  // --- FOCUS MANAGEMENT ---
   useEffect(() => {
     if (isOpen) {
-      // When the menu opens, move focus to the FIRST menu item
-      // setTimeout ensures the DOM is rendered before focusing
       const timer = setTimeout(() => {
         const firstItem = itemsRef.current[0];
         if (firstItem) firstItem.focus();
       }, 50);
       return () => clearTimeout(timer);
     }
-    // When menu has been closed, the focus management is handled by handleMenuKeyDown for Escape, Tab/Shift+Tab
   }, [isOpen]);
 
-  // --- KEYBOARD NAVIGATION ---
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (
+        isOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
-  // 1. On the main button (Trigger)
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isOpen]);
+
   const handleTriggerKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault(); // Prevent page scroll
+      e.preventDefault();
       setIsOpen(true);
     } else if (e.key === 'Escape') {
       e.preventDefault();
@@ -106,32 +121,23 @@ export const LanguageSwitch = () => {
     } else if (e.key === 'Tab' && isOpen) {
       e.preventDefault();
       if (e.shiftKey) {
-        // Shift+Tab: go to next option on the menu
-        if (itemsRef.current[languages.length - 1]) {
-          itemsRef.current[languages.length - 1].focus();
-        }
+        itemsRef.current[languages.length - 1]?.focus();
       } else {
-        // Tab: go to first option on the menu
-        if (itemsRef.current[0]) {
-          itemsRef.current[0].focus();
-        }
+        itemsRef.current[0]?.focus();
       }
     }
   };
 
-  // 2. On menu options
   const handleMenuKeyDown = (e: KeyboardEvent, index: number) => {
     switch (e.key) {
       case 'ArrowDown': {
         e.preventDefault();
-        // Move focus to next element (cyclic)
         const nextIndex = (index + 1) % languages.length;
         itemsRef.current[nextIndex]?.focus();
         break;
       }
       case 'ArrowUp': {
         e.preventDefault();
-        // Move focus to previous element (cyclic)
         const prevIndex = (index - 1 + languages.length) % languages.length;
         itemsRef.current[prevIndex]?.focus();
         break;
@@ -150,7 +156,6 @@ export const LanguageSwitch = () => {
         e.preventDefault();
         e.stopPropagation();
         setIsOpen(false);
-        // Focus on trigger
         setTimeout(() => {
           triggerRef.current?.focus();
         }, 0);
@@ -158,37 +163,33 @@ export const LanguageSwitch = () => {
       }
       case 'Tab': {
         if (e.shiftKey) {
-          // Shift+Tab: go to previous element
           if (index === 0) {
-            // If on the first option, close the menu. Let the browser handle focus
+            e.preventDefault();
             setIsOpen(false);
+            setTimeout(() => {
+              triggerRef.current?.focus();
+            }, 0);
           } else {
-            // Go to previous option
             e.preventDefault();
             const prevIndex = index - 1;
             itemsRef.current[prevIndex]?.focus();
           }
         } else {
-          // Tab: go to next element
           if (index === languages.length - 1) {
-            // Tab on the next element: close the menu and go to next element on mobile menu
             e.preventDefault();
             setIsOpen(false);
 
             setTimeout(() => {
-              // After the menu has been closed, find the next focusable element on the mobile menu
               const nextElement = findNextFocusableInMobileMenu(
                 triggerRef.current
               );
               if (nextElement) {
                 nextElement.focus();
               } else {
-                // Fallback: focus on trigger
                 triggerRef.current?.focus();
               }
             }, 0);
           } else {
-            // Go to next option
             e.preventDefault();
             const nextIndex = index + 1;
             itemsRef.current[nextIndex]?.focus();
@@ -266,8 +267,6 @@ export const LanguageSwitch = () => {
       </button>
 
       <div
-        id={menuId}
-        role="menu"
         hidden={!isOpen}
         style={{
           position: 'absolute',
@@ -279,6 +278,8 @@ export const LanguageSwitch = () => {
         }}
       >
         <ul
+          id={menuId}
+          role="menu"
           style={{
             padding: 0,
             listStyle: 'none',
@@ -294,20 +295,23 @@ export const LanguageSwitch = () => {
             const lngCode = lng.toUpperCase();
             const isCurrent = lng === language;
 
+            const ariaLabelText = isCurrent
+              ? `${lngCode} - ${lngName}`
+              : `${
+                  lngCode === 'IT' ? 'Cambia lingua in:' : 'Change language to:'
+                } ${lngCode} - ${lngName}`;
+
             return (
               <li key={lng} role="none" style={{ margin: 0, padding: 0 }}>
                 <button
                   ref={el => (itemsRef.current[index] = el)}
                   role="menuitem"
+                  tabIndex={-1}
                   lang={lng}
                   aria-current={isCurrent ? 'true' : undefined}
                   onClick={() => handleChangeLanguage(lng)}
                   onKeyDown={e => handleMenuKeyDown(e, index)}
-                  aria-label={`${
-                    lngCode === 'IT'
-                      ? 'Cambia lingua in:'
-                      : 'Change language to:'
-                  } ${lngCode} - ${lngName}`}
+                  aria-label={ariaLabelText}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
