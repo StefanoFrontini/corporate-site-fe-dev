@@ -11,8 +11,8 @@
   "slider": {
     "prevSlide": "Previous",
     "nextSlide": "Next",
-    "prevSlideMessage": "Previous",
-    "nextSlideMessage": "Next",
+    "prevSlideMessage": "Previous project",
+    "nextSlideMessage": "Next project",
     "firstSlideMessage": "This is the first slide",
     "lastSlideMessage": "This is the last slide",
     "paginationBulletMessage": "Go to slide {{index}}"
