@@ -106,11 +106,23 @@ export const NewsletterBanner = () => {
     setGroups(newGroups);
     checkValidity(email, newGroups);
   };
-
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
-    checkValidity(newEmail, groups);
+
+    if (validationError) {
+      setValidationError(null);
+    }
+
+    const emailValid = newEmail.trim() !== '' && /\S+@\S+\.\S+/.test(newEmail);
+    const atLeastOneChecked = groups.some(group => group.checked);
+
+    setIsEmailValid(emailValid);
+    setValidity(emailValid && atLeastOneChecked);
+  };
+
+  const handleEmailBlur = () => {
+    checkValidity(email, groups);
   };
 
   const checkValidity = (
@@ -257,6 +269,7 @@ export const NewsletterBanner = () => {
                   required
                   value={email}
                   onChange={handleEmailChange}
+                  onBlur={handleEmailBlur}
                   aria-invalid={
                     validationError && !isEmailValid ? 'true' : 'false'
                   }
@@ -271,9 +284,10 @@ export const NewsletterBanner = () => {
                   id="newsletter-validation-error"
                   className={validationError ? 'message error' : ''}
                   role="alert"
+                  aria-atomic="true"
                   style={{ marginTop: validationError ? '2rem' : '0' }}
                 >
-                  {validationError && <span>{validationError}</span>}
+                  {validationError}
                 </div>
 
                 <button
