@@ -19,7 +19,7 @@ export const JobPastList = ({
         <AccordionItem className="accordion-entry">
           <AccordionItemHeading className="accordion-entry__header">
             <AccordionItemButton className="accordion-entry__button">
-              <h3 className="mb-0">Posizioni chiuse</h3>
+              <h2 className="mb-0 h3">Posizioni chiuse</h2>
             </AccordionItemButton>
           </AccordionItemHeading>
 

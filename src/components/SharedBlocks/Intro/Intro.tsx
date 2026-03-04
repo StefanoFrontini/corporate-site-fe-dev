@@ -36,7 +36,7 @@ const IntroMenu = ({ menu, pathname }: IntroMenuProps) => {
                     label={linkLabel || title}
                     href={link}
                     variant="link-simple"
-                    as="h1"
+                    // as="h1"
                   />
                 )}
               </li>
@@ -63,7 +63,7 @@ export const Intro = ({
 
   function renderEyelet() {
     if (!eyelet) return null;
-    if (isProjects) return <div className="h4">{eyelet}</div>;
+    if (isProjects) return <h1 className="h4">{eyelet}</h1>;
     return <h1 className="h4">{eyelet}</h1>;
   }
 

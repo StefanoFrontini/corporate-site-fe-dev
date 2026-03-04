@@ -81,7 +81,15 @@ const Checkbox = ({ label, value, checked, onChange }: CheckboxProps) => {
   );
 };
 
-export const NewsletterBanner = () => {
+type NewsletterBannerProps = {
+  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  className?: string;
+};
+
+export const NewsletterBanner = ({
+  titleTag = 'h3',
+  className = '',
+}: NewsletterBannerProps) => {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [groups, setGroups] = useState<NewsletterGroup[]>(
@@ -193,6 +201,8 @@ export const NewsletterBanner = () => {
     }
   };
 
+  const HeadingTag = titleTag;
+
   return (
     <>
       <div id="newsletter" className="newsletter-banner-anchor"></div>
@@ -204,9 +214,9 @@ export const NewsletterBanner = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12 col-lg-10 offset-lg-1">
-              <h3>
+              <HeadingTag className={className}>
                 <Trans i18nKey="newsletter.title" components={{ 1: <br /> }} />
-              </h3>
+              </HeadingTag>
             </div>
           </div>
           <div className="row">

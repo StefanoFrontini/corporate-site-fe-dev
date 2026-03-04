@@ -199,14 +199,14 @@ export default function Component({
             )}
             <div className="row">
               <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                {startDate && <h4>{theDate}</h4>}
+                {startDate && <h2 className="h4">{theDate}</h2>}
                 <Body data={body} />
               </div>
             </div>
           </div>
         </div>
       </article>
-      {true && <NewsletterBanner />}
+      {true && <NewsletterBanner titleTag="h2" className="h3" />}
     </Layout>
   ) : null;
 }

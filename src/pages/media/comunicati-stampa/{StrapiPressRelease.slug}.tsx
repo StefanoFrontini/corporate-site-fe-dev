@@ -106,7 +106,7 @@ export default function Component({
           <div className="container-fluid">
             <div className="row">
               <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                <h4>{theDate}</h4>
+                <h2 className="h4">{theDate}</h2>
                 {body && <Body data={body} />}
               </div>
             </div>
