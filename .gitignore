@@ -12,3 +12,6 @@
 node_modules/
 public
 src/gatsby-types.d.ts
+.claude
+CLAUDE.md
+.playwright-mcp

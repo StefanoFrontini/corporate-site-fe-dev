@@ -18,7 +18,6 @@ export const Hamburger = forwardRef<
       className="hamburger"
       onClick={handler}
       aria-label={isOpen ? t('closeMenu') : t('openMenu')}
-      aria-expanded={isOpen}
     >
       <span></span>
       <span></span>

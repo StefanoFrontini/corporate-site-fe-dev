@@ -22,11 +22,19 @@ export const LanguageSwitch = () => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const itemsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
+  // Protection flag: prevents any closing mechanism for a short time after opening.
+  // This fixes iOS double-tap where rapid events (touchstart, blur, click)
+  // would immediately close the dropdown after it opens.
+  const justOpenedRef = useRef(false);
+
   const getLanguageName = (lang: string) => {
     return lang === 'it' ? 'Italiano' : 'English';
   };
 
   const handleChangeLanguage = async (selectedLanguage: string) => {
+    // Block accidental clicks from iOS double-tap landing on menu items
+    if (justOpenedRef.current) return;
+
     const langName = getLanguageName(selectedLanguage);
     const langCode = selectedLanguage.toUpperCase();
 
@@ -49,50 +57,35 @@ export const LanguageSwitch = () => {
   };
 
   const toggleMenu = () => {
-    setIsOpen(prev => !prev);
-  };
-
-  const findNextFocusableInMobileMenu = (
-    currentElement: HTMLElement | null
-  ): HTMLElement | null => {
-    if (!currentElement) return null;
-
-    const mobileMenu = currentElement.closest(
-      '.header__mobile-menu, .menu-header'
-    );
-    if (!mobileMenu) return null;
-
-    const focusableElements = mobileMenu.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-
-    if (focusableElements.length === 0) return null;
-
-    const currentIndex = Array.from(focusableElements).indexOf(currentElement);
-
-    if (currentIndex === -1) {
-      return focusableElements[0] as HTMLElement;
-    }
-
-    if (currentIndex === focusableElements.length - 1) {
-      return focusableElements[0] as HTMLElement;
-    }
-
-    return focusableElements[currentIndex + 1] as HTMLElement;
+    if (justOpenedRef.current) return;
+    setIsOpen(prev => {
+      if (!prev) {
+        // Opening: set protection flag
+        justOpenedRef.current = true;
+        setTimeout(() => {
+          justOpenedRef.current = false;
+        }, 400);
+      }
+      return !prev;
+    });
   };
 
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
         const firstItem = itemsRef.current[0];
+        // tabIndex is already 0 via the isOpen prop, so .focus() works on iOS
         if (firstItem) firstItem.focus();
-      }, 50);
+      }, 150);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      // Skip if dropdown was just opened (iOS double-tap protection)
+      if (justOpenedRef.current) return;
+
       if (
         isOpen &&
         menuRef.current &&
@@ -102,12 +95,15 @@ export const LanguageSwitch = () => {
       }
     };
 
+    // Only use mousedown (not touchstart) to detect clicks outside.
+    // On mobile, a real tap still fires mousedown after touch events.
+    // Screen reader swipe gestures (TalkBack, VoiceOver) fire touchstart
+    // but NOT mousedown, so removing touchstart prevents the dropdown
+    // from closing when the user swipes to navigate between options.
     document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -119,12 +115,8 @@ export const LanguageSwitch = () => {
       e.preventDefault();
       setIsOpen(false);
     } else if (e.key === 'Tab' && isOpen) {
-      e.preventDefault();
-      if (e.shiftKey) {
-        itemsRef.current[languages.length - 1]?.focus();
-      } else {
-        itemsRef.current[0]?.focus();
-      }
+      // Close dropdown and let the browser handle Tab navigation naturally
+      setIsOpen(false);
     }
   };
 
@@ -178,17 +170,9 @@ export const LanguageSwitch = () => {
           if (index === languages.length - 1) {
             e.preventDefault();
             setIsOpen(false);
-
-            setTimeout(() => {
-              const nextElement = findNextFocusableInMobileMenu(
-                triggerRef.current
-              );
-              if (nextElement) {
-                nextElement.focus();
-              } else {
-                triggerRef.current?.focus();
-              }
-            }, 0);
+            // Return focus to trigger; the Header focus trap handles cycling
+            // to the next element when the user presses Tab again
+            setTimeout(() => triggerRef.current?.focus(), 0);
           } else {
             e.preventDefault();
             const nextIndex = index + 1;
@@ -203,8 +187,28 @@ export const LanguageSwitch = () => {
   };
 
   const handleBlur = (e: React.FocusEvent) => {
-    if (!menuRef.current?.contains(e.relatedTarget as Node)) {
-      setIsOpen(false);
+    // Skip if dropdown was just opened (iOS double-tap protection)
+    if (justOpenedRef.current) return;
+
+    // On iOS, relatedTarget may be null for programmatic focus changes.
+    // In that case, don't close - let handleClickOutside handle it instead.
+    if (!e.relatedTarget) return;
+
+    // Don't close if focus is moving to another element within the language switcher
+    if (
+      !menuRef.current?.contains(e.relatedTarget as Node) &&
+      e.relatedTarget !== triggerRef.current
+    ) {
+      // Use timeout to allow screen reader users to swipe to next item
+      setTimeout(() => {
+        if (justOpenedRef.current) return;
+        if (
+          document.activeElement &&
+          !menuRef.current?.contains(document.activeElement)
+        ) {
+          setIsOpen(false);
+        }
+      }, 100);
     }
   };
 
@@ -274,7 +278,6 @@ export const LanguageSwitch = () => {
           backgroundColor: 'white',
           zIndex: 1000,
           boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-          display: isOpen ? 'block' : 'none',
         }}
       >
         <ul
@@ -306,7 +309,7 @@ export const LanguageSwitch = () => {
                 <button
                   ref={el => (itemsRef.current[index] = el)}
                   role="menuitem"
-                  tabIndex={-1}
+                  tabIndex={isOpen ? 0 : -1}
                   lang={lng}
                   aria-current={isCurrent ? 'true' : undefined}
                   onClick={() => handleChangeLanguage(lng)}

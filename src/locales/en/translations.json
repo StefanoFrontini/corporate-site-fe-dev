@@ -82,5 +82,7 @@
       "groupsRequired": "Select at least one group.",
       "bothRequired": "Enter a valid email address and select at least one group."
     }
-  }
+  },
+  "toggleSubmenu": "Toggle submenu",
+  "toggleSubmenuFor": "Toggle submenu for {{item}}"
 }

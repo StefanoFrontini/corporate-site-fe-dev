@@ -81,5 +81,7 @@
       "groupsRequired": "Seleziona almeno un gruppo.",
       "bothRequired": "Inserisci un indirizzo email valido e seleziona almeno un gruppo."
     }
-  }
+  },
+  "toggleSubmenu": "Apri/chiudi sottomenu",
+  "toggleSubmenuFor": "Apri/chiudi sottomenu per {{item}}"
 }
