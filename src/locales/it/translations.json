@@ -73,7 +73,7 @@
     "emailPlaceholder": "Inserisci la tua email",
     "subscribeButton": "Iscriviti",
     "privacyNotice": "Inserendo il tuo indirizzo email stai accettando la <1>nostra informativa sul trattamento dei dati personali</1> per la newsletter.",
-    "recaptchaNotice": "Form protetto tramite reCAPTCHA e <1>Google Privacy Policy</1> e <2>Termini di servizio</2> applicati.",
+    "recaptchaNotice": "Form protetto tramite reCAPTCHA.",
     "successMessage": "Richiesta inviata correttamente. A breve riceverai una email per confermare la tua iscrizione.",
     "errorMessage": "Non è stato possibile inviare la richiesta. Riprova più tardi.",
     "validationErrors": {

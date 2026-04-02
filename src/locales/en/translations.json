@@ -74,7 +74,7 @@
     "emailPlaceholder": "Enter your email address",
     "subscribeButton": "Subscribe",
     "privacyNotice": "By entering your mail address, you agree to our <1>personal data processing notice</1> for the newsletter.",
-    "recaptchaNotice": "This form is protected by reCAPTCHA and the <1>Google Privacy Policy</1> and <2>Terms of Service</2> apply.",
+    "recaptchaNotice": "This form is protected by reCAPTCHA.",
     "successMessage": "Request sent successfully. You will shortly receive an email to confirm your subscription.",
     "errorMessage": "Unable to send the request. Please try again later.",
     "validationErrors": {
