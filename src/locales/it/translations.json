@@ -83,5 +83,6 @@
     }
   },
   "toggleSubmenu": "Apri/chiudi sottomenu",
-  "toggleSubmenuFor": "Apri/chiudi sottomenu per {{item}}"
+  "toggleSubmenuFor": "Apri/chiudi sottomenu per {{item}}",
+  "submenuLabel": "Sottomenu {{item}}"
 }

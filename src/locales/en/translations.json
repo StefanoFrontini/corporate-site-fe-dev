@@ -84,5 +84,6 @@
     }
   },
   "toggleSubmenu": "Toggle submenu",
-  "toggleSubmenuFor": "Toggle submenu for {{item}}"
+  "toggleSubmenuFor": "Toggle submenu for {{item}}",
+  "submenuLabel": "Submenu {{item}}"
 }

@@ -45,7 +45,7 @@ export const MenuNavigation = ({
 
   const isCurrent = pathname
     .split('/')
-    .includes(item.uiRouterKey.replace(/-\d+/, '') as string);
+    .includes((item.uiRouterKey?.replace(/-\d+/, '') ?? '') as string);
   const hasChildren = !!items?.length;
 
   const handleSubmenu = () => {
@@ -156,21 +156,34 @@ export const MenuNavigation = ({
     // actually went, preventing the submenu from closing during navigation.
     if (!e.relatedTarget) {
       setTimeout(() => {
-        if (
-          menuRef.current &&
-          !menuRef.current.contains(document.activeElement)
-        ) {
-          setSubmenuOpen(false);
+        const activeEl = document.activeElement;
+        if (!menuRef.current || menuRef.current.contains(activeEl)) return;
+
+        if (isMobile) {
+          // On mobile, keep the submenu open when focus moves to a sibling
+          // within the same <nav>. This prevents VoiceOver from announcing
+          // "compresso" mid-navigation; the user closes the submenu explicitly.
+          const parentNav = menuRef.current.closest('nav');
+          if (parentNav?.contains(activeEl)) return;
         }
+
+        setSubmenuOpen(false);
       }, 150);
       return;
     }
-    if (menuRef.current && !menuRef.current.contains(e.relatedTarget)) {
-      setSubmenuOpen(false);
+
+    if (!menuRef.current || menuRef.current.contains(e.relatedTarget)) return;
+
+    if (isMobile) {
+      // Same rationale: don't auto-close when focus stays within the nav.
+      const parentNav = menuRef.current.closest('nav');
+      if (parentNav?.contains(e.relatedTarget)) return;
     }
+
+    setSubmenuOpen(false);
   };
 
-  const isMediaItem = item.uiRouterKey.includes('media');
+  const isMediaItem = item.uiRouterKey?.includes('media') ?? false;
 
   return (
     <li
@@ -210,7 +223,7 @@ export const MenuNavigation = ({
                 // aria-label={t('toggleSubmenuFor', { item: item.title })}
               >
                 {/* Caret is created via CSS ::after pseudo-element */}
-                <span className="sr-only">{t('toggleSubmenu')}</span>
+                <span className="sr-only">{t('submenuLabel', { item: item.title })}</span>
               </button>
             </>
           ) : (
@@ -243,7 +256,7 @@ export const MenuNavigation = ({
           {items?.map(item => {
             const isCurrentSubmenu = pathname
               .split('/')
-              .includes(item.uiRouterKey.replace(/-\d+/, '') as string);
+              .includes((item?.uiRouterKey?.replace(/-\d+/, '') ?? '') as string);
             return (
               item && (
                 <li

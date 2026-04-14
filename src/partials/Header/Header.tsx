@@ -35,7 +35,32 @@ export const Header = ({
     };
   }, [scrolled]);
 
-  // Focus trap for mobile menu
+  // Screen-reader focus trap: hide non-menu content from SR when mobile menu is open
+  useEffect(() => {
+    const mainEl = document.querySelector('main');
+    const footerEl = document.querySelector('footer');
+
+    if (mobileMenuOpen) {
+      mainEl?.setAttribute('aria-hidden', 'true');
+      mainEl?.setAttribute('inert', '');
+      footerEl?.setAttribute('aria-hidden', 'true');
+      footerEl?.setAttribute('inert', '');
+    } else {
+      mainEl?.removeAttribute('aria-hidden');
+      mainEl?.removeAttribute('inert');
+      footerEl?.removeAttribute('aria-hidden');
+      footerEl?.removeAttribute('inert');
+    }
+
+    return () => {
+      mainEl?.removeAttribute('aria-hidden');
+      mainEl?.removeAttribute('inert');
+      footerEl?.removeAttribute('aria-hidden');
+      footerEl?.removeAttribute('inert');
+    };
+  }, [mobileMenuOpen]);
+
+  // Keyboard focus trap for mobile menu
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
@@ -162,7 +187,7 @@ export const Header = ({
       )}
     >
       <div className="header__single">
-        <div className="header__left">
+        <div className="header__left" aria-hidden={mobileMenuOpen || undefined}>
           <Logo
             title="PagoPA"
             menuOpen={mobileMenuOpen}
