@@ -4,7 +4,6 @@ import { Image } from '../../Image';
 import { useLocation } from '@reach/router';
 import classNames from 'classnames';
 import { Body } from '../../Remark/Body';
-import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 type IntroMenuProps = {
   menu: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment['introMenu'];
@@ -55,15 +54,11 @@ export const Intro = ({
   introMenu,
   body,
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment) => {
-  const { t } = useTranslation();
   const { pathname } = useLocation();
-  const isSustainableDev =
-    title === 'Il nostro impegno per uno sviluppo sostenibile';
-  const isProjects = eyelet === t('intro.projectsEyelet');
 
   function renderEyelet() {
     if (!eyelet) return null;
-    if (isProjects) return <h1 className="h4">{eyelet}</h1>;
+    if (title) return <p className="h4">{eyelet}</p>;
     return <h1 className="h4">{eyelet}</h1>;
   }
 
@@ -74,14 +69,10 @@ export const Intro = ({
       <div className="container-fluid">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-9">
-            <div className={title ? 'intro__heading' : 'intro'}>
+            <div className={title || introMenu?.length ? 'intro__heading' : 'intro'}>
               {renderEyelet()}
               {introMenu && <IntroMenu menu={introMenu} pathname={pathname} />}
-              {isSustainableDev ? (
-                <h1 className="h1">{title}</h1>
-              ) : (
-                <h2 className="h1">{title}</h2>
-              )}
+              {title && <h1 className="h1">{title}</h1>}
             </div>
           </div>
         </div>
