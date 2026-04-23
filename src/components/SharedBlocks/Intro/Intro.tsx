@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Cta } from '../../../partials/Cta';
 import { Image } from '../../Image';
 import { useLocation } from '@reach/router';
 import classNames from 'classnames';
 import { Body } from '../../Remark/Body';
+import chevronDownBrand from '../../../images/ui/chevron-down-brand.svg';
 
 type IntroMenuProps = {
   menu: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment['introMenu'];
@@ -11,38 +12,48 @@ type IntroMenuProps = {
 };
 
 const IntroMenu = ({ menu, pathname }: IntroMenuProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   if (!menu?.length) return <></>;
 
+  const urlSlug = pathname.replace(/\/+$/, '').split('/').pop();
+  const items = menu
+    .filter(item => !!item?.link)
+    .map(item => {
+      const { link, title, linkLabel } = item!;
+      const slug = link!.replace(/\/+$/, '').split('/').pop();
+      return { link: link!, label: linkLabel || title, isCurrent: urlSlug === slug };
+    });
+
+  const inactiveItems = items.filter(item => !item.isCurrent);
+
   return (
-    <nav className="intro-menu">
-      <ul>
-        {menu.map((item, key) => {
-          const { link, title, linkLabel } = item || {};
-          if (link) {
-            const linkWithoutSlashes = link
-              .replace(/\/+$/, '')
-              .split('/')
-              .pop();
-            const urlSplit = pathname.replace(/\/+$/, '').split('/');
-
-            const isCurrent =
-              urlSplit[urlSplit.length - 1] === linkWithoutSlashes;
-
-            return (
-              <li key={key} className={classNames(isCurrent && 'is-current')}>
-                {(linkLabel || title) && (
-                  <Cta
-                    label={linkLabel || title}
-                    href={link}
-                    variant="link-simple"
-                    // as="h1"
-                  />
-                )}
-              </li>
-            );
-          }
-        })}
+    <nav className={classNames('intro-menu', isOpen && 'is-open')}>
+      <ul className="intro-menu__list">
+        {items.map(({ link, label, isCurrent }, key) => (
+          <li key={key} className={classNames(isCurrent && 'is-current')}>
+            {label && <Cta label={label} href={link} variant="link-simple" />}
+          </li>
+        ))}
+        <li className="intro-menu__toggle-item">
+          <button
+            className="intro-menu__toggle"
+            onClick={() => setIsOpen(o => !o)}
+            aria-expanded={isOpen}
+            aria-label={isOpen ? 'Chiudi navigazione' : 'Apri navigazione'}
+          >
+            <img src={chevronDownBrand} alt="" aria-hidden="true" />
+          </button>
+        </li>
       </ul>
+      {inactiveItems.length > 0 && (
+        <ul className="intro-menu__dropdown">
+          {inactiveItems.map(({ link, label }, key) => (
+            <li key={key}>
+              {label && <Cta label={label} href={link} variant="link-simple" />}
+            </li>
+          ))}
+        </ul>
+      )}
     </nav>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from '@reach/router';
 
 import {
   Accordion as AccordionContainer,
@@ -16,11 +17,14 @@ const AccordionItemComp = ({
 }: {
   data: Queries.AccordionFragment;
 }) => {
+  const { pathname } = useLocation();
+  const HeadingTag = pathname.includes('fondo-innovazione') ? 'h2' : 'h4';
+
   return (
     <AccordionItem className="accordion-entry">
       <AccordionItemHeading className="accordion-entry__header">
         <AccordionItemButton className="accordion-entry__button">
-          <h4 className="primary">{heading}</h4>
+          <HeadingTag className="primary">{heading}</HeadingTag>
         </AccordionItemButton>
       </AccordionItemHeading>
 

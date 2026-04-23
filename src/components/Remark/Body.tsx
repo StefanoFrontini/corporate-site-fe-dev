@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { MutableRefObject } from 'react';
+import { useLocation } from '@reach/router';
 
 import './Body.sass';
 
@@ -17,6 +18,7 @@ export const Body = ({
   className?: string;
   forwardRef?: MutableRefObject<null>;
 }) => {
+  const { pathname } = useLocation();
   const isProduction = process.env.NODE_ENV === 'production';
   const { html } = data?.childMarkdownRemark || { html: '' };
 
@@ -29,10 +31,12 @@ export const Body = ({
     ? html.replace(/\/uploads\//g, CDN_MEDIA_PATH)
     : html.replace(/\/uploads\//g, CMS_MEDIA_PATH);
 
-  // This regex modifies the heading "COME ADERIRE" of the page "Check IBAN" and the headings of the page "Fondo Innovazione" in order to render a tag <h3> instead of <h4> and better align with the headings structure of the page.
+  // Upgrades h4 headings for semantic correctness. Fondo Innovazione uses h2 (sections under h1).
+  // Check IBAN uses h3 (sub-sections under an existing h2 "Vantaggi"). All other pages default to h3.
   const allH4Regex = /<h4\b[^>]*>([\s\S]*?)<\/h4>/gi;
+  const h4Tag = pathname.includes('fondo-innovazione') ? 'h2' : 'h3';
 
-  processedHtml = processedHtml.replace(allH4Regex, '<h3 class="h4">$1</h3>');
+  processedHtml = processedHtml.replace(allH4Regex, `<${h4Tag} class="h4">$1</${h4Tag}>`);
 
   return (
     <div
