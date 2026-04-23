@@ -8,6 +8,10 @@
   "languageChangedFeedback": "Lingua impostata su {{language}}",
   "openMenu": "Apri menu",
   "closeMenu": "Chiudi menu",
+  "introMenu": {
+    "open": "Apri navigazione",
+    "close": "Chiudi navigazione"
+  },
   "slider": {
     "prevSlide": "Precedente",
     "nextSlide": "Successivo",

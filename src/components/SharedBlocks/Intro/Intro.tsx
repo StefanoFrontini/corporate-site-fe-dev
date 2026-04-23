@@ -5,6 +5,7 @@ import { useLocation } from '@reach/router';
 import classNames from 'classnames';
 import { Body } from '../../Remark/Body';
 import chevronDownBrand from '../../../images/ui/chevron-down-brand.svg';
+import { useTranslation } from 'gatsby-plugin-react-i18next';
 
 type IntroMenuProps = {
   menu: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_INTRO_Fragment['introMenu'];
@@ -13,6 +14,7 @@ type IntroMenuProps = {
 
 const IntroMenu = ({ menu, pathname }: IntroMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
   if (!menu?.length) return <></>;
 
   const urlSlug = pathname.replace(/\/+$/, '').split('/').pop();
@@ -43,7 +45,7 @@ const IntroMenu = ({ menu, pathname }: IntroMenuProps) => {
             className="intro-menu__toggle"
             onClick={() => setIsOpen(o => !o)}
             aria-expanded={isOpen}
-            aria-label={isOpen ? 'Chiudi navigazione' : 'Apri navigazione'}
+            aria-label={isOpen ? t('introMenu.close') : t('introMenu.open')}
           >
             <img src={chevronDownBrand} alt="" aria-hidden="true" />
           </button>

@@ -8,6 +8,10 @@
   "languageChangedFeedback": "Language changed to {{language}}",
   "openMenu": "Open menu",
   "closeMenu": "Close menu",
+  "introMenu": {
+    "open": "Open navigation",
+    "close": "Close navigation"
+  },
   "slider": {
     "prevSlide": "Previous",
     "nextSlide": "Next",
