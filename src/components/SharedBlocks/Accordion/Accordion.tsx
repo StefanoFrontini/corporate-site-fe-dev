@@ -29,7 +29,7 @@ const AccordionItemComp = ({
       </AccordionItemHeading>
 
       <AccordionItemPanel className="accordion-entry__content">
-        <Body data={content} />
+        {content && <Body data={content} />}
       </AccordionItemPanel>
     </AccordionItem>
   );
@@ -61,13 +61,19 @@ export const Accordion = ({
     <section className="block block-accordion">
       <div className="container-fluid">
         <div className="row">
-          <div className={`col-12 ${columns[BlockWidth] ?? ''}`}>
+          <div
+            className={`col-12 ${
+              BlockWidth ? columns[BlockWidth as 'Standard' | 'Wide'] ?? '' : ''
+            }`}
+          >
             <h3 className="h1">{title}</h3>
 
             {accordionItems && (
               <AccordionContainer allowZeroExpanded>
                 {accordionItems?.map((item, key) => {
-                  return <AccordionItemComp data={item} key={key} />;
+                  return item ? (
+                    <AccordionItemComp data={item} key={key} />
+                  ) : null;
                 })}
               </AccordionContainer>
             )}

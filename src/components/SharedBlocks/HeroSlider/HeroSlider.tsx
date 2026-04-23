@@ -81,12 +81,12 @@ export const HeroSlider = ({
               >
                 <button
                   className="hero__nav hero__nav__prev"
-                  aria-label={t('slider.prevSlide')}
+                  aria-label={t('slider.prevSlide') ?? undefined}
                   tabIndex={isDecorative ? -1 : 0}
                 />
                 <button
                   className="hero__nav hero__nav__next"
-                  aria-label={t('slider.nextSlide')}
+                  aria-label={t('slider.nextSlide') ?? undefined}
                   tabIndex={isDecorative ? -1 : 0}
                 />
                 <div className="hero__pagination">
@@ -97,9 +97,11 @@ export const HeroSlider = ({
                         className={`bullet ${
                           currentSlideIndex === index ? 'is-current' : ''
                         }`}
-                        aria-label={t('slider.paginationBulletMessage', {
-                          index: index + 1,
-                        })}
+                        aria-label={
+                          t('slider.paginationBulletMessage', {
+                            index: index + 1,
+                          }) ?? undefined
+                        }
                         aria-current={
                           currentSlideIndex === index ? 'true' : undefined
                         }
@@ -124,13 +126,16 @@ export const HeroSlider = ({
                       ? { enabled: false }
                       : {
                           enabled: true,
-                          prevSlideMessage: t('slider.prevSlideMessage'),
-                          nextSlideMessage: t('slider.nextSlideMessage'),
-                          firstSlideMessage: t('slider.firstSlideMessage'),
-                          lastSlideMessage: t('slider.lastSlideMessage'),
-                          paginationBulletMessage: t(
-                            'slider.paginationBulletMessage'
-                          ),
+                          prevSlideMessage:
+                            t('slider.prevSlideMessage') ?? undefined,
+                          nextSlideMessage:
+                            t('slider.nextSlideMessage') ?? undefined,
+                          firstSlideMessage:
+                            t('slider.firstSlideMessage') ?? undefined,
+                          lastSlideMessage:
+                            t('slider.lastSlideMessage') ?? undefined,
+                          paginationBulletMessage:
+                            t('slider.paginationBulletMessage') ?? undefined,
                         }
                   }
                   onSlideChange={swiper => {

@@ -223,7 +223,9 @@ export const MenuNavigation = ({
                 // aria-label={t('toggleSubmenuFor', { item: item.title })}
               >
                 {/* Caret is created via CSS ::after pseudo-element */}
-                <span className="sr-only">{t('submenuLabel', { item: item.title })}</span>
+                <span className="sr-only">
+                  {t('submenuLabel', { item: item.title })}
+                </span>
               </button>
             </>
           ) : (
@@ -256,7 +258,9 @@ export const MenuNavigation = ({
           {items?.map(item => {
             const isCurrentSubmenu = pathname
               .split('/')
-              .includes((item?.uiRouterKey?.replace(/-\d+/, '') ?? '') as string);
+              .includes(
+                (item?.uiRouterKey?.replace(/-\d+/, '') ?? '') as string
+              );
             return (
               item && (
                 <li

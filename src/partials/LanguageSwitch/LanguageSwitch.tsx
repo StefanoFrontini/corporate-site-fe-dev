@@ -50,7 +50,7 @@ export const LanguageSwitch = () => {
       return;
     }
 
-    setLiveText(t('languageChangedFeedback', { language: langName }));
+    setLiveText(t('languageChangedFeedback', { language: langName }) ?? '');
     setIsOpen(false);
     const targetPath = selectedLanguage === 'it' ? '/' : '/en/homepage/';
     await changeLanguage(selectedLanguage, targetPath);

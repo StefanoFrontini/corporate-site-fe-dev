@@ -39,7 +39,7 @@ const InnovItem = ({
           <h3 className="light">{title}</h3>
         )}
         <div>
-          <p>{previewText(36, body?.data.body)}</p>
+          <p>{previewText(36, body?.data?.body ?? undefined)}</p>
         </div>
       </div>
 

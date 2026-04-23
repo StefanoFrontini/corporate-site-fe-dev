@@ -274,7 +274,7 @@ export const NewsletterBanner = ({
                   id="email"
                   type="email"
                   autoComplete="email"
-                  placeholder={t('newsletter.emailPlaceholder')}
+                  placeholder={t('newsletter.emailPlaceholder') ?? undefined}
                   className="input newsletter-email"
                   required
                   value={email}

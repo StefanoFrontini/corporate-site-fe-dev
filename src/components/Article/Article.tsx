@@ -80,7 +80,7 @@ export const Article = ({
         ) : (
           <h2 className="h4 primary medium">{title}</h2>
         )}
-        {previewText(14, body?.data?.body)}
+        {previewText(14, body?.data?.body ?? undefined)}
       </div>
     </article>
   );

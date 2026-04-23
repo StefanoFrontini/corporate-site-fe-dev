@@ -22,9 +22,9 @@ export const AttachmentList = ({
                   return id ? (
                     <li key={id}>
                       <Cta
-                        label={label || attachment?.name || link}
+                        label={label || attachment?.name || link || ''}
                         variant="link"
-                        href={attachment?.url || link}
+                        href={attachment?.url || link || undefined}
                         blank
                       />
                     </li>

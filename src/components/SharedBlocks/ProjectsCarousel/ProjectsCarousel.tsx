@@ -80,8 +80,10 @@ export const ProjectsCarousel = ({
                     }}
                     a11y={{
                       enabled: true,
-                      prevSlideMessage: t('slider.prevSlideMessage'),
-                      nextSlideMessage: t('slider.nextSlideMessage'),
+                      prevSlideMessage:
+                        t('slider.prevSlideMessage') ?? undefined,
+                      nextSlideMessage:
+                        t('slider.nextSlideMessage') ?? undefined,
                       slideRole: '',
                       slideLabelMessage: '',
                     }}
@@ -133,10 +135,10 @@ export const ProjectsCarousel = ({
                             {carouselCtaLabel && (
                               <Cta
                                 label={carouselCtaLabel}
-                                title={carouselTitle}
-                                href={`/${language}/${t(
-                                  'productsAndServices'
-                                )}/${slug}`}
+                                title={carouselTitle ?? undefined}
+                                href={`/${language}/${
+                                  t('productsAndServices') ?? ''
+                                }/${slug}`}
                                 variant="white-hollow"
                               />
                             )}
@@ -158,7 +160,7 @@ export const ProjectsCarousel = ({
                 <div className="projects-carousel__header" aria-hidden="true">
                   <button
                     className="projects-carousel__nav prev"
-                    aria-label={t('slider.prevSlideMessage')}
+                    aria-label={t('slider.prevSlideMessage') ?? undefined}
                     aria-controls="swiper-wrapper-1"
                   />
 
@@ -167,7 +169,7 @@ export const ProjectsCarousel = ({
 
                   <button
                     className="projects-carousel__nav next"
-                    aria-label={t('slider.nextSlideMessage')}
+                    aria-label={t('slider.nextSlideMessage') ?? undefined}
                     aria-controls="swiper-wrapper-1"
                   />
                 </div>

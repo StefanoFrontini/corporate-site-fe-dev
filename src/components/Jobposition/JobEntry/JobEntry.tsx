@@ -21,7 +21,7 @@ export const JobEntry = ({
   jobposition: Queries.JobpositionFragment;
   closed?: boolean;
 }) => (
-  <Link key={jobposition?.id} to={jobposition?.slug}>
+  <Link key={jobposition?.id} to={jobposition?.slug ?? ''}>
     <article className="job-entry">
       <h3 className="h4 primary job-entry__title">
         {jobposition?.title}

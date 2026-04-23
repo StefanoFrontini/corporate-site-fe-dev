@@ -21,7 +21,11 @@ const IntroMenu = ({ menu, pathname }: IntroMenuProps) => {
     .map(item => {
       const { link, title, linkLabel } = item!;
       const slug = link!.replace(/\/+$/, '').split('/').pop();
-      return { link: link!, label: linkLabel || title, isCurrent: urlSlug === slug };
+      return {
+        link: link!,
+        label: linkLabel || title,
+        isCurrent: urlSlug === slug,
+      };
     });
 
   const inactiveItems = items.filter(item => !item.isCurrent);
@@ -80,7 +84,11 @@ export const Intro = ({
       <div className="container-fluid">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-9">
-            <div className={title || introMenu?.length ? 'intro__heading' : 'intro'}>
+            <div
+              className={
+                title || introMenu?.length ? 'intro__heading' : 'intro'
+              }
+            >
               {renderEyelet()}
               {introMenu && <IntroMenu menu={introMenu} pathname={pathname} />}
               {title && <h1 className="h1">{title}</h1>}

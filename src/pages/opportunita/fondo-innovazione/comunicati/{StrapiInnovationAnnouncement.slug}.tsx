@@ -69,16 +69,16 @@ const InnovIntro = ({ eyelet, title }: Queries.InnovIntroFragment) => {
 export default function Component({
   data: { strapiInnovationAnnouncement },
 }: PageProps<Queries.StrapiInnovationAnnouncementQuery>) {
-  const { body, eyelet, title, slug, blocks } =
-    strapiInnovationAnnouncement || {};
+  if (!strapiInnovationAnnouncement) return null;
+
+  const { body, eyelet, title, slug, blocks } = strapiInnovationAnnouncement;
 
   return title && slug ? (
     <Layout>
       <article className="post-article">
         <InnovIntro
           {...{
-            body,
-            eyelet,
+            eyelet: eyelet ?? null,
             title,
           }}
         />
@@ -86,7 +86,7 @@ export default function Component({
           <div className="container-fluid">
             <div className="row">
               <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                <Body data={body} />
+                {body && <Body data={body} />}
               </div>
             </div>
           </div>
