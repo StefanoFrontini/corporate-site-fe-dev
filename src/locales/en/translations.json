@@ -9,6 +9,7 @@
   "openMenu": "Open menu",
   "closeMenu": "Close menu",
   "introMenu": {
+    "label": "Section navigation menu",
     "open": "Open navigation",
     "close": "Close navigation"
   },

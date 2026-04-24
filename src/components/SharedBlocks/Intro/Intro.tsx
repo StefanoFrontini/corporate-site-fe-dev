@@ -45,14 +45,15 @@ const IntroMenu = ({ menu, pathname }: IntroMenuProps) => {
             className="intro-menu__toggle"
             onClick={() => setIsOpen(o => !o)}
             aria-expanded={isOpen}
-            aria-label={isOpen ? t('introMenu.close') : t('introMenu.open')}
+            aria-controls="intro-menu-dropdown"
+            aria-label={t('introMenu.label')}
           >
             <img src={chevronDownBrand} alt="" aria-hidden="true" />
           </button>
         </li>
       </ul>
       {inactiveItems.length > 0 && (
-        <ul className="intro-menu__dropdown">
+        <ul id="intro-menu-dropdown" className="intro-menu__dropdown">
           {inactiveItems.map(({ link, label }, key) => (
             <li key={key}>
               {label && <Cta label={label} href={link} variant="link-simple" />}
