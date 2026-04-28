@@ -36,7 +36,7 @@ const InnovItem = ({
         {isPreview ? (
           <h4 className="primary medium">{title}</h4>
         ) : (
-          <h3 className="light">{title}</h3>
+          <h2 className="light">{title}</h2>
         )}
         <div>
           <p>{previewText(36, body?.data?.body ?? undefined)}</p>

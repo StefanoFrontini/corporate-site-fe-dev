@@ -17,14 +17,11 @@ const AccordionItemComp = ({
 }: {
   data: Queries.AccordionFragment;
 }) => {
-  const { pathname } = useLocation();
-  const HeadingTag = pathname.includes('fondo-innovazione') ? 'h2' : 'h4';
-
   return (
     <AccordionItem className="accordion-entry">
       <AccordionItemHeading className="accordion-entry__header">
         <AccordionItemButton className="accordion-entry__button">
-          <HeadingTag className="primary">{heading}</HeadingTag>
+          <span className="primary">{heading}</span>
         </AccordionItemButton>
       </AccordionItemHeading>
 
@@ -40,6 +37,8 @@ export const Accordion = ({
   title,
   blockConf,
 }: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_ACCORDION_Fragment) => {
+  const { pathname } = useLocation();
+  const TitleTag = pathname.includes('fondo-innovazione') ? 'h2' : 'h3';
   const { BlockPosition, BlockWidth } = blockConf || {};
 
   // center default
@@ -66,7 +65,7 @@ export const Accordion = ({
               BlockWidth ? columns[BlockWidth as 'Standard' | 'Wide'] ?? '' : ''
             }`}
           >
-            <h3 className="h1">{title}</h3>
+            <TitleTag className="h1">{title}</TitleTag>
 
             {accordionItems && (
               <AccordionContainer allowZeroExpanded>
