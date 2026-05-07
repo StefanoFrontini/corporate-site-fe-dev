@@ -90,10 +90,14 @@
     border-color: #FFF
     color: #FFF
 
+    > span:not(.sr-only)
+      color: #FFF
+
     &::before
       background-color: #FFF
 
     &:not(.is-loading):not(:disabled):hover
+      border-color: #FFF
       > span:not(.sr-only)
         color: $c-brand
 
