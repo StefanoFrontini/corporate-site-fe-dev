@@ -63,7 +63,7 @@ export default function Component({
           pageSlug={slug}
           blocks={blocks as Queries.BlocksFragment[]}
         />
-        {bannerNewsletter && <NewsletterBanner />}
+        {bannerNewsletter && <NewsletterBanner titleTag="h2" className="h3" />}
       </Layout>
     );
   }

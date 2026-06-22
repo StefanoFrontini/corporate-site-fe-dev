@@ -58,7 +58,7 @@ const VisualTitle = ({ title, visualSize }: VisualTitleProps) => {
   const isHomepage =
     pathname === '/' || pathname === '/it/' || pathname === '/en/homepage/';
 
-  const renderHeading = isHomepage ? (
+  const renderHeading = isHomepage && visualSize === 'Half' ? (
     <h3 className="h1 primary">{title}</h3>
   ) : (
     <h2 className="h1">{title}</h2>

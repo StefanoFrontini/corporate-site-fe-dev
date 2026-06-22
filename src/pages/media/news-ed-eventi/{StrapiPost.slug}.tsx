@@ -151,7 +151,7 @@ export default function Component({
           </div>
         </div>
       </article>
-      {bannerNewsletter && <NewsletterBanner />}
+      {bannerNewsletter && <NewsletterBanner titleTag="h2" className="h3" />}
     </Layout>
   ) : null;
 }

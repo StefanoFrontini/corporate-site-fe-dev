@@ -38,7 +38,10 @@ export const Body = ({
 
   const allH4Regex = /<h4\b[^>]*>([\s\S]*?)<\/h4>/gi;
   const h4Tag = isFondoInnovazione ? 'h2' : 'h3';
-  processedHtml = processedHtml.replace(allH4Regex, `<${h4Tag} class="h4">$1</${h4Tag}>`);
+  processedHtml = processedHtml.replace(
+    allH4Regex,
+    `<${h4Tag} class="h4">$1</${h4Tag}>`
+  );
 
   if (isFondoInnovazione) {
     const allH3Regex = /<h3\b[^>]*>([\s\S]*?)<\/h3>/gi;

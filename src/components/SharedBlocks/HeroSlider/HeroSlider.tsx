@@ -24,7 +24,10 @@ export const HeroSlider = ({
   heroSliderItems,
   slug,
   id,
-}: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_HERO_SLIDER_Fragment) => {
+  blockIndex = 0,
+}: Queries.Blocks_STRAPI__COMPONENT_SHARED_BLOCK_HERO_SLIDER_Fragment & {
+  blockIndex?: number;
+}) => {
   const { t } = useTranslation();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isSlideChange, setIsSlideChange] = useState<boolean>(false);
@@ -58,7 +61,11 @@ export const HeroSlider = ({
               <div className="hero__content">
                 {title && body && (
                   <>
-                    <h1>{title}</h1>
+                    {blockIndex === 0 ? (
+                      <h1>{title}</h1>
+                    ) : (
+                      <h2 className="h1">{title}</h2>
+                    )}
                     <div className="wysiwyg">
                       <Body data={body} />
                     </div>

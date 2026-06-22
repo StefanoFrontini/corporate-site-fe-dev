@@ -64,7 +64,7 @@
     "previousLabel": "Precedente"
   },
   "newsletter": {
-    "title": "Vuoi ricevere la<1/>nostra Newsletter?",
+    "title": "Vuoi ricevere la <1/>nostra Newsletter?",
     "requiredField": "* campo obbligatorio, con possibilità di risposta multipla",
     "followNews": "Segui le notizie per*:",
     "groups": {

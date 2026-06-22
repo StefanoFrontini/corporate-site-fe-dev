@@ -96,7 +96,7 @@ export default function Component({
           blocks={blocks as Queries.BlocksFragment[]}
         />
       </article>
-      {true && <NewsletterBanner />}
+      {true && <NewsletterBanner titleTag="h2" className="h3" />}
     </Layout>
   ) : null;
 }
