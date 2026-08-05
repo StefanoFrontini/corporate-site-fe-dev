@@ -8,6 +8,7 @@
   "languageChangedFeedback": "Language changed to {{language}}",
   "openMenu": "Open menu",
   "closeMenu": "Close menu",
+  "skipToMainContent": "Skip to main content",
   "introMenu": {
     "label": "Section navigation menu",
     "open": "Open navigation",
