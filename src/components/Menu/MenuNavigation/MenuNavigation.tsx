@@ -316,27 +316,28 @@ export const MenuNavigation = ({
               Scoped to mobile (isMobile starts false during SSR/build, same
               as aria-haspopup below) so desktop and the static/prerendered
               HTML keep every submenu link present, unaffected. */}
-          {(!isMobile || submenuOpen) && items?.map(item => {
-            const isCurrentSubmenu = pathname
-              .split('/')
-              .includes(
-                (item?.uiRouterKey?.replace(/-\d+/, '') ?? '') as string
+          {(!isMobile || submenuOpen) &&
+            items?.map(item => {
+              const isCurrentSubmenu = pathname
+                .split('/')
+                .includes(
+                  (item?.uiRouterKey?.replace(/-\d+/, '') ?? '') as string
+                );
+              return (
+                item && (
+                  <li
+                    key={item?.id}
+                    className={classNames(
+                      className,
+                      item.highlight && 'alternative'
+                    )}
+                    aria-current={isCurrentSubmenu ? 'page' : undefined}
+                  >
+                    <MenuItem item={item} />
+                  </li>
+                )
               );
-            return (
-              item && (
-                <li
-                  key={item?.id}
-                  className={classNames(
-                    className,
-                    item.highlight && 'alternative'
-                  )}
-                  aria-current={isCurrentSubmenu ? 'page' : undefined}
-                >
-                  <MenuItem item={item} />
-                </li>
-              )
-            );
-          })}
+            })}
         </ul>
       )}
     </li>

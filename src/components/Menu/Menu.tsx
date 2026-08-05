@@ -36,24 +36,39 @@ export const Menu = ({
   const mainNavRef = useRef<HTMLElement>(null);
   const reservedNavRef = useRef<HTMLElement>(null);
 
-  const makeHandleNavBlur =
-    (navRef: React.RefObject<HTMLElement>): FocusEventHandler<HTMLElement> =>
-    e => {
-      const closeAllIfFocusLeftNav = (target: EventTarget | null) => {
-        const nav = navRef.current;
-        if (!nav) return;
-        if (target instanceof Node && nav.contains(target)) return;
-        nav.dispatchEvent(new CustomEvent(MENU_CLOSE_ALL_SUBMENUS_EVENT));
-      };
+  const closeAllIfFocusLeftNav = (
+    navRef: React.RefObject<HTMLElement>,
+    target: EventTarget | null
+  ) => {
+    const nav = navRef.current;
+    if (!nav) return;
+    if (target instanceof Node && nav.contains(target)) return;
+    nav.dispatchEvent(new CustomEvent(MENU_CLOSE_ALL_SUBMENUS_EVENT));
+  };
 
-      // Screen readers may not provide relatedTarget when swiping between
-      // elements (same rationale as MenuNavigation's own handleFocusOut).
-      if (!e.relatedTarget) {
-        setTimeout(() => closeAllIfFocusLeftNav(document.activeElement), 150);
-        return;
-      }
-      closeAllIfFocusLeftNav(e.relatedTarget);
-    };
+  const handleMainNavBlur: FocusEventHandler<HTMLElement> = e => {
+    // Screen readers may not provide relatedTarget when swiping between
+    // elements (same rationale as MenuNavigation's own handleFocusOut).
+    if (!e.relatedTarget) {
+      setTimeout(
+        () => closeAllIfFocusLeftNav(mainNavRef, document.activeElement),
+        150
+      );
+      return;
+    }
+    closeAllIfFocusLeftNav(mainNavRef, e.relatedTarget);
+  };
+
+  const handleReservedNavBlur: FocusEventHandler<HTMLElement> = e => {
+    if (!e.relatedTarget) {
+      setTimeout(
+        () => closeAllIfFocusLeftNav(reservedNavRef, document.activeElement),
+        150
+      );
+      return;
+    }
+    closeAllIfFocusLeftNav(reservedNavRef, e.relatedTarget);
+  };
 
   const sortMenuByOrder = (
     menu: Queries.MainNavigationItemFragment[] | undefined
@@ -70,7 +85,7 @@ export const Menu = ({
       <nav
         className="menu-main"
         ref={mainNavRef}
-        onBlur={makeHandleNavBlur(mainNavRef)}
+        onBlur={handleMainNavBlur}
         aria-label={t('navigationMain') ?? undefined}
       >
         <ul>
@@ -88,7 +103,7 @@ export const Menu = ({
       <nav
         className="menu-reserved"
         ref={reservedNavRef}
-        onBlur={makeHandleNavBlur(reservedNavRef)}
+        onBlur={handleReservedNavBlur}
         aria-label={t('navigationReserved') ?? undefined}
       >
         <ul>
