@@ -48,7 +48,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <Header reservedMenu={ReservedMenu} mainMenu={MainMenu} />
       <SEO />
       <HeadScripts />
-      <main>{children}</main>
+      <main id="main-content" tabIndex={-1}>
+        {children}
+      </main>
       <Footer footerBottom={FooterBottom} footerTop={FooterTop} />
     </>
   );

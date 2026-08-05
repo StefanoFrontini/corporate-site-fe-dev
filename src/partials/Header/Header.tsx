@@ -5,8 +5,9 @@ import { Hamburger } from '../Hamburger';
 import { Logo } from '../Logo';
 import { Socials } from '../Socials';
 import './Header.sass';
-import { useI18next } from 'gatsby-plugin-react-i18next';
+import { useI18next, useTranslation } from 'gatsby-plugin-react-i18next';
 import { LanguageSwitch } from '../LanguageSwitch/LanguageSwitch';
+import arrowRight from '../../images/ui/arrow-right-brand.svg';
 
 export const Header = ({
   reservedMenu,
@@ -151,6 +152,7 @@ export const Header = ({
     });
   };
   const { language, navigate } = useI18next();
+  const { t } = useTranslation();
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
@@ -186,6 +188,11 @@ export const Header = ({
         scrolled && 'header--scrolled'
       )}
     >
+      <a href="#main-content" className="header__skip-link">
+        {t('skipToMainContent')}
+        <img src={arrowRight} alt="" aria-hidden="true" />
+      </a>
+
       <div className="header__single">
         <div className="header__left" aria-hidden={mobileMenuOpen || undefined}>
           <Logo
