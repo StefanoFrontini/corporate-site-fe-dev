@@ -158,7 +158,13 @@
       display: block
       padding-top: 1.6rem
       backface-visibility: hidden
-      transition: all $transition-micro $tf
+      // Exclude `visibility` from the transition: an animated `visibility`
+      // value must stay "visible" (per the CSS Transitions spec) for the
+      // whole transition duration, which conflicts with the immediate
+      // `display: none` that `ul[hidden]` applies on close (see above).
+      // That contradictory simultaneous signal is a plausible trigger for
+      // WebKit's accessibility tree sampling stale state on iOS/VoiceOver.
+      transition: opacity $transition-micro $tf, transform $transition-micro $tf
       filter: drop-shadow(0 1rem 12px rgba($c-black, .3))
 
       li
@@ -266,7 +272,12 @@
       visibility: hidden
       display: block
       backface-visibility: hidden
-      transition: all $transition-fast $tf
+      // Exclude `visibility` from the transition: see the equivalent
+      // desktop rule above — an animated `visibility` value must stay
+      // "visible" for the whole transition duration, conflicting with the
+      // immediate `display: none` from `ul[hidden]` on close. This is a
+      // plausible cause of the iOS VoiceOver stale-announcement bug.
+      transition: opacity $transition-fast $tf, max-height $transition-fast $tf
       max-height: 0
       overflow: hidden
 

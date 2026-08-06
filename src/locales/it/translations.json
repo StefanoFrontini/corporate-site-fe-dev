@@ -8,6 +8,7 @@
   "languageChangedFeedback": "Lingua impostata su {{language}}",
   "openMenu": "Apri menu",
   "closeMenu": "Chiudi menu",
+  "skipToMainContent": "Vai al contenuto principale",
   "introMenu": {
     "label": "Menu di navigazione sezione",
     "open": "Apri navigazione",

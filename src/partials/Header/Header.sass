@@ -14,6 +14,24 @@
   &.header--scrolled
     border-bottom: 2px solid $c-gray-border
 
+  &__skip-link
+    position: absolute
+    top: -6rem
+    left: 1rem
+    z-index: 1000
+    background-color: #FFF
+    color: $c-brand
+    font-weight: 700
+    text-decoration: underline
+    padding: 1rem 2rem
+    display: inline-flex
+    align-items: center
+    gap: 0.8rem
+    transition: top $transition-fast
+
+    &:focus
+      top: 1rem
+
   &__single
     display: flex
     justify-content: space-around

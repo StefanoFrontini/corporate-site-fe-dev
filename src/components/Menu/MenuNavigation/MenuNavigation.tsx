@@ -10,6 +10,7 @@ import { MenuItem } from '../MenuItem';
 import '../Menu.sass';
 import { useLocation } from '@reach/router';
 import { useTranslation } from 'gatsby-plugin-react-i18next';
+import { MENU_CLOSE_ALL_SUBMENUS_EVENT } from '../../../types';
 
 const MOBILE_BREAKPOINT = 992;
 
@@ -27,6 +28,7 @@ export const MenuNavigation = ({
   const submenuId = useId();
   const menuRef = useRef<HTMLLIElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const submenuRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -40,6 +42,50 @@ export const MenuNavigation = ({
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
+
+  // Each item's own blur only closes ITS submenu, and only fires once when
+  // focus first passes through it — so a previously-opened sibling submenu
+  // (e.g. "Prodotti e servizi" left open while swiping back past it to
+  // "Società" and then out of the nav entirely) never gets a chance to
+  // close on its own. Menu.tsx broadcasts this event on the parent <nav>
+  // whenever focus leaves it completely, so every item can close itself.
+  useEffect(() => {
+    const nav = menuRef.current?.closest('nav');
+    if (!nav) return;
+
+    const handleCloseAll = () => setSubmenuOpen(false);
+    nav.addEventListener(MENU_CLOSE_ALL_SUBMENUS_EVENT, handleCloseAll);
+
+    return () => {
+      nav.removeEventListener(MENU_CLOSE_ALL_SUBMENUS_EVENT, handleCloseAll);
+    };
+  }, []);
+
+  // Explicit ARIA/inert mutation for the submenu <ul>, distinct from the
+  // native `hidden` attribute toggle below. On WebKit, VoiceOver has been
+  // observed to sometimes keep announcing a just-collapsed submenu item
+  // even though `hidden`/display/getBoundingClientRect already correctly
+  // reflect the closed state. An explicit ARIA attribute mutation forces a
+  // distinct accessibility-tree update signal that WebKit picks up more
+  // reliably. Mirrors the same pattern used for the mobile menu in
+  // Header.tsx.
+  useEffect(() => {
+    const submenuEl = submenuRef.current;
+    if (!submenuEl) return;
+
+    if (submenuOpen) {
+      submenuEl.removeAttribute('aria-hidden');
+      submenuEl.removeAttribute('inert');
+    } else {
+      submenuEl.setAttribute('aria-hidden', 'true');
+      submenuEl.setAttribute('inert', '');
+    }
+
+    return () => {
+      submenuEl.removeAttribute('aria-hidden');
+      submenuEl.removeAttribute('inert');
+    };
+  }, [submenuOpen]);
 
   const { items, highlight } = item;
 
@@ -146,6 +192,14 @@ export const MenuNavigation = ({
 
   const handleMouseLeave = () => {
     if (window.innerWidth >= MOBILE_BREAKPOINT && hasChildren) {
+      if (
+        menuRef.current &&
+        document.activeElement &&
+        menuRef.current.contains(document.activeElement) &&
+        document.activeElement !== triggerRef.current
+      ) {
+        triggerRef.current?.focus();
+      }
       setSubmenuOpen(false);
     }
   };
@@ -254,28 +308,36 @@ export const MenuNavigation = ({
         <MenuItem item={item} aria-current={isCurrent ? 'page' : undefined} />
       )}
       {hasChildren && (
-        <ul id={submenuId} hidden={!submenuOpen}>
-          {items?.map(item => {
-            const isCurrentSubmenu = pathname
-              .split('/')
-              .includes(
-                (item?.uiRouterKey?.replace(/-\d+/, '') ?? '') as string
+        <ul id={submenuId} ref={submenuRef} hidden={!submenuOpen}>
+          {/* On mobile, only render submenu items while open: WebKit/VoiceOver
+              can retain a stale cached swipe-navigation pointer to a sibling
+              node whose attributes change but which never leaves the DOM.
+              Actually unmounting forces a real accessibility-tree rebuild.
+              Scoped to mobile (isMobile starts false during SSR/build, same
+              as aria-haspopup below) so desktop and the static/prerendered
+              HTML keep every submenu link present, unaffected. */}
+          {(!isMobile || submenuOpen) &&
+            items?.map(item => {
+              const isCurrentSubmenu = pathname
+                .split('/')
+                .includes(
+                  (item?.uiRouterKey?.replace(/-\d+/, '') ?? '') as string
+                );
+              return (
+                item && (
+                  <li
+                    key={item?.id}
+                    className={classNames(
+                      className,
+                      item.highlight && 'alternative'
+                    )}
+                    aria-current={isCurrentSubmenu ? 'page' : undefined}
+                  >
+                    <MenuItem item={item} />
+                  </li>
+                )
               );
-            return (
-              item && (
-                <li
-                  key={item?.id}
-                  className={classNames(
-                    className,
-                    item.highlight && 'alternative'
-                  )}
-                  aria-current={isCurrentSubmenu ? 'page' : undefined}
-                >
-                  <MenuItem item={item} />
-                </li>
-              )
-            );
-          })}
+            })}
         </ul>
       )}
     </li>
